@@ -1,0 +1,39 @@
+{
+  "name": "workhunter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "server": "nodemon app.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \" npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WellDex/WorkHunter.git"
+  },
+  "author": "WellDex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WellDex/WorkHunter/issues"
+  },
+  "homepage": "https://github.com/WellDex/WorkHunter#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "faker": "^5.5.3",
+    "mongoose": "^6.0.12",
+    "token": "^0.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.3.0",
+    "nodemon": "^2.0.14"
+  }
+}
