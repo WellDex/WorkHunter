@@ -1,6 +1,8 @@
+require("dotenv").config();
 const chalk = require("chalk");
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
@@ -10,8 +12,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
 });
 
-const PORT = 5000;
+const PORT = process.env.APP_PORT;
 
+app.use(cors());
 app.use(express.json({ extended: true }));
 
 if (process.env.NODE_ENV === "production") {
@@ -20,6 +23,6 @@ if (process.env.NODE_ENV === "production") {
 
 app.listen(PORT, () =>
   console.log(
-    chalk.green.bgYellow.bold(`Server has been started on port ${PORT}...`)
+    chalk.white.bgMagenta.bold(`Server has been started on port ${PORT}...`)
   )
 );

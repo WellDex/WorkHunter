@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter } from "react-router-dom";
-import { ApiProvider } from "react-use-api";
-import axios, { AxiosInstance, AxiosStatic } from "axios";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './assets/scss/styles.scss';
+import reportWebVitals from './reportWebVitals';
+import {BrowserRouter} from 'react-router-dom';
+import {ApiProvider} from 'react-use-api';
+import axios, {AxiosInstance, AxiosStatic} from 'axios';
 
 const apiContext = {
   settings: {
@@ -15,15 +15,13 @@ const apiContext = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <ApiProvider context={apiContext}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ApiProvider>
-    </ChakraProvider>
+    <ApiProvider context={apiContext}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ApiProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 reportWebVitals();
