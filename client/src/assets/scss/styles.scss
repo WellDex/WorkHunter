@@ -1,17 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-ul {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-  color: #000;
-}
-
-header {
-  background-color: #fff;
-}
+@import './settings/variable.scss';
+@import './components/app.scss';
+@import './components/header.scss';
+@import './components/navigation.scss';
+@import './components/reset.scss';
+@import './components/normalize.scss';

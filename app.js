@@ -1,8 +1,8 @@
-require("dotenv").config();
-const chalk = require("chalk");
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+require('dotenv').config();
+const chalk = require('chalk');
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 
@@ -15,10 +15,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 const PORT = process.env.APP_PORT;
 
 app.use(cors());
-app.use(express.json({ extended: true }));
+app.use(express.json({extended: true}));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
 }
 
 app.listen(PORT, () =>

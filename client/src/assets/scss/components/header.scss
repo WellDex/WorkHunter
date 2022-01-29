@@ -1,0 +1,30 @@
+.header {
+  background-color: $white !important;
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+
+    &--icon {
+      color: $blue;
+    }
+    &--first {
+      color: $blue;
+    }
+    &--second {
+      color: $orange;
+    }
+  }
+
+  &-avatar {
+    color: $black;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+
+    &--name {
+      margin-right: 1rem;
+    }
+  }
+}
