@@ -9,11 +9,13 @@ const App = () => {
   return (
     <Box className="main-box">
       <Header />
-      <Container maxWidth="xl" style={{padding: '0 2rem'}}>
+      <Container maxWidth="xl" className="main-container">
         <Navigation />
-        <Switch>
-          <Route path="/profile" component={ProfilePage} />
-        </Switch>
+        <div className="content customScroll">
+          <Switch>
+            <Route path="/profile" component={ProfilePage} />
+          </Switch>
+        </div>
       </Container>
     </Box>
   );
