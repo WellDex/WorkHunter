@@ -1,8 +1,8 @@
 import {Avatar, IconButton} from '@mui/material';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import FrameHoc from '../../../hoc/FrameHoc';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FrameHoc from '../../hoc/FrameHoc';
 
 const Note = () => {
   return (

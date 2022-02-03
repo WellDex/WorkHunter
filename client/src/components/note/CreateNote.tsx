@@ -1,7 +1,7 @@
-import {Avatar, Button, Fab, TextField} from '@mui/material';
+import {Avatar, Button, TextField} from '@mui/material';
 import React from 'react';
-import FrameHoc from '../../../hoc/FrameHoc';
 import AddIcon from '@mui/icons-material/Add';
+import FrameHoc from '../../hoc/FrameHoc';
 
 const CreateNote = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateNote from './CreateNote';
-import Note from './Note';
+import CreateNote from '../note/CreateNote';
+import Note from '../note/Note';
 
 const notes = [1, 2, 3];
 

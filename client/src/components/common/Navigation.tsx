@@ -26,7 +26,7 @@ const Navigation = () => {
           <NewspaperIcon fontSize="small" />
         </ListItemIcon>
         <ListItemText>
-          <Link to={'/profile'}>Новости</Link>
+          <Link to={'/news'}>Новости</Link>
         </ListItemText>
       </MenuItem>
       <MenuItem>

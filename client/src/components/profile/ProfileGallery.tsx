@@ -29,11 +29,7 @@ const ProfileGallery = () => {
               setImg(item.img);
               setIsOpen(true);
             }}>
-            <img
-              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              loading="lazy"
-            />
+            <img src={item.img} srcSet={item.img} loading="lazy" />
             <div className="profile-gallery-img-preview">
               <SearchIcon className="profile-gallery-img-preview-icon" />
             </div>

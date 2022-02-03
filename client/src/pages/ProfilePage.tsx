@@ -3,7 +3,7 @@ import ProfileAvatar from '../components/profile/ProfileAvatar';
 import ProfileFriends from '../components/profile/ProfileFriends';
 import ProfileGallery from '../components/profile/ProfileGallery';
 import ProfileInformation from '../components/profile/ProfileInformation';
-import ProfileNotes from '../components/profile/profileNotes/ProfileNotes';
+import ProfileNotes from '../components/profile/ProfileNotes';
 
 const ProfilePage = () => {
   return (

@@ -31,8 +31,9 @@
   &-close {
     color: $grey !important;
     position: absolute !important;
-    top: 0;
-    right: 0;
+    background-color: $white !important;
+    top: 5px;
+    right: 5px;
   }
 }
 
