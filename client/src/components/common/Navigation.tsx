@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {ListItemIcon, ListItemText, MenuItem, MenuList} from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
@@ -14,68 +14,68 @@ const Navigation = () => {
   return (
     <MenuList className="navigation">
       <MenuItem>
-        <ListItemIcon>
-          <AccountCircleIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Моя страница</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <AccountCircleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Моя страница</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <NewspaperIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/news'}>Новости</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/news'}>
+          <ListItemIcon>
+            <NewspaperIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Новости</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <ChatIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Мессенджер</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <ChatIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Мессенджер</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <GroupIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Друзья</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <GroupIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Друзья</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <ForumIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Сообщества</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <ForumIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Сообщества</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <CollectionsIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Фотографии</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <CollectionsIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Фотографии</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <WebIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Портфолио</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <WebIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Портфолио</ListItemText>
+        </NavLink>
       </MenuItem>
       <MenuItem>
-        <ListItemIcon>
-          <WorkIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>
-          <Link to={'/profile'}>Вакансии</Link>
-        </ListItemText>
+        <NavLink className="navigation-item" to={'/profile'}>
+          <ListItemIcon>
+            <WorkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Вакансии</ListItemText>
+        </NavLink>
       </MenuItem>
     </MenuList>
   );
