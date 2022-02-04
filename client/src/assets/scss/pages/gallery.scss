@@ -1,0 +1,26 @@
+.gallery {
+  &-title {
+    font-size: 2rem !important;
+    margin: 0;
+    padding: 0 !important;
+    color: $grey !important;
+  }
+  &-list {
+    &-item {
+      cursor: pointer;
+      width: 250px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      &:hover {
+        border-color: $grey;
+      }
+      img {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+    }
+    &-bar {
+      padding-left: 0.3rem;
+    }
+  }
+}

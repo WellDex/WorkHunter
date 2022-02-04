@@ -54,7 +54,7 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/profile'}>
+        <NavLink className="navigation-item" to={'/gallery'}>
           <ListItemIcon>
             <CollectionsIcon fontSize="small" />
           </ListItemIcon>

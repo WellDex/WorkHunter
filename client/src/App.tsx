@@ -7,6 +7,7 @@ import {Box, Container} from '@mui/material';
 import NewsPage from './pages/NewsPage';
 import UsersPage from './pages/UsersPage';
 import {Redirect} from 'react-router-dom';
+import GalleryPage from './pages/GalleryPage';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/profile" component={ProfilePage} />
             <Route path="/news" component={NewsPage} />
             <Route path="/users" component={UsersPage} />
+            <Route path="/gallery" component={GalleryPage} />
           </Switch>
         </div>
       </Container>
