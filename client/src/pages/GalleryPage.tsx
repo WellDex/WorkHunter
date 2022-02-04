@@ -1,12 +1,9 @@
-import {
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  ListSubheader,
-} from '@mui/material';
+import {Fab, ImageList, ImageListItem, ImageListItemBar} from '@mui/material';
 import React, {useState} from 'react';
 import PhotoView from '../components/common/PhotoView';
+import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../hoc/FrameHoc';
+import ModalAddImage from '../components/gallery/ModalAddImage';
 
 const itemData = [
   {img: 'https://picsum.photos/600', date: '19/09/2022'},
@@ -65,15 +62,21 @@ const itemData = [
 
 const GalleryPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [img, setImg] = useState('');
   return (
     <div className="card-container">
+      <div className="gallery-head">
+        <h1 className="gallery-head-title">Галерея</h1>
+        <Fab
+          color="primary"
+          size="small"
+          className="gallery-head-btn"
+          onClick={() => setIsOpenModal(true)}>
+          <AddIcon />
+        </Fab>
+      </div>
       <ImageList cols={4} gap={16}>
-        <ImageListItem cols={4}>
-          <ListSubheader component="h1" className="gallery-title">
-            Галерея
-          </ListSubheader>
-        </ImageListItem>
         {itemData.map((item) => (
           <ImageListItem
             key={item.img}
@@ -97,7 +100,15 @@ const GalleryPage = () => {
           </ImageListItem>
         ))}
       </ImageList>
-      <PhotoView img={img} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <PhotoView
+        img={img}
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+      />
+      <ModalAddImage
+        open={isOpenModal}
+        handleClose={() => setIsOpenModal(false)}
+      />
     </div>
   );
 };

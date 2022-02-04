@@ -1,4 +1,4 @@
-.gallery {
+.projects {
   &-head {
     display: flex;
     justify-content: space-between;
@@ -14,19 +14,37 @@
     &-item {
       background-color: $main-bg;
       cursor: pointer;
-      width: 250px;
+      width: 300px;
       border-radius: 8px;
       border: 2px solid transparent;
       &:hover {
         border-color: $grey;
       }
+      a {
+        color: inherit;
+      }
       img {
+        height: 180px !important;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
       }
     }
     &-bar {
       padding-left: 0.3rem;
+    }
+  }
+  &-form {
+    display: flex;
+    flex-direction: column;
+    width: 26rem;
+    gap: 1rem;
+    margin: 1rem;
+    &-title {
+      margin: 0;
+    }
+    &-btns {
+      display: flex;
+      justify-content: space-between;
     }
   }
 }

@@ -58,7 +58,11 @@ const Histories = () => {
           </ImageListItem>
         ))}
       </ImageList>
-      <PhotoView img={img} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <PhotoView
+        img={img}
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+      />
     </div>
   );
 };

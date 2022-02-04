@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/WellDex/WorkHunter#readme",
   "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.67",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
