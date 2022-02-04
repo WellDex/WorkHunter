@@ -33,7 +33,16 @@
 .people {
   &-list {
     &-item {
+      cursor: pointer;
       width: 250px;
+      &:hover {
+        border-radius: 6px;
+        background-color: $main-bg;
+      }
+    }
+    &-bar {
+      padding-left: 0.3rem;
+      padding-right: 0.3rem;
     }
   }
 }

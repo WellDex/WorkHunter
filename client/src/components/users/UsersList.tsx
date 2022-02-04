@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
 const itemData = [
   {img: 'https://picsum.photos/600', name: 'WellDex'},
@@ -39,6 +40,7 @@ const UsersList = () => {
               loading="lazy"
             />
             <ImageListItemBar
+              className="people-list-bar"
               position="below"
               actionPosition="right"
               title={item.name}
