@@ -5,6 +5,8 @@ import Header from './components/common/Header';
 import ProfilePage from './pages/ProfilePage';
 import {Box, Container} from '@mui/material';
 import NewsPage from './pages/NewsPage';
+import UsersPage from './pages/UsersPage';
+import {Redirect} from 'react-router-dom';
 
 const App = () => {
   return (
@@ -14,8 +16,14 @@ const App = () => {
         <Navigation />
         <div className="content customScroll">
           <Switch>
+            <Route
+              exact
+              path="/"
+              component={() => <Redirect to={'/profile'} />}
+            />
             <Route path="/profile" component={ProfilePage} />
             <Route path="/news" component={NewsPage} />
+            <Route path="/users" component={UsersPage} />
           </Switch>
         </div>
       </Container>

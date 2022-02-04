@@ -4,18 +4,18 @@ import {NavLink} from 'react-router-dom';
 import FrameHoc from '../../hoc/FrameHoc';
 
 const friends = [
-  {name: 'asd', url: '/friends/1'},
-  {name: 'asd', url: '/friends/1'},
-  {name: 'asd', url: '/friends/1'},
-  {name: 'asd', url: '/friends/1'},
-  {name: 'asd', url: '/friends/1'},
-  {name: 'asd', url: '/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
+  {name: 'asd', url: '/users/friends/1'},
 ];
 
 const ProfileFriends = () => {
   return (
     <div className="card-container">
-      <NavLink to="/friends">
+      <NavLink to="/users/friends">
         Друзья <span className="profile-gallery-title-count">31</span>
       </NavLink>
       <div className="profile-friends-list">
