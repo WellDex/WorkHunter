@@ -39,6 +39,10 @@
         border-radius: 6px;
         background-color: $main-bg;
       }
+      img {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
     }
     &-bar {
       padding-left: 0.3rem;

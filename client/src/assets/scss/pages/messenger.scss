@@ -1,0 +1,50 @@
+.messenger {
+  display: flex;
+  height: 89.6vh;
+  &-usersList {
+    width: 16rem;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: auto;
+    &-avatar {
+      width: 60px !important;
+      height: 60px !important;
+      margin-right: 0.5rem;
+    }
+  }
+  .customScroll::-webkit-scrollbar-track {
+    margin: 0;
+  }
+  &-chat {
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    &-list {
+      overflow: auto;
+      height: 100%;
+      margin-bottom: 0.3rem !important;
+      &-item {
+        &-left {
+          padding-left: 0 !important;
+        }
+        &-right {
+          padding-right: 0 !important;
+          flex-direction: row-reverse;
+          text-align: right !important;
+        }
+        &-avatar {
+          margin: 0 1rem;
+          width: 60px !important;
+          height: 60px !important;
+        }
+      }
+    }
+    &-field {
+      &-item {
+        align-self: flex-end;
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+}

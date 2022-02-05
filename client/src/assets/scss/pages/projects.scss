@@ -12,13 +12,11 @@
   }
   &-list {
     &-item {
-      background-color: $main-bg;
       cursor: pointer;
       width: 300px;
       border-radius: 8px;
-      border: 2px solid transparent;
       &:hover {
-        border-color: $grey;
+        background-color: $main-bg;
       }
       a {
         color: inherit;

@@ -9,6 +9,7 @@ import UsersPage from './pages/UsersPage';
 import {Redirect} from 'react-router-dom';
 import GalleryPage from './pages/GalleryPage';
 import ProjectsPage from './pages/ProjectsPage';
+import MessengerPage from './pages/MessengerPage';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             />
             <Route path="/profile" component={ProfilePage} />
             <Route path="/news" component={NewsPage} />
+            <Route path="/messenger" component={MessengerPage} />
             <Route path="/users" component={UsersPage} />
             <Route path="/gallery" component={GalleryPage} />
             <Route path="/projects" component={ProjectsPage} />
