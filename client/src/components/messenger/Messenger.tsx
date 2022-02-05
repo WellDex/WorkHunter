@@ -8,7 +8,7 @@ import {
   ListItemText,
   TextField,
 } from '@mui/material';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import SendIcon from '@mui/icons-material/Send';
 
 const itemData = [
@@ -135,6 +135,17 @@ const itemData = [
 ];
 
 const Messenger = () => {
+  const messagesEndRef = useRef<any>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
+    }
+  };
   return (
     <div className="messenger-chat">
       <List className="messenger-chat-list customScroll">
@@ -154,6 +165,7 @@ const Messenger = () => {
             <ListItemText primary={item.name} secondary={item.messege} />
           </ListItem>
         ))}
+        <div ref={messagesEndRef} />
       </List>
       <TextField
         className="messenger-chat-field"

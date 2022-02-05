@@ -10,6 +10,8 @@ import {Redirect} from 'react-router-dom';
 import GalleryPage from './pages/GalleryPage';
 import ProjectsPage from './pages/ProjectsPage';
 import MessengerPage from './pages/MessengerPage';
+import GroupsPage from './pages/GroupsPage';
+import GroupProfile from './components/groups/GroupProfile';
 
 const App = () => {
   return (
@@ -28,6 +30,8 @@ const App = () => {
             <Route path="/news" component={NewsPage} />
             <Route path="/messenger" component={MessengerPage} />
             <Route path="/users" component={UsersPage} />
+            <Route path="/groups" component={GroupsPage} />
+            <Route exact path="/group/:id" component={GroupProfile} />
             <Route path="/gallery" component={GalleryPage} />
             <Route path="/projects" component={ProjectsPage} />
           </Switch>

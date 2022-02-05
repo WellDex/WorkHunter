@@ -4,20 +4,20 @@ import React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
-interface IModalAddImage {
+interface IModalCreateGroup {
   open: boolean;
   handleClose: () => void;
 }
 
-const ModalAddImage = ({open, handleClose}: IModalAddImage) => {
+const ModalCreateGroup = ({open, handleClose}: IModalCreateGroup) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
   return (
     <Dialog open={open} onClose={handleClose}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <form onSubmit={onSubmit} className="projects-form">
-          <h1 className="projects-form-title">Добавить фотографию</h1>
+        <form onSubmit={onSubmit} className="groups-form">
+          <h1 className="groups-form-title">Создать группу</h1>
           <Divider />
           <label htmlFor="contained-button-file">
             <input
@@ -32,19 +32,19 @@ const ModalAddImage = ({open, handleClose}: IModalAddImage) => {
               Загрузить
             </Button>
           </label>
-          <DatePicker
-            value={new Date()}
-            onChange={() => {}}
-            disabled={true}
-            renderInput={(params: any) => <TextField {...params} />}
+          <TextField
+            variant="outlined"
+            label="Название групи"
+            placeholder="Введите название групи..."
+            fullWidth={true}
           />
           <Divider />
-          <div className="projects-form-btns">
+          <div className="groups-form-btns">
             <Button variant="contained" onClick={handleClose}>
               закрить
             </Button>
             <Button type="submit" variant="contained">
-              сохранить
+              создать
             </Button>
           </div>
         </form>
@@ -53,4 +53,4 @@ const ModalAddImage = ({open, handleClose}: IModalAddImage) => {
   );
 };
 
-export default ModalAddImage;
+export default ModalCreateGroup;

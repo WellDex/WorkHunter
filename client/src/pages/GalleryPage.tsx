@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import PhotoView from '../components/common/PhotoView';
 import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../hoc/FrameHoc';
-import ModalAddImage from '../components/gallery/ModalAddImage';
+import ModalAddImage from '../components/groups/ModalCreateGroup';
 
 const itemData = [
   {img: 'https://picsum.photos/600', date: '19/09/2022'},
@@ -68,11 +68,7 @@ const GalleryPage = () => {
     <div className="card-container">
       <div className="gallery-head">
         <h1 className="gallery-head-title">Галерея</h1>
-        <Fab
-          color="primary"
-          size="small"
-          className="gallery-head-btn"
-          onClick={() => setIsOpenModal(true)}>
+        <Fab color="primary" size="small" onClick={() => setIsOpenModal(true)}>
           <AddIcon />
         </Fab>
       </div>

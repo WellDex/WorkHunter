@@ -4,7 +4,7 @@ import {
   ImageListItem,
   ImageListItemBar,
 } from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import React from 'react';
 
 const itemData = [
@@ -26,12 +26,12 @@ const itemData = [
   {img: 'https://picsum.photos/600', name: 'WellDex'},
 ];
 
-const UsersList = () => {
+const GroupsAll = () => {
   return (
     <div className="card-container">
       <ImageList cols={4} gap={16}>
         {itemData.map((item) => (
-          <ImageListItem key={item.img} className="people-list-item">
+          <ImageListItem key={item.img} className="groups-all-list-item">
             <img
               src={item.img}
               srcSet={item.img}
@@ -39,13 +39,13 @@ const UsersList = () => {
               loading="lazy"
             />
             <ImageListItemBar
-              className="people-list-bar"
+              className="groups-all-list-bar"
               position="below"
               actionPosition="right"
               title={item.name}
               actionIcon={
                 <IconButton>
-                  <PersonAddIcon />
+                  <GroupAddIcon />
                 </IconButton>
               }
             />
@@ -56,4 +56,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default GroupsAll;

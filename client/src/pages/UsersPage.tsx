@@ -7,7 +7,7 @@ import FrameHoc from '../hoc/FrameHoc';
 
 const UsersPage = () => {
   return (
-    <div className="users">
+    <div>
       <FriendsControl />
       <Switch>
         <Route exact path="/users/friends" component={FriendsList} />
