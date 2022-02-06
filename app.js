@@ -17,6 +17,8 @@ const PORT = process.env.APP_PORT;
 app.use(cors());
 app.use(express.json({extended: true}));
 
+app.use('/app/auth', require('./rouths/authRoute'));
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
