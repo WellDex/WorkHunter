@@ -37,7 +37,8 @@ const ProfileGallery = () => {
         ))}
       </ImageList>
       <PhotoView
-        img={img}
+        imgs={itemData}
+        selectImg={img}
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
       />

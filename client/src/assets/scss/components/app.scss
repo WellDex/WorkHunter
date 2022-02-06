@@ -21,8 +21,19 @@
   margin: 1rem 0 !important;
 }
 .photoView {
-  width: 1200px !important;
-  height: 700px !important;
+  overflow: hidden;
+  width: 1200px;
+  height: 700px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: $black;
+
+  img {
+    width: 1200px !important;
+    height: 700px !important;
+    object-fit: contain;
+  }
 
   &-close {
     color: $grey !important;
@@ -30,6 +41,24 @@
     background-color: $white !important;
     top: 5px;
     right: 5px;
+  }
+  &-prev {
+    border-radius: 50%;
+    position: absolute !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 10px;
+    button {
+      color: $white !important;
+    }
+  }
+  &-next {
+    border-radius: 50%;
+    position: absolute !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    right: 10px;
+    button {
+      color: $white !important;
+    }
   }
 }
 .customScroll {

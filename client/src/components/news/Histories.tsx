@@ -27,7 +27,7 @@ const itemData = [
 ];
 
 const Histories = () => {
-  const [img, setImg] = useState('');
+  const [img, setImg] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,7 +38,7 @@ const Histories = () => {
             className="histories-list-item"
             key={item.img}
             onClick={() => {
-              setImg(item.img);
+              setImg([item]);
               setIsOpen(true);
             }}>
             <img
@@ -59,7 +59,7 @@ const Histories = () => {
         ))}
       </ImageList>
       <PhotoView
-        img={img}
+        imgs={img && img}
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
       />

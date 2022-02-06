@@ -6,57 +6,12 @@ import FrameHoc from '../hoc/FrameHoc';
 import ModalAddImage from '../components/groups/ModalCreateGroup';
 
 const itemData = [
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
-  {img: 'https://picsum.photos/600', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1200/700', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1200/600', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1200/800', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1100/700', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1100/600', date: '19/09/2022'},
+  {img: 'https://picsum.photos/1100/800', date: '19/09/2022'},
   {img: 'https://picsum.photos/600', date: '19/09/2022'},
 ];
 
@@ -97,7 +52,8 @@ const GalleryPage = () => {
         ))}
       </ImageList>
       <PhotoView
-        img={img}
+        imgs={itemData}
+        selectImg={img}
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
       />
