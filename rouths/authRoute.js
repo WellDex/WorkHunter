@@ -6,7 +6,13 @@ const {check, validationResult} = require('express-validator');
 const router = Router();
 
 router.post('/register'),
-  [],
+  [
+    check('name', 'Некорректное имя').isString(),
+    check('lastName', 'Некорректная фамилия').isString(),
+    check('birthDay', 'Некорректная дата рождения').isDate(),
+    check('login', 'Некорректный login').isLength({min: 6}).isString(),
+    check('password', 'Минимальная длина пароля 6 символов').isLength({min: 6}),
+  ],
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -26,7 +32,8 @@ router.post('/register'),
 router.post(
   '/login',
   [
-    check('email', 'Некорректный email').normalizeEmail().isEmail(),
+    check('login', 'Некорректный login').isLength({min: 6}).isString(),
+    ,
     check('password', 'Минимальная длина пароля 6 символов').exists(),
   ],
   async (req, res) => {
@@ -40,9 +47,9 @@ router.post(
         });
       }
 
-      const {email, password} = req.body;
+      const {login, password} = req.body;
 
-      const user = await User.findOne({email});
+      const user = await User.findOne({login});
 
       if (!user) {
         return res.status(400).json({message: 'Пользователь не найден'});
