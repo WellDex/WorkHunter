@@ -12,13 +12,18 @@ import ProjectsPage from './pages/ProjectsPage';
 import MessengerPage from './pages/MessengerPage';
 import GroupsPage from './pages/GroupsPage';
 import GroupProfile from './components/groups/GroupProfile';
+import AuthPage from './pages/AuthPage';
 
 const App = () => {
+  const isAuth = false;
+  if (!isAuth) {
+    <Redirect to={'/auth/login'} />;
+  }
   return (
     <Box className="main-box">
       <Header />
       <Container maxWidth="xl" className="main-container">
-        <Navigation />
+        {isAuth && <Navigation />}
         <div className="content customScroll">
           <Switch>
             <Route
@@ -34,6 +39,7 @@ const App = () => {
             <Route exact path="/group/:id" component={GroupProfile} />
             <Route path="/gallery" component={GalleryPage} />
             <Route path="/projects" component={ProjectsPage} />
+            <Route path="/auth/" component={AuthPage} />
           </Switch>
         </div>
       </Container>
