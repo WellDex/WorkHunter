@@ -1,21 +1,17 @@
 require('dotenv').config();
 const chalk = require('chalk');
 const express = require('express');
-// const mongoose = require('mongoose');
 const cors = require('cors');
+const connection = require('./db');
 
 const app = express();
-
-// mongoose.connect(process.env.MONGODB_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true,
-// });
 
 const PORT = process.env.APP_PORT;
 
 app.use(cors());
 app.use(express.json({extended: true}));
+
+connection();
 
 app.use('/app/auth', require('./rouths/authRoute'));
 
