@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Fab,
   InputBase,
@@ -8,8 +7,8 @@ import {
   Tabs,
   Tooltip,
 } from '@mui/material';
-import React, {useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import ModalCreateGroup from './ModalCreateGroup';
@@ -48,6 +47,13 @@ const GroupsControl = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(0);
   const history = useHistory();
+
+  useEffect(() => {
+    if (history.location.pathname.includes('list')) {
+      setValue(0);
+    }
+  }, [history.location.pathname]);
+
   return (
     <>
       <Tabs

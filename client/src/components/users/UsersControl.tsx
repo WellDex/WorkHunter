@@ -1,5 +1,5 @@
 import {Divider, InputBase, styled, Tab, Tabs} from '@mui/material';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -36,6 +36,12 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 const UsersControl = () => {
   const [value, setValue] = useState(0);
   const history = useHistory();
+
+  useEffect(() => {
+    if (history.location.pathname.includes('friends')) {
+      setValue(0);
+    }
+  }, [history.location.pathname]);
   return (
     <>
       <Tabs

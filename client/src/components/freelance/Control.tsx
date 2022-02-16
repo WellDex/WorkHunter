@@ -1,20 +1,16 @@
-import {Button, Divider, Tab, Tabs} from '@mui/material';
+import {Divider, Tab, Tabs} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {Link, useHistory, useParams} from 'react-router-dom';
-
-interface IParams {
-  role: string;
-}
+import {useHistory} from 'react-router-dom';
 
 const Control = () => {
-  const params: IParams = useParams();
-  const [isEmployer, setIsEmployer] = useState(params.role === 'employer');
   const [value, setValue] = useState(0);
   const history = useHistory();
 
   useEffect(() => {
-    setIsEmployer(params.role === 'employer');
-  }, [params]);
+    if (history.location.pathname.includes('employee')) {
+      setValue(0);
+    }
+  }, [history.location.pathname]);
 
   return (
     <>

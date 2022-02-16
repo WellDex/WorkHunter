@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import FriendsList from '../components/users/FriendsList';
 import FriendsControl from '../components/users/UsersControl';
 import UsersList from '../components/users/UsersList';
@@ -12,6 +12,7 @@ const UsersPage = () => {
       <Switch>
         <Route exact path="/users/friends" component={FriendsList} />
         <Route exact path="/users/people" component={UsersList} />
+        <Redirect to={'/users/friends'} />
       </Switch>
     </div>
   );
