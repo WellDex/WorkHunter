@@ -13,9 +13,11 @@ import MessengerPage from './pages/MessengerPage';
 import GroupsPage from './pages/GroupsPage';
 import GroupProfile from './components/groups/GroupProfile';
 import AuthPage from './pages/AuthPage';
+import FreelancePage from './pages/FreelancePage';
+import ProjectProfile from './components/freelance/ProjectProfile';
 
 const App = () => {
-  const isAuth = false;
+  const isAuth = true;
   if (!isAuth) {
     <Redirect to={'/auth/login'} />;
   }
@@ -39,6 +41,12 @@ const App = () => {
             <Route exact path="/group/:id" component={GroupProfile} />
             <Route path="/gallery" component={GalleryPage} />
             <Route path="/projects" component={ProjectsPage} />
+            <Route exact path="/freelance/:role" component={FreelancePage} />
+            <Route
+              exact
+              path="/freelance/project/:id"
+              component={ProjectProfile}
+            />
             <Route path="/auth/" component={AuthPage} />
           </Switch>
         </div>

@@ -75,4 +75,18 @@
     background-color: $grey;
     border-radius: 10px;
   }
+  &-full {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $main-bg;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $grey;
+      border-radius: 10px;
+    }
+  }
 }

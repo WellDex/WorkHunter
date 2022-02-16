@@ -70,11 +70,11 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/profile'}>
+        <NavLink className="navigation-item" to={'/freelance/employee'}>
           <ListItemIcon>
             <WorkIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Вакансии</ListItemText>
+          <ListItemText>Фриланс</ListItemText>
         </NavLink>
       </MenuItem>
     </MenuList>

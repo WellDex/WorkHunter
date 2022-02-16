@@ -22,6 +22,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import {Link} from 'react-router-dom';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -73,11 +74,11 @@ const Header = () => {
     <AppBar position="static" className="header">
       <Container maxWidth="xl">
         <Toolbar>
-          <div className="header-logo">
+          <Link to={'/profile'} className="header-logo">
             <PublicIcon className="header-logo--icon" />
             <span className="header-logo--first">Work</span>
             <span className="header-logo--second">Hunter</span>
-          </div>
+          </Link>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
