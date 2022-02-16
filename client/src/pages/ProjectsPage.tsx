@@ -1,4 +1,10 @@
-import {Fab, ImageList, ImageListItem, ImageListItemBar} from '@mui/material';
+import {
+  Button,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Tooltip,
+} from '@mui/material';
 import React, {useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../hoc/FrameHoc';
@@ -26,13 +32,15 @@ const ProjectsPage = () => {
     <div className="card-container">
       <div className="projects-head">
         <h1 className="projects-head-title">Портфолио</h1>
-        <Fab
-          color="primary"
-          size="small"
-          className="projects-head-btn"
-          onClick={() => setIsOpen(true)}>
-          <AddIcon />
-        </Fab>
+        <Tooltip title="Добавить проект" placement="left">
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => setIsOpen(true)}>
+            <AddIcon />
+          </Button>
+        </Tooltip>
       </div>
       <ImageList cols={3} gap={16}>
         {itemData.map((item) => (

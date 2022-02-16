@@ -10,7 +10,6 @@ const FreelancePage = () => {
   return (
     <div className="freelance">
       <Control />
-      <Divider />
       <Switch>
         <Route path={'/freelance/employee'} component={Employee} />
         <Route path={'/freelance/employer'} component={Employer} />

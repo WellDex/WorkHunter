@@ -34,6 +34,12 @@ const ModalAddProject = ({open, handleClose}: IModalAddProject) => {
           label="Название проекта"
           placeholder="Введите название проекта..."
         />
+        <TextField
+          required
+          id="outlined-required"
+          label="Ссылка на  проекта"
+          placeholder="Введите ссылку на  проект..."
+        />
         <Divider />
         <div className="projects-form-btns">
           <Button variant="contained" onClick={handleClose}>

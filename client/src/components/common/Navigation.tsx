@@ -14,7 +14,10 @@ const Navigation = () => {
   return (
     <MenuList className="navigation">
       <MenuItem>
-        <NavLink className="navigation-item" to={'/profile'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/profile'}>
           <ListItemIcon>
             <AccountCircleIcon fontSize="small" />
           </ListItemIcon>
@@ -22,7 +25,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/news'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/news'}>
           <ListItemIcon>
             <NewspaperIcon fontSize="small" />
           </ListItemIcon>
@@ -30,7 +36,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/messenger'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/messenger'}>
           <ListItemIcon>
             <ChatIcon fontSize="small" />
           </ListItemIcon>
@@ -38,7 +47,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/users/friends'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/users/friends'}>
           <ListItemIcon>
             <GroupIcon fontSize="small" />
           </ListItemIcon>
@@ -46,7 +58,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/groups/list'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/groups/list'}>
           <ListItemIcon>
             <ForumIcon fontSize="small" />
           </ListItemIcon>
@@ -54,7 +69,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/gallery'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/gallery'}>
           <ListItemIcon>
             <CollectionsIcon fontSize="small" />
           </ListItemIcon>
@@ -62,7 +80,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/projects'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/projects'}>
           <ListItemIcon>
             <WebIcon fontSize="small" />
           </ListItemIcon>
@@ -70,7 +91,10 @@ const Navigation = () => {
         </NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink className="navigation-item" to={'/freelance/employee'}>
+        <NavLink
+          className="navigation-item"
+          activeClassName="navigation-item-active"
+          to={'/freelance/employee'}>
           <ListItemIcon>
             <WorkIcon fontSize="small" />
           </ListItemIcon>

@@ -1,6 +1,6 @@
-import {Button, Divider, InputBase, styled} from '@mui/material';
-import React from 'react';
-import {Link} from 'react-router-dom';
+import {Divider, InputBase, styled, Tab, Tabs} from '@mui/material';
+import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
 const Search = styled('div')(({theme}) => ({
@@ -34,16 +34,25 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 const UsersControl = () => {
+  const [value, setValue] = useState(0);
+  const history = useHistory();
   return (
     <>
-      <div className="card-container users-control">
-        <Link to={'friends'}>
-          <Button variant="outlined">Друзья</Button>
-        </Link>
-        <Link to={'people'}>
-          <Button variant="outlined">Поиск Друзей</Button>
-        </Link>
-      </div>
+      <Tabs
+        value={value}
+        onChange={(event, value) => setValue(value)}
+        variant="fullWidth">
+        <Tab
+          className="users-control"
+          label="Друзья"
+          onClick={() => history.push('friends')}
+        />
+        <Tab
+          className="users-control"
+          label="Поиск Друзей"
+          onClick={() => history.push('people')}
+        />
+      </Tabs>
       <Divider />
       <Search>
         <SearchIconWrapper>

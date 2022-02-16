@@ -1,10 +1,11 @@
-import {Avatar, IconButton} from '@mui/material';
-import React from 'react';
+import {Avatar, BottomNavigation, BottomNavigationAction} from '@mui/material';
+import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FrameHoc from '../../hoc/FrameHoc';
 
 const Note = () => {
+  const [value, setValue] = useState('');
   return (
     <div className="card-container">
       <div className="profile-note-head">
@@ -22,11 +23,15 @@ const Note = () => {
         dolores magni qui asperiores? Veniam expedita reprehenderit suscipit,
         totam odit voluptas sint.
       </div>
-      <div className="profile-note-footer">
-        <IconButton className="profile-note-footer-btn">
-          <FavoriteBorderIcon />
-        </IconButton>
-      </div>
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => setValue(newValue)}
+        style={{justifyContent: 'flex-start', height: 'fit-content'}}>
+        <BottomNavigationAction
+          style={{maxWidth: 'fit-content', minWidth: 'fit-content', padding: 0}}
+          icon={<FavoriteIcon />}
+        />
+      </BottomNavigation>
     </div>
   );
 };

@@ -1,6 +1,15 @@
-import {Button, Divider, Fab, InputBase, styled} from '@mui/material';
+import {
+  Button,
+  Divider,
+  Fab,
+  InputBase,
+  styled,
+  Tab,
+  Tabs,
+  Tooltip,
+} from '@mui/material';
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import ModalCreateGroup from './ModalCreateGroup';
@@ -37,20 +46,25 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const GroupsControl = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [value, setValue] = useState(0);
+  const history = useHistory();
   return (
     <>
-      <div className="card-container users-control">
-        <Link to={'list'}>
-          <Button variant="outlined">Сообщества</Button>
-        </Link>
-        <Link to={'all'}>
-          <Button variant="outlined">Поиск сообщества</Button>
-        </Link>
-        <Fab color="primary" size="small" onClick={() => setIsOpen(true)}>
-          <AddIcon />
-        </Fab>
-      </div>
+      <Tabs
+        value={value}
+        onChange={(event, value) => setValue(value)}
+        variant="fullWidth">
+        <Tab
+          className="users-control"
+          label="Сообщества"
+          onClick={() => history.push('list')}
+        />
+        <Tab
+          className="users-control"
+          label="Поиск сообщества"
+          onClick={() => history.push('all')}
+        />
+      </Tabs>
       <Divider />
       <Search>
         <SearchIconWrapper>
@@ -62,6 +76,14 @@ const GroupsControl = () => {
         />
       </Search>
       <Divider />
+      <Tooltip
+        title="Создать групу"
+        style={{position: 'absolute', bottom: '3rem', right: '3rem'}}
+        placement="top">
+        <Fab color="primary" size="large" onClick={() => setIsOpen(true)}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
       <ModalCreateGroup open={isOpen} handleClose={() => setIsOpen(false)} />
     </>
   );

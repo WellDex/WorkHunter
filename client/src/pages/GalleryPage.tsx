@@ -1,4 +1,10 @@
-import {Fab, ImageList, ImageListItem, ImageListItemBar} from '@mui/material';
+import {
+  Button,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Tooltip,
+} from '@mui/material';
 import React, {useState} from 'react';
 import PhotoView from '../components/common/PhotoView';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,9 +29,15 @@ const GalleryPage = () => {
     <div className="card-container">
       <div className="gallery-head">
         <h1 className="gallery-head-title">Галерея</h1>
-        <Fab color="primary" size="small" onClick={() => setIsOpenModal(true)}>
-          <AddIcon />
-        </Fab>
+        <Tooltip title="Загрузить фотографию" placement="left">
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => setIsOpenModal(true)}>
+            <AddIcon />
+          </Button>
+        </Tooltip>
       </div>
       <ImageList cols={4} gap={16}>
         {itemData.map((item) => (
