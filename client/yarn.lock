@@ -9970,13 +9970,6 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-use-api@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/react-use-api/-/react-use-api-2.5.1.tgz"
-  integrity sha512-UguevC+f8KeD9e7QyJ70Qzo1pMaop8GiHX0QLTVrvkMxe+7H2KD+ZOv4neT/C0ujMu/fruQJeMKrydoC2e8ABw==
-  dependencies:
-    lru-cache "^5.1.1"
-
 react-window@^1.8.6:
   version "1.8.6"
   resolved "https://registry.npmjs.org/react-window/-/react-window-1.8.6.tgz"

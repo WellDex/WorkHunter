@@ -1,5 +1,4 @@
-const token = require('token');
-const config = require('config');
+const jwt = require('jsonwebtoken');
 
 //todo
 
@@ -15,12 +14,12 @@ module.exports = (req, res, next) => {
       return res.status(401).json({message: 'Нет авторизации'});
     }
 
-    const decoded = token.verify(token, config.get('jwtSecret'));
+    const decoded = token.verify(token, process.env.TOKEN_SECRET);
     req.user = decoded;
 
     next();
   } catch (e) {
-    res.status(401).json({message: 'Нет авторизации2', e});
+    res.status(401).json({message: 'Нет авторизации', e});
     throw e;
   }
 };

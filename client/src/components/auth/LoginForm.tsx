@@ -13,8 +13,8 @@ const LoginForm = () => {
       <Divider />
       <TextField
         variant="outlined"
-        label="Логин"
-        placeholder="Введите логин..."
+        label="Email"
+        placeholder="Введите email..."
         fullWidth={true}
       />
       <TextField
