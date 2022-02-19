@@ -1,6 +1,5 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
-import Control from '../components/freelance/Control';
+import {Route, Switch} from 'react-router-dom';
 import Employee from '../components/freelance/Employee';
 import Employer from '../components/freelance/Employer';
 import FrameHoc from '../hoc/FrameHoc';
@@ -8,11 +7,9 @@ import FrameHoc from '../hoc/FrameHoc';
 const FreelancePage = () => {
   return (
     <div className="freelance">
-      <Control />
       <Switch>
-        <Route path={'/freelance/employee'} component={Employee} />
-        <Route path={'/freelance/employer'} component={Employer} />
-        <Redirect to={'/freelance/employee'} />
+        <Route exact path={'/freelance/employer'} component={Employer} />
+        <Route path={'/freelance'} component={Employee} />
       </Switch>
     </div>
   );

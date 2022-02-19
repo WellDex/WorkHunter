@@ -40,13 +40,13 @@ const App = () => {
             <Route path="/groups" component={GroupsPage} />
             <Route path="/gallery" component={GalleryPage} />
             <Route path="/projects" component={ProjectsPage} />
-            <Route path="/freelance" component={FreelancePage} />
             <Route exact path="/group/:id" component={GroupProfile} />
             <Route
               exact
               path="/freelance/project/:id"
               component={ProjectProfile}
             />
+            <Route path="/freelance" component={FreelancePage} />
             <Route path="/auth/" component={AuthPage} />
           </Switch>
         </div>

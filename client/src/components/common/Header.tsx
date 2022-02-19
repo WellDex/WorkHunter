@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   AppBar,
   Avatar,
@@ -12,6 +12,7 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
+  Switch,
 } from '@mui/material';
 import {styled} from '@mui/material/styles';
 import PublicIcon from '@mui/icons-material/Public';
@@ -22,7 +23,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -63,6 +64,16 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isActiveSwitch, setIsActiveSwitch] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isActiveSwitch) {
+      return history.push('/freelance/employer');
+    }
+    history.push('/freelance/projects');
+  }, [isActiveSwitch]);
+
   const isOpen = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -98,6 +109,21 @@ const Header = () => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Box sx={{flexGrow: 1}} />
+          <div className="header-freelance-container">
+            <span
+              className={(!isActiveSwitch && 'header-freelance-active') || ''}>
+              Emloyee
+            </span>
+            <Switch
+              value={isActiveSwitch}
+              onChange={(e) => setIsActiveSwitch(e.target.checked)}
+            />
+            <span
+              className={(isActiveSwitch && 'header-freelance-active') || ''}>
+              Employer
+            </span>
+          </div>
           <Box sx={{flexGrow: 1}} />
           <div className="header-avatar">
             <div className="header-avatar--name">Leo</div>

@@ -8,7 +8,7 @@ import {
 import React, {useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../hoc/FrameHoc';
-import ModalAddProject from '../components/projects/ModalAddProject';
+import ModalAddProject from '../components/freelance/ModalCreateProject';
 
 const itemData = [
   {img: 'https://picsum.photos/600', title: 'WebHunter'},

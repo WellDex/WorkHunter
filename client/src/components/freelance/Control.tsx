@@ -21,12 +21,12 @@ const Control = () => {
         <Tab
           className="users-control"
           label="Фриланс-проекты"
-          onClick={() => history.push('/freelance/employee')}
+          onClick={() => history.push('/freelance/projects')}
         />
         <Tab
           className="users-control"
           label="Мои проекты"
-          onClick={() => history.push('/freelance/employer')}
+          onClick={() => history.push('/freelance/my_projects')}
         />
       </Tabs>
       <Divider />

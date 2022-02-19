@@ -31,4 +31,13 @@
       margin-right: 1rem;
     }
   }
+
+  &-freelance {
+    &-container {
+      color: $grey;
+    }
+    &-active {
+      color: $black;
+    }
+  }
 }
