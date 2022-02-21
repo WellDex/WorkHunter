@@ -1,11 +1,13 @@
 import {Button, Divider} from '@mui/material';
 import React from 'react';
 import {useForm} from 'react-hook-form';
+import {connect} from 'react-redux';
 import {NavLink, useHistory} from 'react-router-dom';
 import {authAPI, ILoginForm} from '../../api/authAPI';
+import {login} from '../../Redux/app/appOperations';
 import CustomField from '../common/CustomField';
 
-const LoginForm = () => {
+const LoginForm = ({login}: any) => {
   const history = useHistory();
   const {handleSubmit, control} = useForm<ILoginForm>({
     mode: 'onChange',
@@ -17,6 +19,7 @@ const LoginForm = () => {
       const res = await authAPI.login(data);
       if (res) {
         alert(res.message);
+        login();
         history.push('/news');
       }
     } catch (error) {
@@ -58,4 +61,8 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(null, mapDispatchToProps)(LoginForm);

@@ -15,11 +15,17 @@ import GroupProfile from './components/groups/GroupProfile';
 import AuthPage from './pages/AuthPage';
 import FreelancePage from './pages/FreelancePage';
 import ProjectProfile from './components/freelance/ProjectProfile';
+import * as appSelectors from './Redux/app/appSelectors';
+import {connect} from 'react-redux';
 
-const App = () => {
-  const isAuth = !true;
+const mapStateToProps = (state: any) => ({
+  isAuth: appSelectors.getIsAuth(state),
+});
+
+const App = ({isAuth}: any) => {
   const history = useHistory();
-  if (!isAuth) {
+
+  if (isAuth) {
     history.push('/auth/login');
   }
   return (
@@ -56,4 +62,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(mapStateToProps)(App);
