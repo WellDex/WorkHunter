@@ -27,7 +27,6 @@ router.post(
         });
       }
       const {login, password, firstName, lastName, birthDate} = req.body;
-      console.log(req.body);
 
       const candidate = await User.findOne({login});
       if (candidate) {
@@ -39,8 +38,6 @@ router.post(
       const user = new User({
         login,
         password: hashedPassword,
-        firstName,
-        lastName,
         birthDate,
       });
 
@@ -57,8 +54,8 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Некорректный email').isEmail(),
-    check('password', 'Минимальная длина пароля 6 символов').exists(),
+    check('login', 'Некорректный email').isEmail(),
+    check('password', 'Минимальная длина пароля 6 символов'),
   ],
   async (req, res) => {
     try {
@@ -93,6 +90,7 @@ router.post(
 
       res.json({token});
     } catch (error) {
+      console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
     }
   }

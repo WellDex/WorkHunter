@@ -1,28 +1,49 @@
-import {Button, Divider, TextField} from '@mui/material';
+import {Button, Divider} from '@mui/material';
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {useForm} from 'react-hook-form';
+import {NavLink, useHistory} from 'react-router-dom';
+import {authAPI, ILoginForm} from '../../api/authAPI';
+import CustomField from '../common/CustomField';
 
 const LoginForm = () => {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const history = useHistory();
+  const {handleSubmit, control} = useForm<ILoginForm>({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
+
+  const onSubmit = async (data: ILoginForm) => {
+    try {
+      const res = await authAPI.login(data);
+      if (res) {
+        alert(res.message);
+        history.push('/news');
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
-    <form onSubmit={onSubmit} className="auth-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
       <h1 className="auth-form-title">Логин</h1>
       <Divider />
-      <TextField
-        variant="outlined"
-        label="Email"
-        placeholder="Введите email..."
-        fullWidth={true}
+      <CustomField
+        name={'login'}
+        control={control}
+        rules={{required: "Обов'язкове поле"}}
+        label={'Логин'}
+        placeholder={'Введите email...'}
+        isFullWidth={true}
       />
-      <TextField
-        variant="outlined"
-        type="password"
-        label="Пароль"
-        placeholder="Введите пароль..."
-        fullWidth={true}
+      <CustomField
+        name={'password'}
+        control={control}
+        rules={{required: "Обов'язкове поле"}}
+        type={'password'}
+        label={'Пароль'}
+        placeholder={'Введите пароль...'}
+        isFullWidth={true}
       />
       <Divider />
       <div className="auth-form-footer">

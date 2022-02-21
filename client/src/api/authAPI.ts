@@ -16,16 +16,14 @@ export interface ILoginForm {
 export const authAPI = {
   login: (data: ILoginForm) => {
     return instance.post('auth/login', data).then((res) => {
-      console.log(res);
       //@ts-ignore
       localStorage.setItem('token', res.token);
+      return res.data;
     });
   },
   register: (data: IRegisterForm) => {
     return instance.post('auth/register', data).then((res) => {
-      console.log(res);
-      //@ts-ignore
-      localStorage.setItem('token', res.token);
+      return res.data;
     });
   },
 };

@@ -1,13 +1,15 @@
 import {Button, Divider, TextField} from '@mui/material';
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import {Controller, useForm} from 'react-hook-form';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {authAPI, IRegisterForm} from '../../api/authAPI';
+import CustomField from '../common/CustomField';
 
 const RegistrationForm = () => {
+  const history = useHistory();
   const {handleSubmit, control} = useForm<IRegisterForm>({
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -16,57 +18,35 @@ const RegistrationForm = () => {
   const onSubmit = async (data: IRegisterForm) => {
     try {
       const res = await authAPI.register(data);
-      console.log(res);
-    } catch (error) {}
+      if (res) {
+        alert(res.message);
+        history.goBack();
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          width: '20rem',
-        }}>
+      <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
         <h1 className="auth-form-title">Регистрация</h1>
         <Divider />
-        <Controller
+        <CustomField
           name={'firstName'}
           control={control}
-          defaultValue={''}
           rules={{required: "Обов'язкове поле"}}
-          render={({field: {onChange, value}, fieldState: {error}}) => (
-            <TextField
-              variant="outlined"
-              label="Имя"
-              value={value}
-              onChange={onChange}
-              placeholder="Введите ваше имя..."
-              fullWidth={true}
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
+          label={'Имя'}
+          placeholder={'Введите ваше имя...'}
+          isFullWidth={true}
         />
-        <Controller
+        <CustomField
           name={'lastName'}
           control={control}
-          defaultValue={''}
           rules={{required: "Обов'язкове поле"}}
-          render={({field: {onChange, value}, fieldState: {error}}) => (
-            <TextField
-              variant="outlined"
-              label="Фамилия"
-              value={value}
-              onChange={onChange}
-              placeholder="Введите вашу фамилию..."
-              fullWidth={true}
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
+          label={'Фамилия'}
+          placeholder={'Введите вашу фамилию...'}
+          isFullWidth={true}
         />
         <Controller
           name={'birthDate'}
@@ -95,42 +75,22 @@ const RegistrationForm = () => {
             />
           )}
         />
-        <Controller
+        <CustomField
           name={'login'}
           control={control}
-          defaultValue={''}
           rules={{required: "Обов'язкове поле"}}
-          render={({field: {onChange, value}, fieldState: {error}}) => (
-            <TextField
-              variant="outlined"
-              label="Email"
-              value={value}
-              onChange={onChange}
-              placeholder="Введите email..."
-              fullWidth={true}
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
+          label={'Логин'}
+          placeholder={'Введите email...'}
+          isFullWidth={true}
         />
-        <Controller
+        <CustomField
           name={'password'}
           control={control}
-          defaultValue={''}
           rules={{required: "Обов'язкове поле"}}
-          render={({field: {onChange, value}, fieldState: {error}}) => (
-            <TextField
-              variant="outlined"
-              type="password"
-              label="Пароль"
-              value={value}
-              onChange={onChange}
-              placeholder="Введите пароль..."
-              fullWidth={true}
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
+          type="password"
+          label={'Пароль'}
+          placeholder={'Введите пароль...'}
+          isFullWidth={true}
         />
         <Divider />
         <div className="auth-form-footer">
