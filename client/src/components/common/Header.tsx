@@ -71,7 +71,9 @@ const Header = () => {
     if (isActiveSwitch) {
       return history.push('/freelance/employer');
     }
-    history.push('/freelance/projects');
+    if (history.location.pathname.includes('freelance')) {
+      history.push('/freelance/projects');
+    }
   }, [isActiveSwitch]);
 
   const isOpen = Boolean(anchorEl);

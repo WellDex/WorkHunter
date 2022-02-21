@@ -2,7 +2,7 @@ require('dotenv').config();
 const chalk = require('chalk');
 const express = require('express');
 const cors = require('cors');
-// const connectionDB = require('./db');
+const connectionDB = require('./db');
 const fileUpload = require('express-fileupload');
 
 const PORT = process.env.APP_PORT;
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   res.status(200).json({message: 'Work!!!'});
 });
 
-// connectionDB();
+connectionDB();
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

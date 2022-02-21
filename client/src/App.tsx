@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from 'react-router';
+import {Route, Switch, useHistory} from 'react-router';
 import Navigation from './components/common/Navigation';
 import Header from './components/common/Header';
 import ProfilePage from './pages/ProfilePage';
@@ -17,9 +17,10 @@ import FreelancePage from './pages/FreelancePage';
 import ProjectProfile from './components/freelance/ProjectProfile';
 
 const App = () => {
-  const isAuth = true;
+  const isAuth = !true;
+  const history = useHistory();
   if (!isAuth) {
-    <Redirect to={'/auth/login'} />;
+    history.push('/auth/login');
   }
   return (
     <Box className="main-box">
@@ -47,7 +48,7 @@ const App = () => {
               component={ProjectProfile}
             />
             <Route path="/freelance" component={FreelancePage} />
-            <Route path="/auth/" component={AuthPage} />
+            <Route path="/auth" component={AuthPage} />
           </Switch>
         </div>
       </Container>

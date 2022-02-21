@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator');
 const User = require('../modules/User');
+const chalk = require('chalk');
 
 const router = Router();
 
@@ -11,8 +12,8 @@ router.post(
   [
     check('firstName', 'Некорректное имя'),
     check('lastName', 'Некорректная фамилия'),
-    check('birthDay', 'Некорректная дата рождения'),
-    check('email', 'Некорректный email'),
+    check('birthDate', 'Некорректная дата рождения'),
+    check('login', 'Некорректный email'),
     check('password', 'Минимальная длина пароля 6 символов'),
   ],
   async (req, res) => {
@@ -25,29 +26,29 @@ router.post(
           message: 'Некорректные данные при регистрации',
         });
       }
-      const {email, password, firstName, lastName, birthDay} = req.body;
+      const {login, password, firstName, lastName, birthDate} = req.body;
       console.log(req.body);
 
-      const candidate = await User.findOne({email});
+      const candidate = await User.findOne({login});
       if (candidate) {
         return res.status(400).json({message: 'Пользователь существует'});
       }
 
-      const hashedPassword = await bcript.hash(password, 12);
+      const hashedPassword = await bcrypt.hash(password, 12);
 
       const user = new User({
-        email,
+        login,
         password: hashedPassword,
         firstName,
         lastName,
-        birthDay,
+        birthDate,
       });
 
       await user.save();
 
-      res.header('Access-Control-Allow-Origin', '*');
       res.status(201).json({message: 'Пользователь создан'});
     } catch (error) {
+      console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
     }
   }

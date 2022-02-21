@@ -3,13 +3,13 @@ import {instance} from './instance';
 export interface IRegisterForm {
   firstName: string;
   lastName: string;
-  birthDay: any;
-  email: string;
+  birthDate: any;
+  login: string;
   password: string;
 }
 
 export interface ILoginForm {
-  email: string;
+  login: string;
   password: string;
 }
 

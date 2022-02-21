@@ -6,7 +6,7 @@ module.exports = async function connectionDB() {
     mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
+      // useCreateIndex: true,
     });
     console.log(chalk.white.bgMagenta.bold('DB connected'));
   } catch (error) {

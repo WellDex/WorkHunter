@@ -69,7 +69,7 @@ const RegistrationForm = () => {
           )}
         />
         <Controller
-          name={'birthDay'}
+          name={'birthDate'}
           control={control}
           defaultValue={null}
           rules={{required: "Обов'язкове поле"}}
@@ -96,7 +96,7 @@ const RegistrationForm = () => {
           )}
         />
         <Controller
-          name={'email'}
+          name={'login'}
           control={control}
           defaultValue={''}
           rules={{required: "Обов'язкове поле"}}
