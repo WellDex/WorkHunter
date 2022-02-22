@@ -24,6 +24,9 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import {Link, useHistory} from 'react-router-dom';
+import * as appSelectors from '../../Redux/app/appSelectors';
+import {connect} from 'react-redux';
+import {PROFILE_PATH} from '../../route/const';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -62,7 +65,11 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
   },
 }));
 
-const Header = () => {
+const mapStateToProps = (state: any) => ({
+  isAuth: appSelectors.getIsAuth(state),
+});
+
+const Header = ({isAuth}: any) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isActiveSwitch, setIsActiveSwitch] = useState(false);
   const history = useHistory();
@@ -87,112 +94,120 @@ const Header = () => {
     <AppBar position="static" className="header">
       <Container maxWidth="xl">
         <Toolbar>
-          <Link to={'/profile'} className="header-logo">
+          <Link to={PROFILE_PATH} className="header-logo">
             <PublicIcon className="header-logo--icon" />
             <span className="header-logo--first">Work</span>
             <span className="header-logo--second">Hunter</span>
           </Link>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{'aria-label': 'search'}}
-            />
-          </Search>
-          <IconButton size="large" aria-label="show 4 new mails">
-            <Badge badgeContent={4} color="error">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <IconButton size="large" aria-label="show 17 new notifications">
-            <Badge badgeContent={17} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Box sx={{flexGrow: 1}} />
-          <div className="header-freelance-container">
-            <span
-              className={(!isActiveSwitch && 'header-freelance-active') || ''}>
-              Emloyee
-            </span>
-            <Switch
-              value={isActiveSwitch}
-              onChange={(e) => setIsActiveSwitch(e.target.checked)}
-            />
-            <span
-              className={(isActiveSwitch && 'header-freelance-active') || ''}>
-              Employer
-            </span>
-          </div>
-          <Box sx={{flexGrow: 1}} />
-          <div className="header-avatar">
-            <div className="header-avatar--name">Leo</div>
-            <Avatar />
-            <IconButton
-              aria-label="ArrowDropDown"
-              size="small"
-              onClick={handleClick}>
-              {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              id="account-menu"
-              open={isOpen}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                  mt: 1.5,
-                  '& .MuiAvatar-root': {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  '&:before': {
-                    content: '""',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{horizontal: 'right', vertical: 'top'}}
-              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
-              <MenuItem>
-                <Avatar /> Profile
-              </MenuItem>
-              <Divider />
-              <MenuItem>
-                <ListItemIcon>
-                  <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-              </MenuItem>
-              <Divider />
-              <MenuItem>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Menu>
-          </div>
+          {isAuth && (
+            <>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{'aria-label': 'search'}}
+                />
+              </Search>
+              <IconButton size="large" aria-label="show 4 new mails">
+                <Badge badgeContent={4} color="error">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <IconButton size="large" aria-label="show 17 new notifications">
+                <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <Box sx={{flexGrow: 1}} />
+              <div className="header-freelance-container">
+                <span
+                  className={
+                    (!isActiveSwitch && 'header-freelance-active') || ''
+                  }>
+                  Emloyee
+                </span>
+                <Switch
+                  value={isActiveSwitch}
+                  onChange={(e) => setIsActiveSwitch(e.target.checked)}
+                />
+                <span
+                  className={
+                    (isActiveSwitch && 'header-freelance-active') || ''
+                  }>
+                  Employer
+                </span>
+              </div>
+              <Box sx={{flexGrow: 1}} />
+              <div className="header-avatar">
+                <div className="header-avatar--name">Leo</div>
+                <Avatar />
+                <IconButton
+                  aria-label="ArrowDropDown"
+                  size="small"
+                  onClick={handleClick}>
+                  {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={isOpen}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                      mt: 1.5,
+                      '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
+                  <MenuItem>
+                    <Avatar /> Profile
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem>
+                    <ListItemIcon>
+                      <Settings fontSize="small" />
+                    </ListItemIcon>
+                    Settings
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem>
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </div>
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
 
-export default Header;
+export default connect(mapStateToProps)(Header);

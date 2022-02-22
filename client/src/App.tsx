@@ -2,21 +2,10 @@ import React from 'react';
 import {Route, Switch, useHistory} from 'react-router';
 import Navigation from './components/common/Navigation';
 import Header from './components/common/Header';
-import ProfilePage from './pages/ProfilePage';
 import {Box, Container} from '@mui/material';
-import NewsPage from './pages/NewsPage';
-import UsersPage from './pages/UsersPage';
-import {Redirect} from 'react-router-dom';
-import GalleryPage from './pages/GalleryPage';
-import ProjectsPage from './pages/ProjectsPage';
-import MessengerPage from './pages/MessengerPage';
-import GroupsPage from './pages/GroupsPage';
-import GroupProfile from './components/groups/GroupProfile';
-import AuthPage from './pages/AuthPage';
-import FreelancePage from './pages/FreelancePage';
-import ProjectProfile from './components/freelance/ProjectProfile';
 import * as appSelectors from './Redux/app/appSelectors';
 import {connect} from 'react-redux';
+import {routes, IRoute} from './route/routes';
 
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
@@ -26,7 +15,7 @@ const App = ({isAuth}: any) => {
   const history = useHistory();
 
   if (isAuth) {
-    history.push('/auth/login');
+    history.push('/login');
   }
   return (
     <Box className="main-box">
@@ -35,26 +24,13 @@ const App = ({isAuth}: any) => {
         {isAuth && <Navigation />}
         <div className="content customScroll">
           <Switch>
-            <Route
-              exact
-              path="/"
-              component={() => <Redirect to={'/profile'} />}
-            />
-            <Route path="/profile" component={ProfilePage} />
-            <Route path="/news" component={NewsPage} />
-            <Route path="/messenger" component={MessengerPage} />
-            <Route path="/users" component={UsersPage} />
-            <Route path="/groups" component={GroupsPage} />
-            <Route path="/gallery" component={GalleryPage} />
-            <Route path="/projects" component={ProjectsPage} />
-            <Route exact path="/group/:id" component={GroupProfile} />
-            <Route
-              exact
-              path="/freelance/project/:id"
-              component={ProjectProfile}
-            />
-            <Route path="/freelance" component={FreelancePage} />
-            <Route path="/auth" component={AuthPage} />
+            {routes.map((route: IRoute, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                component={route.component}
+              />
+            ))}
           </Switch>
         </div>
       </Container>

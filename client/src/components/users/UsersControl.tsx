@@ -1,7 +1,8 @@
 import {Divider, InputBase, styled, Tab, Tabs} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+import {FRIENDS_PATH, USERS_PATH} from '../../route/const';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -34,14 +35,11 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 const UsersControl = () => {
-  const [value, setValue] = useState(0);
   const history = useHistory();
+  const [value, setValue] = useState(
+    history.location.pathname.includes(FRIENDS_PATH) ? 0 : 1
+  );
 
-  useEffect(() => {
-    if (history.location.pathname.includes('friends')) {
-      setValue(0);
-    }
-  }, [history.location.pathname]);
   return (
     <>
       <Tabs
@@ -51,12 +49,12 @@ const UsersControl = () => {
         <Tab
           className="users-control"
           label="Друзья"
-          onClick={() => history.push('friends')}
+          onClick={() => history.push(FRIENDS_PATH)}
         />
         <Tab
           className="users-control"
           label="Поиск Друзей"
-          onClick={() => history.push('people')}
+          onClick={() => history.push(USERS_PATH)}
         />
       </Tabs>
       <Divider />

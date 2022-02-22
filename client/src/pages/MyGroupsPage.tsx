@@ -1,15 +1,15 @@
 import React from 'react';
-import GroupsAll from '../components/groups/GroupsAll';
 import GroupsControl from '../components/groups/GroupsControl';
+import GroupsList from '../components/groups/GroupsList';
 import FrameHoc from '../hoc/FrameHoc';
 
-const GroupsPage = () => {
+const MyGroupsPage = () => {
   return (
     <div className="groups">
       <GroupsControl />
-      <GroupsAll />
+      <GroupsList />
     </div>
   );
 };
 
-export default FrameHoc(GroupsPage);
+export default FrameHoc(MyGroupsPage);

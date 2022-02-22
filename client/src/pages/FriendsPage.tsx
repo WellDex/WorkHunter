@@ -1,15 +1,15 @@
 import React from 'react';
+import FriendsList from '../components/users/FriendsList';
 import FriendsControl from '../components/users/UsersControl';
-import UsersList from '../components/users/UsersList';
 import FrameHoc from '../hoc/FrameHoc';
 
-const UsersPage = () => {
+const FriendsPage = () => {
   return (
     <div>
       <FriendsControl />
-      <UsersList />
+      <FriendsList />
     </div>
   );
 };
 
-export default FrameHoc(UsersPage);
+export default FrameHoc(FriendsPage);

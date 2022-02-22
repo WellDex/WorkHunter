@@ -7,11 +7,12 @@ import {
   Tabs,
   Tooltip,
 } from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import ModalCreateGroup from './ModalCreateGroup';
+import {GROUPS_PATH, MY_GROUPS_PATH} from '../../route/const';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -44,15 +45,11 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 const GroupsControl = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState(0);
   const history = useHistory();
-
-  useEffect(() => {
-    if (history.location.pathname.includes('list')) {
-      setValue(0);
-    }
-  }, [history.location.pathname]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState(
+    history.location.pathname.includes(MY_GROUPS_PATH) ? 0 : 1
+  );
 
   return (
     <>
@@ -63,12 +60,12 @@ const GroupsControl = () => {
         <Tab
           className="users-control"
           label="Сообщества"
-          onClick={() => history.push('list')}
+          onClick={() => history.push(MY_GROUPS_PATH)}
         />
         <Tab
           className="users-control"
           label="Поиск сообщества"
-          onClick={() => history.push('all')}
+          onClick={() => history.push(GROUPS_PATH)}
         />
       </Tabs>
       <Divider />

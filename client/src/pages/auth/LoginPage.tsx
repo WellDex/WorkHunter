@@ -5,7 +5,9 @@ import {connect} from 'react-redux';
 import {NavLink, useHistory} from 'react-router-dom';
 import {ILoginForm} from '../../api/authAPI';
 import {login} from '../../Redux/app/appOperations';
-import CustomField from '../common/CustomField';
+import CustomField from '../../components/common/CustomField';
+import {REGISTER_PATH} from '../../route/const';
+import FrameHoc from '../../hoc/FrameHoc';
 
 const LoginForm = ({login}: any) => {
   const history = useHistory();
@@ -19,7 +21,9 @@ const LoginForm = ({login}: any) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="card-container auth-form">
       <h1 className="auth-form-title">Логин</h1>
       <Divider />
       <CustomField
@@ -41,7 +45,7 @@ const LoginForm = ({login}: any) => {
       />
       <Divider />
       <div className="auth-form-footer">
-        <NavLink to={'registration'}>
+        <NavLink to={REGISTER_PATH}>
           <Button variant="outlined">Регистрация</Button>
         </NavLink>
         <Button variant="contained" type="submit">
@@ -56,4 +60,13 @@ const mapDispatchToProps = {
   login,
 };
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+const LoginContainer = connect(null, mapDispatchToProps)(FrameHoc(LoginForm));
+
+const LoginPage = () => {
+  return (
+    <div className="auth">
+      <LoginContainer />
+    </div>
+  );
+};
+export default LoginPage;

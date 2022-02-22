@@ -6,7 +6,9 @@ import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {authAPI, IRegisterForm} from '../../api/authAPI';
-import CustomField from '../common/CustomField';
+import CustomField from '../../components/common/CustomField';
+import {LOGIN_PATH} from '../../route/const';
+import FrameHoc from '../../hoc/FrameHoc';
 
 const RegistrationForm = () => {
   const history = useHistory();
@@ -29,7 +31,9 @@ const RegistrationForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="card-container auth-form">
         <h1 className="auth-form-title">Регистрация</h1>
         <Divider />
         <CustomField
@@ -94,7 +98,7 @@ const RegistrationForm = () => {
         />
         <Divider />
         <div className="auth-form-footer">
-          <NavLink to={'login'}>
+          <NavLink to={LOGIN_PATH}>
             <Button variant="outlined">Вход</Button>
           </NavLink>
           <Button variant="contained" type="submit">
@@ -106,4 +110,13 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+const RegistrationContainer = FrameHoc(RegistrationForm);
+
+const RegistrationPage = () => {
+  return (
+    <div className="auth">
+      <RegistrationContainer />
+    </div>
+  );
+};
+export default RegistrationPage;

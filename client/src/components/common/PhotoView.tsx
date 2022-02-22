@@ -60,15 +60,15 @@ const PhotoView = ({imgs, selectImg, isOpen, handleClose}: IPhotoView) => {
         </IconButton>
         {imgs && <img src={imgs[current]?.img} />}
         {!isStart && (
-          <DialogActions className="photoView-prev">
-            <IconButton onClick={prev}>
+          <DialogActions className="photoView-prev" onClick={prev}>
+            <IconButton>
               <ArrowBackIosIcon />
             </IconButton>
           </DialogActions>
         )}
         {!isEnd && (
-          <DialogActions className="photoView-next">
-            <IconButton onClick={next}>
+          <DialogActions className="photoView-next" onClick={next}>
+            <IconButton>
               <ArrowForwardIosIcon />
             </IconButton>
           </DialogActions>
