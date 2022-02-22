@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Route, Switch, useHistory} from 'react-router';
 import Navigation from './components/common/Navigation';
+import Notification from './utils/Notification';
 import Header from './components/common/Header';
 import {Box, Container} from '@mui/material';
 import * as appSelectors from './Redux/app/appSelectors';
@@ -9,10 +10,20 @@ import {routes, IRoute, authRoutes} from './route/routes';
 
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
+  notification: appSelectors.getNotification(state),
 });
 
-const App = ({isAuth}: any) => {
+const App = ({isAuth, notification}: any) => {
   const history = useHistory();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (notification.message && notification.type) {
+      setOpen(true);
+    }
+  }, [notification]);
 
   useEffect(() => {
     if (!isAuth) {
@@ -45,6 +56,12 @@ const App = ({isAuth}: any) => {
           </Switch>
         </div>
       </Container>
+      <Notification
+        open={open}
+        handleClose={handleClose}
+        message={notification.message}
+        type={notification.type}
+      />
     </Box>
   );
 };
