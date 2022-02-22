@@ -91,6 +91,9 @@ export const routes: IRoute[] = [
     path: '/freelance/project/:id',
     component: ProjectProfile,
   },
+];
+
+export const authRoutes: IRoute[] = [
   {
     path: LOGIN_PATH,
     component: LoginPage,
