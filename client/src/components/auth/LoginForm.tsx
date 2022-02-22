@@ -3,7 +3,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {connect} from 'react-redux';
 import {NavLink, useHistory} from 'react-router-dom';
-import {authAPI, ILoginForm} from '../../api/authAPI';
+import {ILoginForm} from '../../api/authAPI';
 import {login} from '../../Redux/app/appOperations';
 import CustomField from '../common/CustomField';
 
@@ -14,17 +14,8 @@ const LoginForm = ({login}: any) => {
     reValidateMode: 'onChange',
   });
 
-  const onSubmit = async (data: ILoginForm) => {
-    try {
-      const res = await authAPI.login(data);
-      if (res) {
-        alert(res.message);
-        login();
-        history.push('/news');
-      }
-    } catch (error) {
-      alert(error);
-    }
+  const onSubmit = (data: ILoginForm) => {
+    login(data, history);
   };
 
   return (
