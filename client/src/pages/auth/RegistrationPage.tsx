@@ -9,8 +9,10 @@ import {authAPI, IRegisterForm} from '../../api/authAPI';
 import CustomField from '../../components/common/CustomField';
 import {LOGIN_PATH} from '../../route/const';
 import FrameHoc from '../../hoc/FrameHoc';
+import {connect} from 'react-redux';
+import {setMessage} from '../../Redux/app/appOperations';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({setMessage}: any) => {
   const history = useHistory();
   const {handleSubmit, control} = useForm<IRegisterForm>({
     mode: 'onChange',
@@ -21,11 +23,11 @@ const RegistrationForm = () => {
     try {
       const res = await authAPI.register(data);
       if (res) {
-        alert(res.message);
+        setMessage({message: res.message, type: 'success'});
         history.goBack();
       }
     } catch (error) {
-      alert(error);
+      setMessage({message: error, type: 'error'});
     }
   };
 
@@ -110,7 +112,14 @@ const RegistrationForm = () => {
   );
 };
 
-const RegistrationContainer = FrameHoc(RegistrationForm);
+const mapDispatchToProps = {
+  setMessage,
+};
+
+const RegistrationContainer = connect(
+  null,
+  mapDispatchToProps
+)(FrameHoc(RegistrationForm));
 
 const RegistrationPage = () => {
   return (

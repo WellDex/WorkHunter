@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-//todo
-
 module.exports = (req, res, next) => {
   if (req.method === 'OPTIONS') {
     return next();
@@ -14,7 +12,7 @@ module.exports = (req, res, next) => {
       return res.status(401).json({message: 'Нет авторизации'});
     }
 
-    const decoded = token.verify(token, process.env.TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     req.user = decoded;
 
     next();

@@ -16,8 +16,7 @@ export interface ILoginForm {
 export const authAPI = {
   login: (data: ILoginForm) => {
     return instance.post('auth/login', data).then((res) => {
-      //@ts-ignore
-      localStorage.setItem('token', res.token);
+      localStorage.setItem('token', res.data.token);
       return res.data;
     });
   },

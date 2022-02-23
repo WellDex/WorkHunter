@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator');
 const User = require('../modules/User');
+const Profile = require('../modules/Profile');
 const chalk = require('chalk');
 
 const router = Router();
@@ -40,10 +41,18 @@ router.post(
       const user = new User({
         login,
         password: hashedPassword,
-        birthDate,
       });
 
       await user.save();
+
+      const profile = new Profile({
+        firstName,
+        lastName,
+        birthDate,
+        owner: user._id,
+      });
+
+      await profile.save();
 
       res.status(201).json({message: 'Пользователь создан'});
     } catch (error) {
@@ -87,6 +96,10 @@ router.post(
           .status(400)
           .json({message: 'Некорректные данные при входе в систему'});
       }
+
+      const profile = await Profile.findOne({owner: user._id});
+      profile.isOnline = true;
+      await profile.save();
 
       const token = jwt.sign({userId: user.id}, process.env.TOKEN_SECRET, {
         expiresIn: '24h',

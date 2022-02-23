@@ -31,6 +31,4 @@ const appReducer = (state = init, {type, payload}: any) => {
   }
 };
 
-export default combineReducers({
-  app: appReducer,
-});
+export default appReducer;

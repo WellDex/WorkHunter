@@ -1,3 +1,4 @@
+import {INotification} from './appReducer';
 import {authAPI, ILoginForm} from './../../api/authAPI';
 import {changeIsAuth, setNotification} from './appActions';
 
@@ -13,3 +14,7 @@ export const login =
         dispatch(setNotification({message: res.message, type: 'error'}));
       });
   };
+
+export const setMessage = (data: INotification) => async (dispatch: any) => {
+  dispatch(setNotification(data));
+};

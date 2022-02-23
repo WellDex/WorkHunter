@@ -1,13 +1,15 @@
 import {Divider, Table, TableBody, TableCell, TableRow} from '@mui/material';
 import React from 'react';
 import FrameHoc from '../../hoc/FrameHoc';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
 
-const ProfileInformation = () => {
+const ProfileInformation = (props: IStateProfile) => {
+  const {firstName, lastName, isOnline} = props;
   return (
     <div className="card-container">
-      <div className="profile-status">online</div>
+      <div className="profile-status">{isOnline ? 'online' : 'offline'}</div>
       <div className="title">
-        <h2>Leo Masluk</h2>
+        <h2>{`${firstName} ${lastName}`}</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
       </div>
       <Divider className="divider" />
