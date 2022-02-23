@@ -10,11 +10,13 @@ const router = Router();
 router.post(
   '/register',
   [
-    check('firstName', 'Некорректное имя'),
-    check('lastName', 'Некорректная фамилия'),
-    check('birthDate', 'Некорректная дата рождения'),
-    check('login', 'Некорректный email'),
-    check('password', 'Минимальная длина пароля 6 символов'),
+    check('firstName', 'Некорректное имя').trim().isString(),
+    check('lastName', 'Некорректная фамилия').trim().isString(),
+    check('birthDate', 'Некорректная дата рождения').notEmpty().isString(),
+    check('login', 'Некорректный email').trim().isEmail(),
+    check('password', 'Минимальная длина пароля 6 символов')
+      .trim()
+      .isLength({min: 6}),
   ],
   async (req, res) => {
     try {
@@ -54,8 +56,10 @@ router.post(
 router.post(
   '/login',
   [
-    check('login', 'Некорректный email').isEmail(),
-    check('password', 'Минимальная длина пароля 6 символов'),
+    check('login', 'Некорректный email').trim().isEmail(),
+    check('password', 'Минимальная длина пароля 6 символов')
+      .trim()
+      .isLength({min: 6}),
   ],
   async (req, res) => {
     try {

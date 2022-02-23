@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(express.json({extended: true}));
 app.use(fileUpload({}));
-app.use('/api/auth', require('./rouths/authRoute'));
+app.use('/api', require('./rouths/index'));
 
 app.get('/', (req, res) => {
   res.status(200).json({message: 'Work!!!'});
