@@ -11,3 +11,4 @@ export const PORTFOLIO_PATH = '/portfolio';
 export const FREELANCE_PATH = '/freelance';
 export const LOGIN_PATH = '/login';
 export const REGISTER_PATH = '/register';
+export const SETTING_PATH = '/setting';

@@ -56,20 +56,22 @@ const Navigation = () => {
     .filter((el) => !!el);
 
   return (
-    <MenuList className="navigation">
-      {navList.length > 0 &&
-        navList.map((nav, index) => (
-          <MenuItem key={index}>
-            <NavLink
-              className="navigation-item"
-              activeClassName="navigation-item-active"
-              to={nav?.path || ''}>
-              <ListItemIcon>{nav?.icon}</ListItemIcon>
-              <ListItemText>{nav?.name}</ListItemText>
-            </NavLink>
-          </MenuItem>
-        ))}
-    </MenuList>
+    <div className="navigation-container">
+      <MenuList className="navigation">
+        {navList.length > 0 &&
+          navList.map((nav, index) => (
+            <MenuItem key={index}>
+              <NavLink
+                className="navigation-item"
+                activeClassName="navigation-item-active"
+                to={nav?.path || ''}>
+                <ListItemIcon>{nav?.icon}</ListItemIcon>
+                <ListItemText>{nav?.name}</ListItemText>
+              </NavLink>
+            </MenuItem>
+          ))}
+      </MenuList>
+    </div>
   );
 };
 

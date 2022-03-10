@@ -25,8 +25,10 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import {Link, useHistory} from 'react-router-dom';
 import * as appSelectors from '../../Redux/app/appSelectors';
+import * as profileSelectors from '../../Redux/profile/profileSelectors';
 import {connect} from 'react-redux';
-import {PROFILE_PATH} from '../../route/const';
+import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -65,13 +67,15 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
   },
 }));
 
-const mapStateToProps = (state: any) => ({
-  isAuth: appSelectors.getIsAuth(state),
-});
+interface IHeader {
+  isAuth: boolean;
+  profile: IStateProfile;
+}
 
-const Header = ({isAuth}: any) => {
+const Header = ({isAuth, profile}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isActiveSwitch, setIsActiveSwitch] = useState(false);
+  const [isFreelancePage, setIsFreelancePage] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -83,6 +87,13 @@ const Header = ({isAuth}: any) => {
     }
   }, [isActiveSwitch]);
 
+  useEffect(() => {
+    if (history.location.pathname.includes('freelance')) {
+      return setIsFreelancePage(true);
+    }
+    setIsFreelancePage(false);
+  }, [history.location.pathname]);
+
   const isOpen = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -90,6 +101,7 @@ const Header = ({isAuth}: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <AppBar position="static" className="header">
       <Container maxWidth="xl">
@@ -120,28 +132,32 @@ const Header = ({isAuth}: any) => {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <Box sx={{flexGrow: 1}} />
-              <div className="header-freelance-container">
-                <span
-                  className={
-                    (!isActiveSwitch && 'header-freelance-active') || ''
-                  }>
-                  Emloyee
-                </span>
-                <Switch
-                  value={isActiveSwitch}
-                  onChange={(e) => setIsActiveSwitch(e.target.checked)}
-                />
-                <span
-                  className={
-                    (isActiveSwitch && 'header-freelance-active') || ''
-                  }>
-                  Employer
-                </span>
-              </div>
+              {isFreelancePage && (
+                <>
+                  <Box sx={{flexGrow: 1}} />
+                  <div className="header-freelance-container">
+                    <span
+                      className={
+                        (!isActiveSwitch && 'header-freelance-active') || ''
+                      }>
+                      Emloyee
+                    </span>
+                    <Switch
+                      value={isActiveSwitch}
+                      onChange={(e) => setIsActiveSwitch(e.target.checked)}
+                    />
+                    <span
+                      className={
+                        (isActiveSwitch && 'header-freelance-active') || ''
+                      }>
+                      Employer
+                    </span>
+                  </div>
+                </>
+              )}
               <Box sx={{flexGrow: 1}} />
               <div className="header-avatar">
-                <div className="header-avatar--name">Leo</div>
+                <div className="header-avatar--name">{profile.firstName}</div>
                 <Avatar />
                 <IconButton
                   aria-label="ArrowDropDown"
@@ -183,15 +199,19 @@ const Header = ({isAuth}: any) => {
                   }}
                   transformOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
-                  <MenuItem>
-                    <Avatar /> Profile
+                  <MenuItem className="header-menu-item">
+                    <Link to={PROFILE_PATH}>
+                      <Avatar /> Profile
+                    </Link>
                   </MenuItem>
                   <Divider />
-                  <MenuItem>
-                    <ListItemIcon>
-                      <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
+                  <MenuItem className="header-menu-item">
+                    <Link to={SETTING_PATH}>
+                      <ListItemIcon>
+                        <Settings fontSize="small" />
+                      </ListItemIcon>
+                      Settings
+                    </Link>
                   </MenuItem>
                   <Divider />
                   <MenuItem>
@@ -209,5 +229,10 @@ const Header = ({isAuth}: any) => {
     </AppBar>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  isAuth: appSelectors.getIsAuth(state),
+  profile: profileSelectors.getProfile(state),
+});
 
 export default connect(mapStateToProps)(Header);

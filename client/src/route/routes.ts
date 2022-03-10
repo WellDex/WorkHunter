@@ -12,6 +12,7 @@ import {
   USERS_PATH,
   MY_GROUPS_PATH,
   GROUP_PATH,
+  SETTING_PATH,
 } from './const';
 import LoginPage from '../pages/auth/LoginPage';
 import RegistrationPage from '../pages/auth/RegistrationPage';
@@ -27,6 +28,7 @@ import ProjectsPage from '../pages/ProjectsPage';
 import UsersPage from '../pages/UsersPage';
 import FriendsPage from '../pages/FriendsPage';
 import MyGroupsPage from '../pages/MyGroupsPage';
+import SettingPage from '../pages/SettingPage';
 
 export interface IRoute {
   path: string;
@@ -90,6 +92,10 @@ export const routes: IRoute[] = [
   {
     path: '/freelance/project/:id',
     component: ProjectProfile,
+  },
+  {
+    path: SETTING_PATH,
+    component: SettingPage,
   },
 ];
 

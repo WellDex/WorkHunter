@@ -40,4 +40,14 @@
       color: $black;
     }
   }
+
+  &-menu {
+    &-item {
+      a {
+        display: flex;
+        align-items: center;
+        color: inherit;
+      }
+    }
+  }
 }

@@ -1,0 +1,14 @@
+.settings {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+
+  &-title {
+    margin: 0;
+  }
+
+  &-col {
+    display: flex;
+    gap: 1rem;
+  }
+}
