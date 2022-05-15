@@ -1,5 +1,4 @@
 import {CHANGE_IS_AUTH, SET_NOTIFICATON} from './appActions';
-import {combineReducers} from 'redux';
 import {AlertColor} from '@mui/material';
 
 export interface INotification {

@@ -1,16 +1,25 @@
 import React from 'react';
+import {INote} from '../../Redux/notes/notesReducer';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
 import CreateNote from '../note/CreateNote';
 import Note from '../note/Note';
 
-const notes = [1, 2, 3];
+interface IProfileNotes {
+  notes: INote[];
+  profile: IStateProfile;
+  getNotes: () => void;
+}
 
-const ProfileNotes = () => {
+const ProfileNotes = ({notes, profile, getNotes}: IProfileNotes) => {
   return (
     <>
-      <CreateNote />
-      {notes.map((el: any, index) => (
-        <Note key={index} />
-      ))}
+      <CreateNote getNotes={getNotes} />
+      {notes &&
+        profile &&
+        notes.length > 0 &&
+        notes.map((note, index) => (
+          <Note key={index} note={note} profile={profile} />
+        ))}
     </>
   );
 };

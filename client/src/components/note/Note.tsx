@@ -3,8 +3,16 @@ import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FrameHoc from '../../hoc/FrameHoc';
+import {INote} from '../../Redux/notes/notesReducer';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
+import moment from 'moment';
 
-const Note = () => {
+interface INoteProps {
+  note: INote;
+  profile: IStateProfile;
+}
+
+const Note = ({note, profile}: INoteProps) => {
   const [value, setValue] = useState('');
   return (
     <div className="card-container">
@@ -13,16 +21,15 @@ const Note = () => {
           <Avatar className="profile-note-head-avatar" />
         </NavLink>
         <div className="profile-note-head-wrapper">
-          <NavLink to={'/profile'}>Leo</NavLink>
-          <p>6 мар 2021</p>
+          <NavLink to={'/profile'}>{profile.firstName}</NavLink>
+          <p>
+            {moment(note.createDate)
+              .locale('ru')
+              .format('DD MMMM YYYY HH:mm:ss')}
+          </p>
         </div>
       </div>
-      <div className="profile-note-content">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae
-        architecto est at perspiciatis accusamus iure totam, quisquam impedit
-        dolores magni qui asperiores? Veniam expedita reprehenderit suscipit,
-        totam odit voluptas sint.
-      </div>
+      <div className="profile-note-content">{note.text}</div>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => setValue(newValue)}

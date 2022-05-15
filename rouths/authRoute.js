@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator');
 const User = require('../modules/User');
-const Profile = require('../modules/Profile');
 const chalk = require('chalk');
 
 const router = Router();
@@ -41,18 +40,15 @@ router.post(
       const user = new User({
         login,
         password: hashedPassword,
+        profile: {
+          firstName,
+          lastName,
+          birthDate,
+        },
+        createDate: new Date(),
       });
 
       await user.save();
-
-      const profile = new Profile({
-        firstName,
-        lastName,
-        birthDate,
-        owner: user._id,
-      });
-
-      await profile.save();
 
       res.status(201).json({message: 'Пользователь создан'});
     } catch (error) {
@@ -97,13 +93,23 @@ router.post(
           .json({message: 'Некорректные данные при входе в систему'});
       }
 
-      const profile = await Profile.findOne({owner: user._id});
-      profile.isOnline = true;
-      await profile.save();
+      if (user.isBlocked) {
+        return res.status(400).json({message: 'Пользователь заблокирован!'});
+      }
 
-      const token = jwt.sign({userId: user.id}, process.env.TOKEN_SECRET, {
-        expiresIn: '24h',
-      });
+      user.profile.isOnline = true;
+      await user.save();
+
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          userName: `${user.profile.firstName} ${user.profile.lastName}`,
+        },
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: '24h',
+        }
+      );
 
       res.json({token});
     } catch (error) {
@@ -112,5 +118,20 @@ router.post(
     }
   }
 );
+
+router.post('/logout', async (req, res) => {
+  try {
+    const id = req.body.id || req.user.userId;
+    const user = await User.findById(id);
+
+    user.profile.isOnline = false;
+    await user.save();
+
+    res.status(200);
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
 
 module.exports = router;

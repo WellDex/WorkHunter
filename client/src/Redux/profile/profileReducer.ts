@@ -1,19 +1,37 @@
 import {SET_PROFILE} from './profileActions';
-import {combineReducers} from 'redux';
 
 export interface IStateProfile {
-  firstName: String | null;
-  lastName: String | null;
-  status: String | null;
-  rating: Number | null;
-  isOnline: Boolean;
-  birthDate: String | null;
-  description: {
-    city: String | null;
-    skils: Array<string>;
-  };
-  createDate: String | null;
-  owner: String | null;
+  firstName: string | null;
+  lastName: string | null;
+  status: string | null;
+  rating: number | null;
+  birthDate: string | null;
+  description: string | null;
+  city: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  school: {name: string | null}[] | [];
+  university:
+    | {
+        name: string | null;
+        faculty: string | null;
+        startDate: string | null;
+        endDate: string | null;
+      }[]
+    | [];
+  skills: {name: string | null}[] | [];
+  career:
+    | {
+        placeOfWork: string | null;
+        position: string | null;
+        startDate: string | null;
+        endDate: string | null;
+      }[]
+    | [];
+  friends: [];
+  groups: [];
+  isSearchWork: boolean;
+  isOnline: boolean;
 }
 
 const init: IStateProfile = {
@@ -21,14 +39,19 @@ const init: IStateProfile = {
   lastName: null,
   status: null,
   rating: null,
-  isOnline: false,
   birthDate: null,
-  description: {
-    city: null,
-    skils: [],
-  },
-  createDate: null,
-  owner: null,
+  description: null,
+  city: null,
+  phoneNumber: null,
+  email: null,
+  school: [],
+  university: [],
+  career: [],
+  friends: [],
+  groups: [],
+  skills: [],
+  isSearchWork: false,
+  isOnline: false,
 };
 
 const profileReducer = (state = init, {type, payload}: any) => {

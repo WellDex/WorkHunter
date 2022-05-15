@@ -29,6 +29,9 @@
     top: 0px;
     color: $grey;
   }
+  &-rating {
+    vertical-align: middle;
+  }
   &-info {
     &-table {
       .css-1ex1afd-MuiTableCell-root {
@@ -36,9 +39,16 @@
         padding: 5px;
         color: $blue;
       }
-      &-row-title {
-        width: 200px;
-        color: $grey !important;
+      &-row {
+        &-title {
+          width: 200px;
+          color: $grey !important;
+        }
+        &-description {
+          display: flex !important;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
       }
     }
     &-list {

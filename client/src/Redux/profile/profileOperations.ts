@@ -6,7 +6,6 @@ export const getProfile = () => async (dispatch: any) => {
   await profileAPI
     .getProfile()
     .then((res) => {
-      console.log('5', res);
       dispatch(setProfile(res));
     })
     .catch((res) => {

@@ -64,5 +64,5 @@
   "devDependencies": {
     "react-app-env": "^1.2.3"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080/"
 }
