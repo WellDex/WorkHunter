@@ -103,7 +103,6 @@ router.post(
       const token = jwt.sign(
         {
           userId: user.id,
-          userName: `${user.profile.firstName} ${user.profile.lastName}`,
         },
         process.env.TOKEN_SECRET,
         {

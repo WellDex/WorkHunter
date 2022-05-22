@@ -8,25 +8,32 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {IUser} from '../../Redux/users/usersReducer';
 
-const FriendsList = () => {
+interface IFriendsProps {
+  users: IUser[];
+}
+
+const FriendsList = ({users}: IFriendsProps) => {
   return (
     <List className="friends-list">
-      {[
-        1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
-      ].map((el) => (
-        <>
-          <ListItem className="friends-list-item">
-            <Link to={'/'} className="friends-link">
-              <ListItemAvatar className="friends-list-item-avatar">
-                <Avatar className="friends-avatar" />
-              </ListItemAvatar>
-              <ListItemText primary="name" secondary="status" />
-            </Link>
-          </ListItem>
-          <Divider />
-        </>
-      ))}
+      {users.length > 0 &&
+        users.map((user) => (
+          <>
+            <ListItem className="friends-list-item">
+              <Link to={`profile/${user.id}`} className="friends-link">
+                <ListItemAvatar className="friends-list-item-avatar">
+                  <Avatar className="friends-avatar" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`${user.firstName} ${user.lastName}`}
+                  secondary={user.status}
+                />
+              </Link>
+            </ListItem>
+            <Divider />
+          </>
+        ))}
     </List>
   );
 };

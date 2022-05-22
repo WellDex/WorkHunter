@@ -3,7 +3,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Skeleton,
   Tooltip,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';

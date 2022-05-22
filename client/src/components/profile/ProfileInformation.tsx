@@ -31,6 +31,7 @@ const ProfileInformation = (props: IStateProfile) => {
     isOnline,
     phoneNumber,
     email,
+    friends,
   } = props;
   return (
     <div className="card-container">
@@ -182,7 +183,8 @@ const ProfileInformation = (props: IStateProfile) => {
       <Divider className="divider" />
       <ul className="profile-info-list">
         <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> друзей
+          <span className="profile-info-list-count">{friends.length}</span>
+          друзей
         </li>
         <li className="profile-info-list-item">
           <span className="profile-info-list-count">46</span> друзей

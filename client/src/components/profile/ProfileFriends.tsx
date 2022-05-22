@@ -1,31 +1,40 @@
 import {Avatar} from '@mui/material';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
+import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
 
-const friends = [
-  {name: 'asd', url: '/users/friends/1'},
-  {name: 'asd', url: '/users/friends/1'},
-  {name: 'asd', url: '/users/friends/1'},
-  {name: 'asd', url: '/users/friends/1'},
-  {name: 'asd', url: '/users/friends/1'},
-  {name: 'asd', url: '/users/friends/1'},
-];
+const options = {
+  top: 6,
+  count: true,
+};
 
-const ProfileFriends = () => {
+interface IFriendsProps {
+  countFriends: number;
+}
+
+//check
+//todo
+const ProfileFriends = ({countFriends}: IFriendsProps) => {
+  const [friends, setFriends] = useState<any[]>([]);
+  useEffect(() => {
+    usersAPI.getFriends(options).then((res) => setFriends(res));
+  }, []);
+
   return (
     <div className="card-container">
-      <NavLink to="/users/friends">
-        Друзья <span className="profile-gallery-title-count">31</span>
+      <NavLink to="/friends">
+        Друзья
+        <span className="profile-gallery-title-count">{countFriends}</span>
       </NavLink>
       <div className="profile-friends-list">
-        {friends.map((el: any, index: number) => (
+        {friends.map((friend) => (
           <NavLink
-            key={index}
-            to={el.url}
+            key={friend.id}
+            to={`profile/${friend.id}`}
             className="profile-friends-list-item">
             <Avatar className="profile-friends-avatar" />
-            <p>{el.name}</p>
+            <p>{`${friend.firstName} ${friend.lastName}`}</p>
           </NavLink>
         ))}
       </div>

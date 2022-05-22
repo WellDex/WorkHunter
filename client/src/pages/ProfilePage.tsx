@@ -28,8 +28,8 @@ const ProfileContainer = ({profile, getProfile, notes, getNotes}: IProfile) => {
   return (
     <div className="profile">
       <div className="profile-col">
-        <ProfileAvatar />
-        <ProfileFriends />
+        <ProfileAvatar img={''} />
+        <ProfileFriends countFriends={profile.friends.length} />
       </div>
       <div className="profile-col">
         <ProfileInformation {...profile} />

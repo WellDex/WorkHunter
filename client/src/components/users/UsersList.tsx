@@ -1,57 +1,24 @@
-import {
-  IconButton,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-} from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {ImageList} from '@mui/material';
 import React from 'react';
+import {IUser} from '../../Redux/users/usersReducer';
+import UserItem from './UserItem';
 
-const itemData = [
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-];
+interface IUsersProps {
+  users: IUser[];
+  getProfile: () => void;
+  friends: string[];
+}
 
-const UsersList = () => {
+const UsersList = ({users, friends, getProfile}: IUsersProps) => {
   return (
     <div className="card-container">
-      <ImageList cols={4} gap={16}>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img} className="people-list-item">
-            <img
-              src={item.img}
-              srcSet={item.img}
-              alt={item.name}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              className="people-list-bar"
-              position="below"
-              actionPosition="right"
-              title={item.name}
-              actionIcon={
-                <IconButton>
-                  <PersonAddIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      {users.length > 0 && (
+        <ImageList cols={4} gap={16}>
+          {users.map((user) => (
+            <UserItem user={user} friends={friends} getProfile={getProfile} />
+          ))}
+        </ImageList>
+      )}
     </div>
   );
 };

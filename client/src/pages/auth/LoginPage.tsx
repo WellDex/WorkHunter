@@ -5,11 +5,17 @@ import {connect} from 'react-redux';
 import {NavLink, useHistory} from 'react-router-dom';
 import {ILoginForm} from '../../api/authAPI';
 import {login} from '../../Redux/app/appOperations';
+import {getProfile} from '../../Redux/profile/profileOperations';
 import CustomField from '../../components/common/CustomField';
 import {REGISTER_PATH} from '../../route/const';
 import FrameHoc from '../../hoc/FrameHoc';
 
-const LoginForm = ({login}: any) => {
+interface ILoginProps {
+  getProfile: () => void;
+  login: (data: ILoginForm, history: any) => any;
+}
+
+const LoginForm = ({login, getProfile}: ILoginProps) => {
   const history = useHistory();
   const {handleSubmit, control} = useForm<ILoginForm>({
     mode: 'onChange',
@@ -17,7 +23,7 @@ const LoginForm = ({login}: any) => {
   });
 
   const onSubmit = (data: ILoginForm) => {
-    login(data, history);
+    login(data, history).then(() => getProfile());
   };
 
   return (
@@ -58,6 +64,7 @@ const LoginForm = ({login}: any) => {
 
 const mapDispatchToProps = {
   login,
+  getProfile,
 };
 
 const LoginContainer = connect(null, mapDispatchToProps)(FrameHoc(LoginForm));

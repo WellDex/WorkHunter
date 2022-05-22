@@ -38,7 +38,7 @@ router.post(
       await portfolio.save();
 
       res.status(201).json({message: 'Запись создана'});
-    } catch (e) {
+    } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
     }
@@ -57,7 +57,7 @@ router.get('/', auth, async (req, res) => {
         return date2 - date1;
       })
     );
-  } catch (e) {
+  } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});
   }
@@ -83,7 +83,7 @@ router.delete(
       await portfolio.delete();
 
       res.status(201).json({message: 'Проект удален'});
-    } catch (e) {
+    } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
     }
@@ -95,7 +95,7 @@ router.delete('/deleteAll', auth, async (req, res) => {
     await Portfolio.deleteMany(Portfolio.find({owner: req.user.userId}));
 
     res.status(201).json({message: 'Проекты удалены'});
-  } catch (e) {
+  } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});
   }
