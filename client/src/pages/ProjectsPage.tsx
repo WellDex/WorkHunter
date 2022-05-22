@@ -3,30 +3,29 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Skeleton,
   Tooltip,
 } from '@mui/material';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../hoc/FrameHoc';
-import ModalAddProject from '../components/freelance/ModalCreateProject';
+import * as portfolioSelectors from '../Redux/portfolio/portfolioSelectors';
+import ModalCreateProject from '../components/projects/ModalCreateProject';
+import {IPortfolio} from '../Redux/portfolio/portfolioReducer';
+import {connect} from 'react-redux';
+import {getPortfolio} from '../Redux/portfolio/portfolioOperations';
+import noImage from '../assets/image/noImage.png';
 
-const itemData = [
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-  {img: 'https://picsum.photos/600', title: 'WebHunter'},
-];
+interface IPortfolioProps {
+  portfolio: IPortfolio[];
+  getPortfolio: () => void;
+}
 
-const ProjectsPage = () => {
+const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    getPortfolio();
+  }, []);
 
   return (
     <div className="card-container">
@@ -43,28 +42,47 @@ const ProjectsPage = () => {
         </Tooltip>
       </div>
       <ImageList cols={3} gap={16}>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img} className="projects-list-item">
-            <a href="/profile">
-              <img
-                src={item.img}
-                srcSet={item.img}
-                alt={item.title}
-                loading="lazy"
-              />
-              <ImageListItemBar
-                className="projects-list-bar"
-                position="below"
-                actionPosition="right"
-                title={item.title}
-              />
-            </a>
-          </ImageListItem>
-        ))}
+        {portfolio &&
+          portfolio.length > 0 &&
+          portfolio.map((item, index) => (
+            <ImageListItem key={index} className="projects-list-item">
+              <a href={item.link} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={item.img || noImage}
+                  srcSet={item.img || noImage}
+                  alt={item.title || 'no-image'}
+                  loading="lazy"
+                />
+                <ImageListItemBar
+                  className="projects-list-bar"
+                  position="below"
+                  actionPosition="right"
+                  title={item.title}
+                />
+              </a>
+            </ImageListItem>
+          ))}
       </ImageList>
-      <ModalAddProject open={isOpen} handleClose={() => setIsOpen(false)} />
+      <ModalCreateProject
+        open={isOpen}
+        handleClose={() => setIsOpen(false)}
+        getPortfolio={getPortfolio}
+      />
     </div>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  portfolio: portfolioSelectors.getPortfolio(state),
+});
+
+const mapDispatchToProps = {
+  getPortfolio,
+};
+
+const ProjectsPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PortfolioContainer);
 
 export default FrameHoc(ProjectsPage);

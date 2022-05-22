@@ -48,6 +48,7 @@ const schema = new Schema({
   createDate: {type: Date, default: new Date()},
   // dep
   notes: [{type: Types.ObjectId, ref: 'Note'}],
+  portfolio: [{type: Types.ObjectId, ref: 'Portfolio'}],
 });
 
 module.exports = model('User', schema);

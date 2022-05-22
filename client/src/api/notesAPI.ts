@@ -12,7 +12,7 @@ export const notesAPI = {
     });
   },
   deleteNote: (id: number) => {
-    return instance.post('notes/delete', {id}).then((res) => {
+    return instance.delete(`notes/delete/${id}`).then((res) => {
       return res.data;
     });
   },

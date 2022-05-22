@@ -18,7 +18,7 @@ const ProfileNotes = ({notes, profile, getNotes}: IProfileNotes) => {
         profile &&
         notes.length > 0 &&
         notes.map((note, index) => (
-          <Note key={index} note={note} profile={profile} />
+          <Note key={index} note={note} profile={profile} getNotes={getNotes} />
         ))}
     </>
   );

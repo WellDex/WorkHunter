@@ -1,7 +1,7 @@
 import {SET_NOTES} from './notesActions';
 
 export interface INote {
-  id: any;
+  _id: any;
   text: string;
   subscribers: [];
   createDate: string;

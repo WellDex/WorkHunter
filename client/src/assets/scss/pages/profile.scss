@@ -155,8 +155,15 @@
     &-head {
       display: flex;
       gap: 0.5rem;
-      align-items: center;
-      margin-bottom: 1rem;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      &-container {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
 
       &-avatar {
         width: 50px !important;
