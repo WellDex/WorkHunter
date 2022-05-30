@@ -1,13 +1,16 @@
 import {INotification} from './appReducer';
 import {authAPI, ILoginForm} from './../../api/authAPI';
-import {changeIsAuth, setNotification} from './appActions';
+import {changeIsAuth, setNotification, setUserId, logout} from './appActions';
 
 export const login =
-  (data: ILoginForm, history: any) => async (dispatch: any) => {
+  (data: ILoginForm, history: any, getProfile: (id: string) => void) =>
+  async (dispatch: any) => {
     await authAPI
       .login(data)
       .then((res) => {
         dispatch(changeIsAuth(true));
+        dispatch(setUserId(res.id));
+        getProfile(res.id);
         history.push('/news');
       })
       .catch((res) => {
@@ -15,6 +18,17 @@ export const login =
       });
   };
 
-export const setMessage = (data: INotification) => async (dispatch: any) => {
+export const setMessage = (data: INotification) => (dispatch: any) => {
   dispatch(setNotification(data));
+};
+
+export const logOut = () => async (dispatch: any) => {
+  await authAPI
+    .logout()
+    .then((res) => {
+      dispatch(logout());
+    })
+    .catch((res) => {
+      dispatch(setNotification({message: res.message, type: 'error'}));
+    });
 };

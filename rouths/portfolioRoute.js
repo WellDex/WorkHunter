@@ -11,9 +11,10 @@ router.post(
   auth,
   [
     check('title', 'Максимальное количество символов - 250')
-      .isLength({min: 1, max: 250})
-      .isString(),
-    check('link', 'Отсутствует ссылка на проект').isLength({min: 1}).isString(),
+      .isLength({max: 250})
+      .isString()
+      .notEmpty(),
+    check('link', 'Отсутствует ссылка на проект').notEmpty().isString(),
   ],
   async (req, res) => {
     try {
@@ -65,7 +66,7 @@ router.get('/', auth, async (req, res) => {
 
 router.delete(
   '/delete/:id',
-  [check('id', 'Отсутствует id записи').isLength({min: 1})],
+  [check('id', 'Отсутствует id записи').notEmpty()],
   async (req, res) => {
     try {
       const errors = validationResult(req);

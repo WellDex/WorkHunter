@@ -9,6 +9,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import WebIcon from '@mui/icons-material/Web';
 import WorkIcon from '@mui/icons-material/Work';
+import * as appSelectors from '../../Redux/app/appSelectors';
 import {IRoute, routes} from '../../route/routes';
 import {
   FRIENDS_PATH,
@@ -20,6 +21,7 @@ import {
   PROFILE_PATH,
   MY_GROUPS_PATH,
 } from '../../route/const';
+import {connect} from 'react-redux';
 
 const menuIcons = (icon: string) => {
   switch (icon) {
@@ -42,7 +44,11 @@ const menuIcons = (icon: string) => {
   }
 };
 
-const Navigation = () => {
+interface INavProps {
+  userId: string | null;
+}
+
+const NavigationContainer = ({userId}: INavProps) => {
   const navList = routes
     .map((r: IRoute) => {
       if (!!r.name) {
@@ -64,7 +70,13 @@ const Navigation = () => {
               <NavLink
                 className="navigation-item"
                 activeClassName="navigation-item-active"
-                to={nav?.path || ''}>
+                to={
+                  nav?.path === PROFILE_PATH
+                    ? `${nav?.path}/${userId}`
+                    : nav?.path === FRIENDS_PATH
+                    ? `${nav?.path}/${userId}`
+                    : nav?.path || ''
+                }>
                 <ListItemIcon>{nav?.icon}</ListItemIcon>
                 <ListItemText>{nav?.name}</ListItemText>
               </NavLink>
@@ -74,5 +86,11 @@ const Navigation = () => {
     </div>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  userId: appSelectors.getUserId(state),
+});
+
+const Navigation = connect(mapStateToProps, {})(NavigationContainer);
 
 export default Navigation;

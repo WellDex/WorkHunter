@@ -5,12 +5,14 @@ import appReducer, {IStateApp} from './app/appReducer';
 import notesReducer, {INote} from './notes/notesReducer';
 import profileReducer, {IStateProfile} from './profile/profileReducer';
 import usersReducer, {IUser} from './users/usersReducer';
+import groupsReducer, {IGroup} from './groups/groupsReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
   profile: profileReducer,
   notes: notesReducer,
   portfolio: portfolioReducer,
+  groups: groupsReducer,
   users: usersReducer,
 });
 
@@ -23,5 +25,6 @@ export interface IStore {
   profile: IStateProfile;
   notes: INote[];
   portfolio: IPortfolio[];
+  groups: IGroup[];
   users: IUser[];
 }

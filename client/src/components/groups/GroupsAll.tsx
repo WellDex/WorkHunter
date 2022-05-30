@@ -1,56 +1,22 @@
-import {
-  IconButton,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-} from '@mui/material';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import {ImageList} from '@mui/material';
 import React from 'react';
+import {IGroup} from '../../Redux/groups/groupsReducer';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
+import GroupItem from './GroupItem';
 
-const itemData = [
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-  {img: 'https://picsum.photos/600', name: 'WellDex'},
-];
+interface IGroupsAll {
+  groups: IGroup[];
+  userId: string;
+}
 
-const GroupsAll = () => {
+const GroupsAll = ({groups, userId}: IGroupsAll) => {
   return (
     <div className="card-container">
       <ImageList cols={4} gap={16}>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img} className="groups-all-list-item">
-            <img
-              src={item.img}
-              srcSet={item.img}
-              alt={item.name}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              className="groups-all-list-bar"
-              position="below"
-              actionPosition="right"
-              title={item.name}
-              actionIcon={
-                <IconButton>
-                  <GroupAddIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
+        {groups.length > 0 &&
+          groups.map((group, index) => (
+            <GroupItem key={index} group={group} userId={userId} />
+          ))}
       </ImageList>
     </div>
   );

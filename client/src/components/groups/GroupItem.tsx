@@ -5,61 +5,61 @@ import {
   ImageListItemBar,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {usersAPI} from '../../api/usersAPI';
-import {IUser} from '../../Redux/users/usersReducer';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {useHistory} from 'react-router-dom';
+import {groupsAPI} from '../../api/groupsAPI';
+import {IGroup} from '../../Redux/groups/groupsReducer';
+import {IStateProfile} from '../../Redux/profile/profileReducer';
 
-interface IUserProps {
-  user: IUser;
-  friends: string[];
-  getProfile: () => void;
+interface IGroupItemProps {
+  group: IGroup;
+  userId: string;
 }
-
-const UserItem = ({user, friends, getProfile}: IUserProps) => {
+//todo
+const GroupItem = ({group, userId}: IGroupItemProps) => {
   const history = useHistory();
-  const [isFollow, setIsFollow] = useState(friends.includes(user.id));
+  const [isFollow, setIsFollow] = useState(group.subscribers.includes(userId));
 
   useEffect(() => {
-    setIsFollow(friends.includes(user.id));
-  }, [friends]);
+    setIsFollow(group.subscribers.includes(userId));
+  }, [group.subscribers]);
 
-  const handleClick = async (id: any) => {
+  const handleClick = async (id: string) => {
     isFollow
-      ? await usersAPI.unfollow(id).then((res) => {
-          getProfile();
+      ? await groupsAPI.unfollow(id).then((res) => {
+          setIsFollow(!isFollow);
         })
-      : await usersAPI.follow(id).then((res) => {
-          getProfile();
+      : await groupsAPI.follow(id).then((res) => {
+          setIsFollow(!isFollow);
         });
   };
 
   return (
     <ImageListItem
-      key={user.id}
+      key={group._id}
       className="people-list-item"
-      onClick={() => history.push(`profile/${user.id}`)}>
-      {user.img ? (
+      onClick={() => history.push(`group/${group._id}`)}>
+      {/* {user.img ? (
         <img
           src={user.img}
           srcSet={user.img}
           alt={`${user.firstName} ${user.lastName}`}
           loading="lazy"
         />
-      ) : (
-        <Avatar variant="rounded" sx={{width: 250, height: 250}} />
-      )}
+      ) : ( */}
+      <Avatar variant="rounded" sx={{width: 250, height: 250}} />
+      {/* )} */}
       <ImageListItemBar
-        className="people-list-bar"
+        className="groups-all-list-bar"
         position="below"
         actionPosition="right"
-        title={`${user.firstName} ${user.lastName}`}
+        title={group.title}
         actionIcon={
           <IconButton
             onClick={(e: any) => {
               e.stopPropagation();
-              handleClick(user.id);
+              handleClick(group._id);
             }}>
             {isFollow ? (
               <PersonRemoveIcon sx={{color: '#b2102f'}} />
@@ -73,4 +73,4 @@ const UserItem = ({user, friends, getProfile}: IUserProps) => {
   );
 };
 
-export default UserItem;
+export default GroupItem;

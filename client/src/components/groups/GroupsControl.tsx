@@ -59,12 +59,12 @@ const GroupsControl = () => {
         variant="fullWidth">
         <Tab
           className="users-control"
-          label="Сообщества"
+          label="Мои сообщества"
           onClick={() => history.push(MY_GROUPS_PATH)}
         />
         <Tab
           className="users-control"
-          label="Поиск сообщества"
+          label="Сообщества"
           onClick={() => history.push(GROUPS_PATH)}
         />
       </Tabs>
@@ -80,7 +80,7 @@ const GroupsControl = () => {
       </Search>
       <Divider />
       <Tooltip
-        title="Создать групу"
+        title="Создать сообщество"
         style={{position: 'absolute', bottom: '3rem', right: '3rem'}}
         placement="top">
         <Fab color="primary" size="large" onClick={() => setIsOpen(true)}>

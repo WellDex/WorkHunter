@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import {FRIENDS_PATH, USERS_PATH} from '../../route/const';
+import * as appSelectors from '../../Redux/app/appSelectors';
+import {connect} from 'react-redux';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -34,7 +36,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
   },
 }));
 
-const UsersControl = () => {
+const UsersControlContainer = ({userId}: any) => {
   const history = useHistory();
   const [value, setValue] = useState(
     history.location.pathname.includes(FRIENDS_PATH) ? 0 : 1
@@ -49,7 +51,7 @@ const UsersControl = () => {
         <Tab
           className="users-control"
           label="Друзья"
-          onClick={() => history.push(FRIENDS_PATH)}
+          onClick={() => history.push(`${FRIENDS_PATH}/${userId}`)}
         />
         <Tab
           className="users-control"
@@ -71,5 +73,11 @@ const UsersControl = () => {
     </>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  userId: appSelectors.getUserId(state),
+});
+
+const UsersControl = connect(mapStateToProps, {})(UsersControlContainer);
 
 export default UsersControl;

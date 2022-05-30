@@ -17,7 +17,7 @@ export const portfolioAPI = {
       return res.data;
     });
   },
-  deleteProject: (id: number) => {
+  deleteProject: (id: string) => {
     return instance.delete(`portfolio/delete/${id}`).then((res) => {
       return res.data;
     });

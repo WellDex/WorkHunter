@@ -6,3 +6,6 @@ export const getIsAuth = (state: any) => {
 export const getNotification = (state: any) => {
   return getState(state).notification;
 };
+export const getUserId = (state: any) => {
+  return getState(state).userId;
+};

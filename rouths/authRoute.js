@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auhtMiddleware');
 const {check, validationResult} = require('express-validator');
 const User = require('../modules/User');
 const chalk = require('chalk');
@@ -110,7 +111,7 @@ router.post(
         }
       );
 
-      res.json({token});
+      res.json({token, id: user.id});
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
@@ -118,7 +119,7 @@ router.post(
   }
 );
 
-router.post('/logout', async (req, res) => {
+router.post('/logout', auth, async (req, res) => {
   try {
     const id = req.body.id || req.user.userId;
     const user = await User.findById(id);
@@ -126,7 +127,7 @@ router.post('/logout', async (req, res) => {
     user.profile.isOnline = false;
     await user.save();
 
-    res.status(200);
+    res.status(200).json();
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

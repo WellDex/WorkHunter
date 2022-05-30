@@ -48,6 +48,7 @@ const schema = new Schema({
   createDate: {type: Date, default: new Date()},
   // dep
   notes: [{type: Types.ObjectId, ref: 'Note'}],
+  ownerGroups: [{type: Types.ObjectId, ref: 'Group'}],
   portfolio: [{type: Types.ObjectId, ref: 'Portfolio'}],
 });
 

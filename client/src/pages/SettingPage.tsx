@@ -111,7 +111,6 @@ const SettingContainer = ({profile}: ISettings) => {
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     try {
       const res = await profileAPI.updateProfile(data as any);
       if (res) {

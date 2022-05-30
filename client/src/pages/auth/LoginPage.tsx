@@ -8,11 +8,16 @@ import {login} from '../../Redux/app/appOperations';
 import {getProfile} from '../../Redux/profile/profileOperations';
 import CustomField from '../../components/common/CustomField';
 import {REGISTER_PATH} from '../../route/const';
+import * as appSelectors from '../../Redux/app/appSelectors';
 import FrameHoc from '../../hoc/FrameHoc';
 
 interface ILoginProps {
-  getProfile: () => void;
-  login: (data: ILoginForm, history: any) => any;
+  login: (
+    data: ILoginForm,
+    history: any,
+    getProfile: (id: string) => void
+  ) => any;
+  getProfile: (id: string) => void;
 }
 
 const LoginForm = ({login, getProfile}: ILoginProps) => {
@@ -23,7 +28,7 @@ const LoginForm = ({login, getProfile}: ILoginProps) => {
   });
 
   const onSubmit = (data: ILoginForm) => {
-    login(data, history).then(() => getProfile());
+    login(data, history, getProfile);
   };
 
   return (

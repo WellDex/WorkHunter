@@ -7,13 +7,18 @@ import {setMessage} from '../../Redux/app/appOperations';
 
 interface ICreateNote {
   getNotes: () => void;
+  isGroup?: boolean;
+  id?: string;
 }
-const CreateNote = ({getNotes}: ICreateNote) => {
+const CreateNote = ({getNotes, isGroup = false, id}: ICreateNote) => {
   const [text, setText] = useState('');
 
   const createNote = async () => {
     try {
-      const res = await notesAPI.createNote(text);
+      const res =
+        isGroup && id
+          ? await notesAPI.createGroupNote(text, id)
+          : await notesAPI.createNote(text);
       if (res) {
         setMessage({message: res.message, type: 'success'});
         getNotes();

@@ -1,8 +1,8 @@
 import {instance} from './instance';
 
 export const notesAPI = {
-  getNotes: () => {
-    return instance.get('notes/').then((res) => {
+  getNotes: (id: string) => {
+    return instance.get(`notes/${id}`).then((res) => {
       return res.data;
     });
   },
@@ -11,7 +11,14 @@ export const notesAPI = {
       return res.data;
     });
   },
-  deleteNote: (id: number) => {
+  createGroupNote: (text: string, id: string) => {
+    return instance
+      .post(`notes/create`, {text, id, type: 'Group'})
+      .then((res) => {
+        return res.data;
+      });
+  },
+  deleteNote: (id: string) => {
     return instance.delete(`notes/delete/${id}`).then((res) => {
       return res.data;
     });

@@ -13,9 +13,9 @@ export const getUsersAll = () => async (dispatch: any) => {
     });
 };
 
-export const getFriends = () => async (dispatch: any) => {
+export const getFriends = (id: string) => async (dispatch: any) => {
   await usersAPI
-    .getFriends()
+    .getFriends(id)
     .then((res) => {
       dispatch(setUsers(res));
     })

@@ -11,8 +11,9 @@ router.post(
   auth,
   [
     check('text', 'Максимальное количество символов - 500')
-      .isLength({min: 1, max: 500})
-      .isString(),
+      .isLength({max: 500})
+      .isString()
+      .notEmpty(),
   ],
   async (req, res) => {
     try {
@@ -25,13 +26,25 @@ router.post(
         });
       }
 
-      const {text} = req.body;
+      const {text, id, type} = req.body;
+      console.log(req.body);
 
-      const note = new Note({
-        text,
-        createDate: new Date(),
-        owner: req.user.userId,
-      });
+      const note = new Note(
+        type
+          ? {
+              text,
+              createDate: new Date(),
+              refOwner: type,
+              owner: id,
+            }
+          : {
+              text,
+              createDate: new Date(),
+              owner: req.user.userId,
+            }
+      );
+
+      console.log(note);
 
       await note.save();
 
@@ -43,9 +56,9 @@ router.post(
   }
 );
 
-router.get('/', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const id = req.body.id || req.user.userId;
+    const id = req.params.id;
     const notes = await Note.find({owner: id});
     res.json(
       notes.sort((a, b) => {
@@ -63,7 +76,7 @@ router.get('/', auth, async (req, res) => {
 
 router.delete(
   '/delete/:id',
-  [check('id', 'Отсутствует id записи').isLength({min: 1})],
+  [check('id', 'Отсутствует id записи').notEmpty()],
   async (req, res) => {
     try {
       const errors = validationResult(req);

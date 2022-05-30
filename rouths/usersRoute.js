@@ -24,10 +24,10 @@ router.get('/all', auth, async (req, res) => {
   }
 });
 
-router.get('/friends/', auth, async (req, res) => {
+router.get('/friends/:id', auth, async (req, res) => {
   try {
     const {top} = req.query;
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.params.id);
     let friends;
     if (Object.keys(req.query).length > 0) {
       friends = await User.find()
@@ -56,7 +56,7 @@ router.get('/friends/', auth, async (req, res) => {
 
 router.post('/follow/:id', auth, async (req, res) => {
   try {
-    let user = await User.findById({_id: req.user.userId});
+    const user = await User.findById({_id: req.user.userId});
     if (!user.profile.friends.includes(req.params.id)) {
       user.profile.friends.push(req.params.id);
       await user.save();
@@ -70,7 +70,7 @@ router.post('/follow/:id', auth, async (req, res) => {
 
 router.post('/unfollow/:id', auth, async (req, res) => {
   try {
-    let user = await User.findById({_id: req.user.userId});
+    const user = await User.findById({_id: req.user.userId});
     if (user.profile.friends.includes(req.params.id)) {
       user.profile.friends = user.profile.friends.filter(
         (f) => f !== req.params.id

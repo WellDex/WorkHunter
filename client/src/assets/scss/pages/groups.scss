@@ -81,6 +81,7 @@
     &-img {
       height: 300px !important;
     }
+    &-btn-delete,
     &-btn-edit {
       width: 100%;
       margin-top: 1rem !important;
@@ -227,6 +228,17 @@
         bottom: -10px;
         left: -10px;
       }
+    }
+  }
+  &-subscribers {
+    &-modal {
+      padding: 1rem;
+    }
+    &-title {
+      margin: 0 0 1rem;
+    }
+    &-list {
+      min-width: 25rem;
     }
   }
 }

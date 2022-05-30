@@ -8,25 +8,32 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {IGroup} from '../../Redux/groups/groupsReducer';
 
-const GroupsList = () => {
+interface IGroupsListProps {
+  groups: IGroup[];
+}
+
+const GroupsList = ({groups}: IGroupsListProps) => {
   return (
     <List className="groups-list">
-      {[
-        1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,
-      ].map((el) => (
-        <>
-          <ListItem className="groups-list-item">
-            <Link to={'/group/1'} className="groups-link">
-              <ListItemAvatar className="groups-list-item-avatar">
-                <Avatar className="groups-avatar" />
-              </ListItemAvatar>
-              <ListItemText primary="name" secondary="status" />
-            </Link>
-          </ListItem>
-          <Divider />
-        </>
-      ))}
+      {groups.length > 0 &&
+        groups.map((group) => (
+          <>
+            <ListItem className="groups-list-item">
+              <Link to={`/group/${group._id}`} className="groups-link">
+                <ListItemAvatar className="groups-list-item-avatar">
+                  <Avatar className="groups-avatar" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={group.title}
+                  secondary={group.description}
+                />
+              </Link>
+            </ListItem>
+            <Divider />
+          </>
+        ))}
     </List>
   );
 };

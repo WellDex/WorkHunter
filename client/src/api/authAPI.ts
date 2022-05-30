@@ -25,4 +25,9 @@ export const authAPI = {
       return res.data;
     });
   },
+  logout: () => {
+    return instance.post('auth/logout', {}).then((res) => {
+      return res.data;
+    });
+  },
 };

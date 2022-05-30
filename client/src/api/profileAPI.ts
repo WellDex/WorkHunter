@@ -2,8 +2,13 @@ import {IStateProfile} from './../Redux/profile/profileReducer';
 import {instance} from './instance';
 
 export const profileAPI = {
-  getProfile: () => {
-    return instance.get('profile/').then((res) => {
+  getProfile: (id: string) => {
+    return instance.get(`profile/${id}`).then((res) => {
+      return res.data;
+    });
+  },
+  getFriends: () => {
+    return instance.get('profile/friends').then((res) => {
       return res.data;
     });
   },

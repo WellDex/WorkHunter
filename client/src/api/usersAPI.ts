@@ -6,13 +6,13 @@ export const usersAPI = {
       return res.data;
     });
   },
-  getFriends: (options?: object) => {
+  getFriends: (id: string, options?: object) => {
     let params = {};
     if (options) {
       params = new URLSearchParams({...options});
     }
     return instance
-      .get(`users/friends/${options ? `?${params.toString()}` : ''}`)
+      .get(`users/friends/${id}${options ? `?${params.toString()}` : ''}`)
       .then((res) => {
         return res.data;
       });

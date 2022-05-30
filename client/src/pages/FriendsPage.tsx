@@ -2,24 +2,26 @@ import React, {useEffect} from 'react';
 import * as usersSelectors from '../Redux/users/usersSelectors';
 import {connect} from 'react-redux';
 import FriendsList from '../components/users/FriendsList';
-import FriendsControl from '../components/users/UsersControl';
+import UsersControl from '../components/users/UsersControl';
 import FrameHoc from '../hoc/FrameHoc';
 import {IUser} from '../Redux/users/usersReducer';
 import {getFriends} from '../Redux/users/usersOperations';
+import {useParams} from 'react-router-dom';
 
 interface IFriendsProps {
   users: IUser[];
-  getFriends: () => void;
+  getFriends: (id: string) => void;
 }
 
 const FriendsContainer = ({users, getFriends}: IFriendsProps) => {
+  const params: any = useParams();
   useEffect(() => {
-    getFriends();
-  }, []);
+    getFriends(params.id);
+  }, [params.id]);
 
   return (
     <div>
-      <FriendsControl />
+      <UsersControl />
       <FriendsList users={users} />
     </div>
   );

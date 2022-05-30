@@ -7,34 +7,54 @@ import ProfileInformation from '../components/profile/ProfileInformation';
 import ProfileNotes from '../components/profile/ProfileNotes';
 import * as profileSelectors from '../Redux/profile/profileSelectors';
 import * as notesSelectors from '../Redux/notes/notesSelectors';
+import * as appSelectors from '../Redux/app/appSelectors';
 import {getProfile} from '../Redux/profile/profileOperations';
 import {IStateProfile} from '../Redux/profile/profileReducer';
 import {INote} from '../Redux/notes/notesReducer';
 import {getNotes} from '../Redux/notes/notesOperations';
+import {useParams} from 'react-router-dom';
 
 interface IProfile {
   profile: IStateProfile;
-  getProfile: () => void;
   notes: INote[];
-  getNotes: () => void;
+  getProfile: (id: string) => void;
+  getNotes: (id: string) => void;
+  userId: string;
 }
 
-const ProfileContainer = ({profile, getProfile, notes, getNotes}: IProfile) => {
+const ProfileContainer = ({
+  profile,
+  getProfile,
+  notes,
+  getNotes,
+  userId,
+}: IProfile) => {
+  const params: {id: string} = useParams();
+
   useEffect(() => {
-    getProfile();
-    getNotes();
-  }, []);
+    getProfile(params.id);
+    getNotes(params.id);
+  }, [params.id]);
 
   return (
     <div className="profile">
       <div className="profile-col">
-        <ProfileAvatar img={''} />
-        <ProfileFriends countFriends={profile.friends.length} />
+        <ProfileAvatar
+          img={''}
+          isOwner={params.id === userId}
+          userId={userId}
+        />
+        <ProfileFriends id={params.id} countFriends={profile.friends.length} />
       </div>
       <div className="profile-col">
         <ProfileInformation {...profile} />
         <ProfileGallery />
-        <ProfileNotes notes={notes} profile={profile} getNotes={getNotes} />
+        <ProfileNotes
+          userId={userId}
+          notes={notes}
+          profile={profile}
+          getNotes={() => getNotes(params.id)}
+        />
       </div>
     </div>
   );
@@ -43,6 +63,7 @@ const ProfileContainer = ({profile, getProfile, notes, getNotes}: IProfile) => {
 const mapStateToProps = (state: any) => ({
   profile: profileSelectors.getProfile(state),
   notes: notesSelectors.getNotes(state),
+  userId: appSelectors.getUserId(state),
 });
 
 const mapDispatchToProps = {

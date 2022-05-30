@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
+import {FRIENDS_PATH} from '../../route/const';
 
 const options = {
   top: 6,
@@ -10,20 +11,21 @@ const options = {
 };
 
 interface IFriendsProps {
+  id: string;
   countFriends: number;
 }
 
 //check
 //todo
-const ProfileFriends = ({countFriends}: IFriendsProps) => {
+const ProfileFriends = ({id, countFriends}: IFriendsProps) => {
   const [friends, setFriends] = useState<any[]>([]);
   useEffect(() => {
-    usersAPI.getFriends(options).then((res) => setFriends(res));
-  }, []);
+    usersAPI.getFriends(id, options).then((res) => setFriends(res));
+  }, [id]);
 
   return (
     <div className="card-container">
-      <NavLink to="/friends">
+      <NavLink to={`${FRIENDS_PATH}/${id}`}>
         Друзья
         <span className="profile-gallery-title-count">{countFriends}</span>
       </NavLink>
@@ -31,7 +33,7 @@ const ProfileFriends = ({countFriends}: IFriendsProps) => {
         {friends.map((friend) => (
           <NavLink
             key={friend.id}
-            to={`profile/${friend.id}`}
+            to={`${friend.id}`}
             className="profile-friends-list-item">
             <Avatar className="profile-friends-avatar" />
             <p>{`${friend.firstName} ${friend.lastName}`}</p>

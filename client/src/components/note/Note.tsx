@@ -5,7 +5,7 @@ import {
   IconButton,
 } from '@mui/material';
 import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FrameHoc from '../../hoc/FrameHoc';
 import {INote} from '../../Redux/notes/notesReducer';
@@ -13,14 +13,24 @@ import {IStateProfile} from '../../Redux/profile/profileReducer';
 import moment from 'moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {notesAPI} from '../../api/notesAPI';
+import {IGroup} from '../../Redux/groups/groupsReducer';
 
 interface INoteProps {
   note: INote;
-  profile: IStateProfile;
+  profile: IStateProfile | IGroup | any;
   getNotes: () => void;
+  isOwner: boolean;
+  isGroup?: boolean;
 }
 
-const Note = ({note, profile, getNotes}: INoteProps) => {
+const Note = ({
+  note,
+  profile,
+  getNotes,
+  isOwner,
+  isGroup = false,
+}: INoteProps) => {
+  const params: {id: string} = useParams();
   const [value, setValue] = useState('');
 
   const deleteNote = () => {
@@ -34,11 +44,21 @@ const Note = ({note, profile, getNotes}: INoteProps) => {
     <div className="card-container">
       <div className="profile-note-head">
         <div className="profile-note-head-container">
-          <NavLink to={'/profile'}>
+          {isGroup ? (
             <Avatar className="profile-note-head-avatar" />
-          </NavLink>
+          ) : (
+            <NavLink to={`/profile/${params.id}`}>
+              <Avatar className="profile-note-head-avatar" />
+            </NavLink>
+          )}
           <div className="profile-note-head-wrapper">
-            <NavLink to={'/profile'}>{profile.firstName}</NavLink>
+            {isGroup ? (
+              <a type="button">{profile.title}</a>
+            ) : (
+              <NavLink to={`/profile/${params.id}`}>
+                {profile.firstName}
+              </NavLink>
+            )}
             <p>
               {moment(note.createDate)
                 .locale('ru')
@@ -46,9 +66,11 @@ const Note = ({note, profile, getNotes}: INoteProps) => {
             </p>
           </div>
         </div>
-        <IconButton aria-label="delete" size="small" onClick={deleteNote}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+        {isOwner && (
+          <IconButton aria-label="delete" size="small" onClick={deleteNote}>
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        )}
       </div>
       <div className="profile-note-content">{note.text}</div>
       <BottomNavigation

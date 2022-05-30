@@ -1,22 +1,51 @@
-import {Button, Dialog, Divider, TextField} from '@mui/material';
+import {Button, Dialog, Divider} from '@mui/material';
 import React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import {groupsAPI, ICreateGroup} from '../../api/groupsAPI';
+import {useForm} from 'react-hook-form';
+import CustomField from '../common/CustomField';
+import {IGroup} from '../../Redux/groups/groupsReducer';
 
 interface IModalCreateGroup {
   open: boolean;
   handleClose: () => void;
+  group?: IGroup;
 }
 
-const ModalCreateGroup = ({open, handleClose}: IModalCreateGroup) => {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
+  const {handleSubmit, control} = useForm({
+    defaultValues: group || undefined,
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
+
+  const onSubmit = (data: ICreateGroup) => {
+    if (group) {
+      groupsAPI
+        .updateGroup(group._id, data)
+        .then((res) => {
+          handleClose();
+        })
+        .catch((e) => console.log(e));
+      handleClose();
+      return;
+    }
+    groupsAPI
+      .createGroup(data)
+      .then((res) => {
+        handleClose();
+      })
+      .catch((e) => console.log(e));
+    handleClose();
   };
   return (
     <Dialog open={open} onClose={handleClose}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <form onSubmit={onSubmit} className="groups-form">
-          <h1 className="groups-form-title">Создать группу</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="groups-form">
+          <h1 className="groups-form-title">
+            {group ? 'Редактирование сообщества' : 'Создание сообщества'}
+          </h1>
           <Divider />
           <label htmlFor="contained-button-file">
             <input
@@ -28,22 +57,32 @@ const ModalCreateGroup = ({open, handleClose}: IModalCreateGroup) => {
               style={{display: 'none'}}
             />
             <Button fullWidth={true} variant="contained" component="span">
-              Загрузить
+              Загрузить аватар сообщества
             </Button>
           </label>
-          <TextField
-            variant="outlined"
-            label="Название групи"
-            placeholder="Введите название групи..."
-            fullWidth={true}
+          <CustomField
+            name={'title'}
+            control={control}
+            rules={{required: "Обов'язкове поле"}}
+            label={'Название сообщества'}
+            placeholder={'Введите название сообщества...'}
+            isFullWidth={true}
+          />
+          <CustomField
+            name={'description'}
+            control={control}
+            rules={{}}
+            label={'Описание сообщества'}
+            placeholder={'Введите описание сообщества...'}
+            isFullWidth={true}
           />
           <Divider />
           <div className="groups-form-btns">
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="outlined" onClick={handleClose}>
               закрить
             </Button>
             <Button type="submit" variant="contained">
-              создать
+              {group ? 'обновить' : 'создать'}
             </Button>
           </div>
         </form>

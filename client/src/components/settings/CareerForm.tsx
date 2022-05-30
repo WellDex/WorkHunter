@@ -17,7 +17,7 @@ const CareerForm = ({control, fields, append, remove}: IForm) => (
     <Divider />
     {fields.map((item: any, index: number) => (
       <div key={item.id} className="settings">
-        <Button variant="contained" onClick={() => remove(index)}>
+        <Button variant="contained" color="error" onClick={() => remove(index)}>
           Delete
         </Button>
         <div className="settings-col">

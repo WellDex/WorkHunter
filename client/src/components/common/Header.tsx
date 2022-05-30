@@ -29,6 +29,7 @@ import * as profileSelectors from '../../Redux/profile/profileSelectors';
 import {connect} from 'react-redux';
 import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
 import {IStateProfile} from '../../Redux/profile/profileReducer';
+import {logOut} from '../../Redux/app/appOperations';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -70,9 +71,10 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 interface IHeader {
   isAuth: boolean;
   profile: IStateProfile;
+  logOut: () => void;
 }
 
-const Header = ({isAuth, profile}: IHeader) => {
+const Header = ({isAuth, profile, logOut}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isActiveSwitch, setIsActiveSwitch] = useState(false);
   const [isFreelancePage, setIsFreelancePage] = useState(false);
@@ -100,6 +102,10 @@ const Header = ({isAuth, profile}: IHeader) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const tmp = () => {
+    console.log(1);
   };
 
   return (
@@ -214,7 +220,7 @@ const Header = ({isAuth, profile}: IHeader) => {
                     </Link>
                   </MenuItem>
                   <Divider />
-                  <MenuItem>
+                  <MenuItem onClick={logOut}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
@@ -235,4 +241,8 @@ const mapStateToProps = (state: any) => ({
   profile: profileSelectors.getProfile(state),
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = {
+  logOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
