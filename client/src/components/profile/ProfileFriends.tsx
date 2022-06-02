@@ -30,15 +30,16 @@ const ProfileFriends = ({id, countFriends}: IFriendsProps) => {
         <span className="profile-gallery-title-count">{countFriends}</span>
       </NavLink>
       <div className="profile-friends-list">
-        {friends.map((friend) => (
-          <NavLink
-            key={friend.id}
-            to={`${friend.id}`}
-            className="profile-friends-list-item">
-            <Avatar className="profile-friends-avatar" />
-            <p>{`${friend.firstName} ${friend.lastName}`}</p>
-          </NavLink>
-        ))}
+        {friends.length > 0 &&
+          friends.map((friend) => (
+            <NavLink
+              key={friend.id}
+              to={`${friend.id}`}
+              className="profile-friends-list-item">
+              <Avatar className="profile-friends-avatar" />
+              <p>{`${friend.firstName} ${friend.lastName}`}</p>
+            </NavLink>
+          ))}
       </div>
     </div>
   );

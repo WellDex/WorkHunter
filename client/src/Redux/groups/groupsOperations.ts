@@ -2,9 +2,9 @@ import {groupsAPI} from '../../api/groupsAPI';
 import {setNotification} from '../app/appActions';
 import {setGroups} from './groupsActions';
 
-export const getMyGroups = () => async (dispatch: any) => {
+export const getMyGroups = (id: string) => async (dispatch: any) => {
   await groupsAPI
-    .getMyGroups()
+    .getMyGroups(id)
     .then((res) => {
       dispatch(setGroups(res));
     })

@@ -7,10 +7,16 @@ export interface ICreateProject {
 }
 
 export const portfolioAPI = {
-  getPortfolio: () => {
-    return instance.get('portfolio/').then((res) => {
-      return res.data;
-    });
+  getPortfolio: (id: string, options?: object) => {
+    let params = {};
+    if (options) {
+      params = new URLSearchParams({...options});
+    }
+    return instance
+      .get(`portfolio/${id}${options ? `?${params.toString()}` : ''}`)
+      .then((res) => {
+        return res.data;
+      });
   },
   createProject: (data: ICreateProject) => {
     return instance.post('portfolio/create', data).then((res) => {

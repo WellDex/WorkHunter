@@ -14,17 +14,19 @@ import {IPortfolio} from '../Redux/portfolio/portfolioReducer';
 import {connect} from 'react-redux';
 import {getPortfolio} from '../Redux/portfolio/portfolioOperations';
 import noImage from '../assets/image/noImage.png';
+import {useParams} from 'react-router-dom';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
-  getPortfolio: () => void;
+  getPortfolio: (id: string) => void;
 }
 
 const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const params: any = useParams();
   useEffect(() => {
-    getPortfolio();
-  }, []);
+    getPortfolio(params.id);
+  }, [params.id]);
 
   return (
     <div className="card-container">
@@ -65,7 +67,7 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
       <ModalCreateProject
         open={isOpen}
         handleClose={() => setIsOpen(false)}
-        getPortfolio={getPortfolio}
+        getPortfolio={() => getPortfolio(params.id)}
       />
     </div>
   );

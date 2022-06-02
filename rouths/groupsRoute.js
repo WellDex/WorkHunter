@@ -109,20 +109,30 @@ router.get('/all', auth, async (req, res) => {
   }
 });
 
-router.get('/my', auth, async (req, res) => {
+router.get('/my/:id', auth, async (req, res) => {
   try {
-    const id = req.body.id || req.user.userId;
-    const myGroups = await Group.find({owner: id});
-    const groups = await Group.find({subscribers: id});
-    res.json([
-      ...myGroups.sort((a, b) => {
-        const date1 = new Date(a.createDate);
-        const date2 = new Date(b.createDate);
+    const {top} = req.query;
+    const user = await User.findById(req.params.id);
+    let groups;
+    if (Object.keys(req.query).length > 0) {
+      groups = await Group.find()
+        .where('_id')
+        .in(user.profile.groups)
+        .limit(top ? top : '');
+    } else {
+      const myGroups = await Group.find({owner: id});
+      const groups = await Group.find({subscribers: id});
+      groups = [
+        ...myGroups.sort((a, b) => {
+          const date1 = new Date(a.createDate);
+          const date2 = new Date(b.createDate);
 
-        return date2 - date1;
-      }),
-      ...groups,
-    ]);
+          return date2 - date1;
+        }),
+        ...groups,
+      ];
+    }
+    res.json(groups);
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

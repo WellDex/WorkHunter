@@ -102,7 +102,9 @@
       }
     }
   }
-  &-friends {
+  &-friends,
+  &-portfolio,
+  &-groups {
     &-title {
       &-count {
         color: $grey;
@@ -115,7 +117,7 @@
       justify-content: space-evenly;
       flex-wrap: wrap;
       gap: 0.5rem;
-      align-items: center;
+      align-items: flex-start;
       width: 100%;
 
       &-item {

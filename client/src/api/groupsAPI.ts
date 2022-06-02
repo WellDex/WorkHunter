@@ -6,10 +6,16 @@ export interface ICreateGroup {
 }
 
 export const groupsAPI = {
-  getMyGroups: () => {
-    return instance.get('groups/my').then((res) => {
-      return res.data;
-    });
+  getMyGroups: (id: string, options?: object) => {
+    let params = {};
+    if (options) {
+      params = new URLSearchParams({...options});
+    }
+    return instance
+      .get(`groups/my/${id}${options ? `?${params.toString()}` : ''}`)
+      .then((res) => {
+        return res.data;
+      });
   },
   updateGroup: (id: string, data: ICreateGroup) => {
     return instance.put(`groups/update/${id}`, data).then((res) => {

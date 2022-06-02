@@ -46,17 +46,39 @@ router.post(
   }
 );
 
-router.get('/', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const id = req.body.id || req.user.userId;
-    const portfolios = await Portfolio.find({owner: id});
-    res.json(
-      portfolios.sort((a, b) => {
-        const date1 = new Date(a.createDate);
-        const date2 = new Date(b.createDate);
+    const {top} = req.query;
+    let projects;
+    let count;
+    if (Object.keys(req.query).length > 0) {
+      projects = await Portfolio.find({owner: req.params.id}).limit(
+        top ? top : ''
+      );
+    } else {
+      projects = await Portfolio.find({owner: req.params.id});
+    }
 
-        return date2 - date1;
-      })
+    if (Object.keys(req.query).includes('count')) {
+      count = await Portfolio.find({owner: req.params.id}).count();
+    }
+    res.json(
+      count
+        ? {
+            portfolio: projects.sort((a, b) => {
+              const date1 = new Date(a.createDate);
+              const date2 = new Date(b.createDate);
+
+              return date2 - date1;
+            }),
+            count,
+          }
+        : projects.sort((a, b) => {
+            const date1 = new Date(a.createDate);
+            const date2 = new Date(b.createDate);
+
+            return date2 - date1;
+          })
     );
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));

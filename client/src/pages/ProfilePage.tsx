@@ -13,6 +13,8 @@ import {IStateProfile} from '../Redux/profile/profileReducer';
 import {INote} from '../Redux/notes/notesReducer';
 import {getNotes} from '../Redux/notes/notesOperations';
 import {useParams} from 'react-router-dom';
+import ProfileGroups from '../components/profile/ProfileGroups';
+import ProfilePortfolio from '../components/profile/ProfilePortfolio';
 
 interface IProfile {
   profile: IStateProfile;
@@ -45,6 +47,8 @@ const ProfileContainer = ({
           userId={userId}
         />
         <ProfileFriends id={params.id} countFriends={profile.friends.length} />
+        <ProfileGroups id={params.id} countGroups={profile.groups.length} />
+        <ProfilePortfolio id={params.id} />
       </div>
       <div className="profile-col">
         <ProfileInformation {...profile} />
