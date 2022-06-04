@@ -18,8 +18,6 @@ const ProfileAvatar = ({img, isOwner, userId}: any) => {
   useEffect(() => {
     if (!isOwner) {
       profileAPI.getFriends().then((res) => {
-        console.log(res);
-
         setIsFollow(res.includes(params.id));
       });
     }

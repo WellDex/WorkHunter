@@ -14,7 +14,11 @@ import FrameHoc from '../../hoc/FrameHoc';
 import {IStateProfile} from '../../Redux/profile/profileReducer';
 import moment from 'moment';
 
-const ProfileInformation = (props: IStateProfile) => {
+interface IProfileInformation extends IStateProfile {
+  countProjects: number;
+}
+
+const ProfileInformation = (props: IProfileInformation) => {
   const {
     firstName,
     lastName,
@@ -32,6 +36,8 @@ const ProfileInformation = (props: IStateProfile) => {
     phoneNumber,
     email,
     friends,
+    groups,
+    countProjects,
   } = props;
   return (
     <div className="card-container">
@@ -187,16 +193,15 @@ const ProfileInformation = (props: IStateProfile) => {
           друзей
         </li>
         <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> друзей
+          <span className="profile-info-list-count">{groups.length}</span>
+          сообществ
         </li>
         <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> друзей
+          <span className="profile-info-list-count">{countProjects}</span>
+          проектов
         </li>
         <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> друзей
-        </li>
-        <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> друзей
+          <span className="profile-info-list-count">46</span> фотографий
         </li>
       </ul>
     </div>

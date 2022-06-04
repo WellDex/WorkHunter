@@ -52,9 +52,7 @@ router.get('/:id', auth, async (req, res) => {
     let projects;
     let count;
     if (Object.keys(req.query).length > 0) {
-      projects = await Portfolio.find({owner: req.params.id}).limit(
-        top ? top : ''
-      );
+      projects = await Portfolio.find({owner: req.params.id}).limit(+top);
     } else {
       projects = await Portfolio.find({owner: req.params.id});
     }

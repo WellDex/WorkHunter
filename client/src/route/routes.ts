@@ -34,6 +34,8 @@ export interface IRoute {
   path: string;
   component: any;
   name?: string;
+  icon?: any;
+  isNeedIdParam: boolean;
 }
 
 export const routes: IRoute[] = [
@@ -41,61 +43,74 @@ export const routes: IRoute[] = [
     path: PROFILE_PATH,
     component: ProfilePage,
     name: 'Моя страница',
+    isNeedIdParam: true,
   },
   {
     path: NEWS_PATH,
     component: NewsPage,
     name: 'Новости',
+    isNeedIdParam: false,
   },
   {
     path: MESSEMGER_PATH,
     component: MessengerPage,
     name: 'Мессенджер',
+    isNeedIdParam: false,
   },
   {
     path: FRIENDS_PATH,
     component: FriendsPage,
     name: 'Друзья',
+    isNeedIdParam: true,
   },
   {
     path: USERS_PATH,
     component: UsersPage,
+    isNeedIdParam: false,
   },
   {
     path: MY_GROUPS_PATH,
     component: MyGroupsPage,
     name: 'Сообщества',
+    isNeedIdParam: true,
   },
   {
     path: GROUPS_PATH,
     component: GroupsPage,
+    isNeedIdParam: false,
   },
   {
     path: GALLERY_PATH,
     component: GalleryPage,
     name: 'Фотографии',
+    isNeedIdParam: true,
   },
   {
     path: PORTFOLIO_PATH,
     component: ProjectsPage,
     name: 'Портфолио',
+    isNeedIdParam: true,
   },
   {
-    path: `${GROUP_PATH}/:id`,
+    path: GROUP_PATH,
     component: GroupProfile,
+    isNeedIdParam: true,
   },
   {
     path: FREELANCE_PATH,
     component: FreelancePage,
     name: 'Фриланс',
+    isNeedIdParam: false,
   },
   {
     path: '/freelance/project/:id',
     component: ProjectProfile,
+    isNeedIdParam: false,
   },
   {
     path: SETTING_PATH,
     component: SettingPage,
+    isNeedIdParam: false,
   },
 ];
 
@@ -103,9 +118,11 @@ export const authRoutes: IRoute[] = [
   {
     path: LOGIN_PATH,
     component: LoginPage,
+    isNeedIdParam: false,
   },
   {
     path: REGISTER_PATH,
     component: RegistrationPage,
+    isNeedIdParam: false,
   },
 ];

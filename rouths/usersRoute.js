@@ -33,7 +33,7 @@ router.get('/friends/:id', auth, async (req, res) => {
       friends = await User.find()
         .where('_id')
         .in(user.profile.friends)
-        .limit(top ? top : '');
+        .limit(+top);
     } else {
       friends = await User.find().where('_id').in(user.profile.friends);
     }

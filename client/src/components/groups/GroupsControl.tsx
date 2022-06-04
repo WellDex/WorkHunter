@@ -60,7 +60,7 @@ const GroupsControl = () => {
         <Tab
           className="users-control"
           label="Мои сообщества"
-          onClick={() => history.push(MY_GROUPS_PATH)}
+          onClick={() => history.push(MY_GROUPS_PATH)} //todo
         />
         <Tab
           className="users-control"

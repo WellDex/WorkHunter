@@ -19,8 +19,8 @@ const FriendsList = ({users}: IFriendsProps) => {
     <List className="friends-list">
       {users.length > 0 &&
         users.map((user, index) => (
-          <>
-            <ListItem key={index} className="friends-list-item">
+          <div key={index}>
+            <ListItem className="friends-list-item">
               <Link to={`/profile/${user.id}`} className="friends-link">
                 <ListItemAvatar className="friends-list-item-avatar">
                   <Avatar className="friends-avatar" />
@@ -32,7 +32,7 @@ const FriendsList = ({users}: IFriendsProps) => {
               </Link>
             </ListItem>
             <Divider />
-          </>
+          </div>
         ))}
     </List>
   );

@@ -1,30 +1,16 @@
 import {Avatar} from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
-import {portfolioAPI} from '../../api/portfolioAPI';
-import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
-import {FRIENDS_PATH, PORTFOLIO_PATH} from '../../route/const';
-
-const options = {
-  top: 6,
-  count: true,
-};
+import {PORTFOLIO_PATH} from '../../route/const';
 
 interface IPortfolioProps {
   id: string;
+  projects: any[];
+  countProjects: number;
 }
 
-const ProfilePortfolio = ({id}: IPortfolioProps) => {
-  const [projects, setProjects] = useState<any[]>([]);
-  const [countProjects, setCountProjects] = useState<number>(0);
-  useEffect(() => {
-    portfolioAPI.getPortfolio(id, options).then((res) => {
-      setProjects(res.portfolio);
-      setCountProjects(res.count);
-    });
-  }, [id]);
-
+const ProfilePortfolio = ({id, projects, countProjects}: IPortfolioProps) => {
   return (
     <div className="card-container">
       <NavLink to={`${PORTFOLIO_PATH}/${id}`}>

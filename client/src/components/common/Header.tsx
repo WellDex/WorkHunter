@@ -104,10 +104,6 @@ const Header = ({isAuth, profile, logOut}: IHeader) => {
     setAnchorEl(null);
   };
 
-  const tmp = () => {
-    console.log(1);
-  };
-
   return (
     <AppBar position="static" className="header">
       <Container maxWidth="xl">

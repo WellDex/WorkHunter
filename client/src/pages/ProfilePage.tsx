@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import ProfileAvatar from '../components/profile/ProfileAvatar';
 import ProfileFriends from '../components/profile/ProfileFriends';
@@ -15,6 +15,7 @@ import {getNotes} from '../Redux/notes/notesOperations';
 import {useParams} from 'react-router-dom';
 import ProfileGroups from '../components/profile/ProfileGroups';
 import ProfilePortfolio from '../components/profile/ProfilePortfolio';
+import {portfolioAPI} from '../api/portfolioAPI';
 
 interface IProfile {
   profile: IStateProfile;
@@ -24,6 +25,11 @@ interface IProfile {
   userId: string;
 }
 
+const options = {
+  top: 6,
+  count: true,
+};
+
 const ProfileContainer = ({
   profile,
   getProfile,
@@ -32,10 +38,18 @@ const ProfileContainer = ({
   userId,
 }: IProfile) => {
   const params: {id: string} = useParams();
+  const [projects, setProjects] = useState<any[]>([]);
+  const [countProjects, setCountProjects] = useState<number>(0);
 
   useEffect(() => {
     getProfile(params.id);
     getNotes(params.id);
+    portfolioAPI.getPortfolio(params.id, options).then((res) => {
+      if (res.portfolio && res.count) {
+        setProjects(res.portfolio);
+        setCountProjects(res.count);
+      }
+    });
   }, [params.id]);
 
   return (
@@ -48,10 +62,14 @@ const ProfileContainer = ({
         />
         <ProfileFriends id={params.id} countFriends={profile.friends.length} />
         <ProfileGroups id={params.id} countGroups={profile.groups.length} />
-        <ProfilePortfolio id={params.id} />
+        <ProfilePortfolio
+          id={params.id}
+          projects={projects}
+          countProjects={countProjects}
+        />
       </div>
       <div className="profile-col">
-        <ProfileInformation {...profile} />
+        <ProfileInformation {...profile} countProjects={countProjects} />
         <ProfileGallery />
         <ProfileNotes
           userId={userId}

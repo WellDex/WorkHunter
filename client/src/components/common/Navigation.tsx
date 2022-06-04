@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {ListItemIcon, ListItemText, MenuItem, MenuList} from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -49,17 +49,23 @@ interface INavProps {
 }
 
 const NavigationContainer = ({userId}: INavProps) => {
-  const navList = routes
-    .map((r: IRoute) => {
-      if (!!r.name) {
-        return {
-          path: r.path,
-          name: r.name,
-          icon: menuIcons(r.path),
-        };
-      }
-    })
-    .filter((el) => !!el);
+  const [navList, setNavList] = useState<IRoute[] | any[]>([]);
+  useEffect(() => {
+    setNavList(
+      routes
+        .map((r: IRoute) => {
+          if (!!r.name) {
+            return {
+              path: r.path,
+              name: r.name,
+              icon: menuIcons(r.path),
+              isNeedIdParam: r.isNeedIdParam,
+            };
+          }
+        })
+        .filter((el) => !!el) || []
+    );
+  }, [routes]);
 
   return (
     <div className="navigation-container">
@@ -70,13 +76,7 @@ const NavigationContainer = ({userId}: INavProps) => {
               <NavLink
                 className="navigation-item"
                 activeClassName="navigation-item-active"
-                to={
-                  nav?.path === PROFILE_PATH
-                    ? `${nav?.path}/${userId}`
-                    : nav?.path === FRIENDS_PATH
-                    ? `${nav?.path}/${userId}`
-                    : nav?.path || ''
-                }>
+                to={nav.isNeedIdParam ? `${nav.path}/${userId}` : nav.path}>
                 <ListItemIcon>{nav?.icon}</ListItemIcon>
                 <ListItemText>{nav?.name}</ListItemText>
               </NavLink>

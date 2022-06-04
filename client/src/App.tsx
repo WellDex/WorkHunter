@@ -7,7 +7,6 @@ import {Box, Container} from '@mui/material';
 import * as appSelectors from './Redux/app/appSelectors';
 import {connect} from 'react-redux';
 import {routes, IRoute, authRoutes} from './route/routes';
-import {FRIENDS_PATH, PROFILE_PATH} from './route/const';
 
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
@@ -41,13 +40,7 @@ const App = ({isAuth, notification}: any) => {
           <Switch>
             {isAuth
               ? routes.map((route: IRoute, index) =>
-                  route.path === PROFILE_PATH ? (
-                    <Route
-                      key={index}
-                      path={`${route.path}/:id`}
-                      component={route.component}
-                    />
-                  ) : route.path === FRIENDS_PATH ? (
+                  route.isNeedIdParam ? (
                     <Route
                       key={index}
                       path={`${route.path}/:id`}

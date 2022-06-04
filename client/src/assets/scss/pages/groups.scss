@@ -160,7 +160,6 @@
     &-list {
       margin-top: 1rem;
       display: flex;
-      justify-content: space-evenly;
       flex-wrap: wrap;
       gap: 0.5rem;
       align-items: center;
@@ -168,7 +167,7 @@
 
       &-item {
         display: flex;
-        flex: 1 1 70px;
+        flex: 0 0 28%;
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
@@ -233,6 +232,12 @@
   &-subscribers {
     &-modal {
       padding: 1rem;
+      position: relative;
+      &-btn-close {
+        position: absolute !important;
+        top: 0;
+        right: 0;
+      }
     }
     &-title {
       margin: 0 0 1rem;

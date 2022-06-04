@@ -2,6 +2,7 @@ const {Router} = require('express');
 const {check, validationResult} = require('express-validator');
 const auth = require('../middleware/auhtMiddleware');
 const Group = require('../modules/Group');
+const Note = require('../modules/Note');
 const User = require('../modules/User');
 const chalk = require('chalk');
 
@@ -40,7 +41,7 @@ router.post(
 
       await group.save();
 
-      const user = await User.findById(req.userId);
+      const user = await User.findById(req.user.userId);
       user.profile.groups.push(group._id);
       await user.save();
 
@@ -112,16 +113,17 @@ router.get('/all', auth, async (req, res) => {
 router.get('/my/:id', auth, async (req, res) => {
   try {
     const {top} = req.query;
-    const user = await User.findById(req.params.id);
+    const {id} = req.params;
+    const user = await User.findById(id);
     let groups;
     if (Object.keys(req.query).length > 0) {
       groups = await Group.find()
         .where('_id')
         .in(user.profile.groups)
-        .limit(top ? top : '');
+        .limit(+top);
     } else {
       const myGroups = await Group.find({owner: id});
-      const groups = await Group.find({subscribers: id});
+      const otherGroups = await Group.find({subscribers: id});
       groups = [
         ...myGroups.sort((a, b) => {
           const date1 = new Date(a.createDate);
@@ -129,7 +131,7 @@ router.get('/my/:id', auth, async (req, res) => {
 
           return date2 - date1;
         }),
-        ...groups,
+        ...otherGroups,
       ];
     }
     res.json(groups);
@@ -173,7 +175,7 @@ router.get('/subscribers/:id', auth, async (req, res) => {
       subscribers = await User.find()
         .where('_id')
         .in(group.subscribers)
-        .limit(top ? top : '');
+        .limit(+top);
     } else {
       subscribers = await User.find().where('_id').in(group.subscribers);
     }
@@ -248,10 +250,10 @@ router.delete(
           message: 'Некорректные данные сообщества',
         });
       }
+
       const {id} = req.params;
-
       const group = await Group.findById(id);
-
+      await Note.deleteMany(Note.find({owner: group._id}));
       await group.delete();
 
       res.status(201).json({message: 'Сообщество удалена'});
@@ -261,16 +263,5 @@ router.delete(
     }
   }
 );
-
-// router.delete('/deleteAll', auth, async (req, res) => {
-//   try {
-//     await Note.deleteMany(Note.find({owner: req.user.userId}));
-
-//     res.status(201).json({message: 'Записи удалены'});
-//   } catch (error) {
-//     console.log(chalk.white.bgRed.bold(error));
-//     res.status(500).json({message: `Server error: ${error}`});
-//   }
-// });
 
 module.exports = router;

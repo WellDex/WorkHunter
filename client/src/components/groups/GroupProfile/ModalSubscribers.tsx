@@ -9,6 +9,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 import React, {useEffect, useState} from 'react';
 import {groupsAPI} from '../../../api/groupsAPI';
 
@@ -34,6 +35,12 @@ const ModalSubscribers = ({
     <Dialog open={open} onClose={handleClose}>
       <div className="groupProfile-subscribers-modal">
         <h1 className="groupProfile-subscribers-title">Подписчики</h1>
+        <IconButton
+          className="groupProfile-subscribers-modal-btn-close"
+          aria-label="close"
+          onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
         <Divider />
         <List className="groupProfile-subscribers-list">
           {subscribers.length > 0 &&
