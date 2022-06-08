@@ -134,4 +134,36 @@ router.post('/logout', auth, async (req, res) => {
   }
 });
 
+router.post('/auth', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+
+    if (!user) {
+      return res.status(400).json({message: 'Пользователь не найден'});
+    }
+
+    if (user.isBlocked) {
+      return res.status(400).json({message: 'Пользователь заблокирован!'});
+    }
+
+    user.profile.isOnline = true;
+    await user.save();
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+      },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: '24h',
+      }
+    );
+
+    res.json({token, id: user.id});
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
+
 module.exports = router;

@@ -7,13 +7,10 @@ import {Box, Container} from '@mui/material';
 import * as appSelectors from './Redux/app/appSelectors';
 import {connect} from 'react-redux';
 import {routes, IRoute, authRoutes} from './route/routes';
+import {auth} from './Redux/app/appOperations';
+import {getProfile} from './Redux/profile/profileOperations';
 
-const mapStateToProps = (state: any) => ({
-  isAuth: appSelectors.getIsAuth(state),
-  notification: appSelectors.getNotification(state),
-});
-
-const App = ({isAuth, notification}: any) => {
+const App = ({isAuth, notification, auth, getProfile}: any) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
@@ -30,6 +27,10 @@ const App = ({isAuth, notification}: any) => {
       history.push('/login');
     }
   }, [isAuth]);
+
+  useEffect(() => {
+    auth(history, getProfile);
+  }, []);
 
   return (
     <Box className="main-box">
@@ -74,4 +75,14 @@ const App = ({isAuth, notification}: any) => {
   );
 };
 
-export default connect(mapStateToProps)(App);
+const mapStateToProps = (state: any) => ({
+  isAuth: appSelectors.getIsAuth(state),
+  notification: appSelectors.getNotification(state),
+});
+
+const mapDispatchToProps = {
+  auth,
+  getProfile,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

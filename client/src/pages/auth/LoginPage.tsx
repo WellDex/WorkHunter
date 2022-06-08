@@ -8,7 +8,6 @@ import {login} from '../../Redux/app/appOperations';
 import {getProfile} from '../../Redux/profile/profileOperations';
 import CustomField from '../../components/common/CustomField';
 import {REGISTER_PATH} from '../../route/const';
-import * as appSelectors from '../../Redux/app/appSelectors';
 import FrameHoc from '../../hoc/FrameHoc';
 
 interface ILoginProps {

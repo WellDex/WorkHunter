@@ -18,6 +18,21 @@ export const login =
       });
   };
 
+export const auth =
+  (history: any, getProfile: (id: string) => void) => async (dispatch: any) => {
+    await authAPI
+      .check()
+      .then((res) => {
+        dispatch(changeIsAuth(true));
+        dispatch(setUserId(res.id));
+        getProfile(res.id);
+        history.push('/news');
+      })
+      .catch((res) => {
+        dispatch(setNotification({message: res.message, type: 'error'}));
+      });
+  };
+
 export const setMessage = (data: INotification) => (dispatch: any) => {
   dispatch(setNotification(data));
 };

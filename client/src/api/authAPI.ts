@@ -30,4 +30,10 @@ export const authAPI = {
       return res.data;
     });
   },
+  check: () => {
+    return instance.post('auth/auth', {}).then((res) => {
+      localStorage.setItem('token', res.data.token);
+      return res.data;
+    });
+  },
 };
