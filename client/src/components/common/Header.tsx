@@ -25,10 +25,8 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import {Link, useHistory} from 'react-router-dom';
 import * as appSelectors from '../../Redux/app/appSelectors';
-import * as profileSelectors from '../../Redux/profile/profileSelectors';
 import {connect} from 'react-redux';
 import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
-import {IStateProfile} from '../../Redux/profile/profileReducer';
 import {logOut} from '../../Redux/app/appOperations';
 
 const Search = styled('div')(({theme}) => ({
@@ -70,11 +68,12 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 interface IHeader {
   isAuth: boolean;
-  profile: IStateProfile;
+  firstName: string | null;
   logOut: () => void;
+  userId: string;
 }
 
-const Header = ({isAuth, profile, logOut}: IHeader) => {
+const Header = ({isAuth, firstName, userId, logOut}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isActiveSwitch, setIsActiveSwitch] = useState(false);
   const [isFreelancePage, setIsFreelancePage] = useState(false);
@@ -159,7 +158,7 @@ const Header = ({isAuth, profile, logOut}: IHeader) => {
               )}
               <Box sx={{flexGrow: 1}} />
               <div className="header-avatar">
-                <div className="header-avatar--name">{profile.firstName}</div>
+                <div className="header-avatar--name">{firstName}</div>
                 <Avatar />
                 <IconButton
                   aria-label="ArrowDropDown"
@@ -202,7 +201,7 @@ const Header = ({isAuth, profile, logOut}: IHeader) => {
                   transformOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
                   <MenuItem className="header-menu-item">
-                    <Link to={PROFILE_PATH}>
+                    <Link to={`${PROFILE_PATH}/${userId}`}>
                       <Avatar /> Profile
                     </Link>
                   </MenuItem>
@@ -234,7 +233,8 @@ const Header = ({isAuth, profile, logOut}: IHeader) => {
 
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
-  profile: profileSelectors.getProfile(state),
+  firstName: appSelectors.getFirstName(state),
+  userId: appSelectors.getUserId(state),
 });
 
 const mapDispatchToProps = {

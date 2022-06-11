@@ -1,7 +1,7 @@
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {Button, List, ListItem, ListItemButton} from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {useFieldArray, useForm} from 'react-hook-form';
 import {connect} from 'react-redux';
@@ -14,6 +14,8 @@ import FrameHoc from '../hoc/FrameHoc';
 import {setMessage} from '../Redux/app/appOperations';
 import {IStateProfile} from '../Redux/profile/profileReducer';
 import * as profileSelectors from '../Redux/profile/profileSelectors';
+import * as appSelectors from '../Redux/app/appSelectors';
+import {getProfile} from '../Redux/profile/profileOperations';
 
 interface ISweetcher {
   setCurrentForm: (s: string) => void;
@@ -68,11 +70,13 @@ const FormFrame = FrameHoc(Form);
 
 interface ISettings {
   profile: IStateProfile;
+  getProfile: (id: string) => void;
+  userId: string;
 }
 
-const SettingContainer = ({profile}: ISettings) => {
+const SettingContainer = ({profile, getProfile, userId}: ISettings) => {
   const [currentForm, setCurrentForm] = useState<string>('main');
-  const {handleSubmit, control} = useForm({
+  const {handleSubmit, control, reset} = useForm({
     defaultValues: profile,
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -109,6 +113,14 @@ const SettingContainer = ({profile}: ISettings) => {
     control,
     name: 'skills',
   });
+
+  useEffect(() => {
+    getProfile(userId);
+  }, [userId]);
+
+  useEffect(() => {
+    reset(profile);
+  }, [profile]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -183,8 +195,16 @@ const SettingContainer = ({profile}: ISettings) => {
 
 const mapStateToProps = (state: any) => ({
   profile: profileSelectors.getProfile(state),
+  userId: appSelectors.getUserId(state),
 });
 
-const SettingPage = connect(mapStateToProps)(SettingContainer);
+const mapDispatchToProps = {
+  getProfile,
+};
+
+const SettingPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingContainer);
 
 export default SettingPage;

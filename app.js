@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 
 app.use(express.json({extended: true}));
+// app.use(express.static(path.resolve(__dirname, 'static')));
 app.use(fileUpload({}));
 app.use('/api', require('./rouths/index'));
 

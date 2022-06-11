@@ -70,7 +70,7 @@ const ProfileContainer = ({
       </div>
       <div className="profile-col">
         <ProfileInformation {...profile} countProjects={countProjects} />
-        <ProfileGallery />
+        <ProfileGallery id={params.id} />
         <ProfileNotes
           userId={userId}
           notes={notes}

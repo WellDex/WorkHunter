@@ -1,6 +1,12 @@
 import {INotification} from './appReducer';
 import {authAPI, ILoginForm} from './../../api/authAPI';
-import {changeIsAuth, setNotification, setUserId, logout} from './appActions';
+import {
+  changeIsAuth,
+  setNotification,
+  setUserId,
+  logout,
+  setFirstName,
+} from './appActions';
 
 export const login =
   (data: ILoginForm, history: any, getProfile: (id: string) => void) =>
@@ -10,6 +16,7 @@ export const login =
       .then((res) => {
         dispatch(changeIsAuth(true));
         dispatch(setUserId(res.id));
+        dispatch(setFirstName(res.firstName));
         getProfile(res.id);
         history.push('/news');
       })
@@ -25,6 +32,7 @@ export const auth =
       .then((res) => {
         dispatch(changeIsAuth(true));
         dispatch(setUserId(res.id));
+        dispatch(setFirstName(res.firstName));
         getProfile(res.id);
         history.push('/news');
       })

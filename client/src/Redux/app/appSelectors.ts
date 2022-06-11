@@ -9,3 +9,6 @@ export const getNotification = (state: any) => {
 export const getUserId = (state: any) => {
   return getState(state).userId;
 };
+export const getFirstName = (state: any) => {
+  return getState(state).firstName;
+};

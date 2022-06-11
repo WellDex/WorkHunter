@@ -111,7 +111,7 @@ router.post(
         }
       );
 
-      res.json({token, id: user.id});
+      res.json({token, id: user.id, firstName: user.profile.firstName});
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
@@ -159,7 +159,7 @@ router.post('/auth', auth, async (req, res) => {
       }
     );
 
-    res.json({token, id: user.id});
+    res.json({token, id: user.id, firstName: user.profile.firstName});
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

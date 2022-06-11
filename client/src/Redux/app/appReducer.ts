@@ -2,6 +2,7 @@ import {
   CHANGE_IS_AUTH,
   LOGOUT,
   SET_NOTIFICATON,
+  SET_USER_FIRSTNAME,
   SET_USER_ID,
 } from './appActions';
 import {AlertColor} from '@mui/material';
@@ -15,6 +16,7 @@ export interface IStateApp {
   isAuth: boolean;
   notification: INotification;
   userId: string | null;
+  firstName: string | null;
 }
 
 const init: IStateApp = {
@@ -24,6 +26,7 @@ const init: IStateApp = {
     type: null,
   },
   userId: null,
+  firstName: null,
 };
 
 const appReducer = (state = init, {type, payload}: any) => {
@@ -34,6 +37,8 @@ const appReducer = (state = init, {type, payload}: any) => {
       return {...state, notification: payload};
     case SET_USER_ID:
       return {...state, userId: payload};
+    case SET_USER_FIRSTNAME:
+      return {...state, firstName: payload};
     case LOGOUT:
       return payload;
     default:

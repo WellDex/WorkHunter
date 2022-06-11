@@ -4,6 +4,7 @@ import FrameHoc from '../../hoc/FrameHoc';
 import PhotoView from '../common/PhotoView';
 import SearchIcon from '@mui/icons-material/Search';
 import {NavLink} from 'react-router-dom';
+import {GALLERY_PATH} from '../../route/const';
 
 const itemData = [
   {img: 'https://picsum.photos/600'},
@@ -12,12 +13,16 @@ const itemData = [
   {img: 'https://picsum.photos/600'},
 ];
 
-const ProfileGallery = () => {
+interface IProfileGallery {
+  id: string;
+}
+
+const ProfileGallery = ({id}: IProfileGallery) => {
   const [isOpen, setIsOpen] = useState(false);
   const [img, setImg] = useState('');
   return (
     <div className="card-container">
-      <NavLink to="/gallery">
+      <NavLink to={`${GALLERY_PATH}/${id}`}>
         Мои фотографии <span className="profile-gallery-title-count">31</span>
       </NavLink>
       <ImageList cols={4} rowHeight={150} className="profile-gallery-list">
