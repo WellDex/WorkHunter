@@ -12,3 +12,6 @@ export const getUserId = (state: any) => {
 export const getFirstName = (state: any) => {
   return getState(state).firstName;
 };
+export const getAvatar = (state: any) => {
+  return getState(state).avatar;
+};

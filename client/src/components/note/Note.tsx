@@ -14,6 +14,7 @@ import moment from 'moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {notesAPI} from '../../api/notesAPI';
 import {IGroup} from '../../Redux/groups/groupsReducer';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface INoteProps {
   note: INote;
@@ -45,10 +46,24 @@ const Note = ({
       <div className="profile-note-head">
         <div className="profile-note-head-container">
           {isGroup ? (
-            <Avatar className="profile-note-head-avatar" />
+            profile.avatar ? (
+              <Avatar
+                className="profile-note-head-avatar"
+                src={getImgUrl(profile.avatar)}
+              />
+            ) : (
+              <Avatar className="profile-note-head-avatar" />
+            )
           ) : (
             <NavLink to={`/profile/${params.id}`}>
-              <Avatar className="profile-note-head-avatar" />
+              {profile.avatar ? (
+                <Avatar
+                  className="profile-note-head-avatar"
+                  src={getImgUrl(profile.avatar)}
+                />
+              ) : (
+                <Avatar className="profile-note-head-avatar" />
+              )}
             </NavLink>
           )}
           <div className="profile-note-head-wrapper">

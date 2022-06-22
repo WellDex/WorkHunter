@@ -1,18 +1,26 @@
-import {Avatar, Button, CardMedia} from '@mui/material';
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {profileAPI} from '../../api/profileAPI';
 import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
+import {getImgUrl} from '../../utils/getImgUrl';
 
-interface ProfileAvatar {
-  img: any;
+interface IProfileAvatar {
+  avatar: string | null;
   isOwner: boolean;
-  userId: string;
 }
-//todo
-const ProfileAvatar = ({img, isOwner, userId}: any) => {
+
+const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
   const [isFollow, setIsFollow] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [file, setFile] = useState<any>(null);
   const params: {id: string} = useParams();
 
   useEffect(() => {
@@ -28,23 +36,48 @@ const ProfileAvatar = ({img, isOwner, userId}: any) => {
   const unfollow = () =>
     usersAPI.unfollow(params.id).then(() => setIsFollow(!isFollow));
 
+  const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile((e.target.files && e.target.files[0]) || null);
+    e.target.value = '';
+
+    setOpenModal(true);
+  };
+
+  const changeAvatar = () => {
+    setOpenModal(false);
+    const formData = new FormData();
+    formData.append('img', file);
+    profileAPI.updateAvatar(formData);
+  };
+
   return (
     <div className="card-container">
-      {img ? (
-        <CardMedia
-          className="profile-avatar-img"
-          component="img"
-          height="140"
-          image="https://picsum.photos/200/300"
-          alt="avatar"
+      {avatar ? (
+        <Avatar
+          variant="rounded"
+          sx={{width: '100%', height: 300}}
+          src={getImgUrl(avatar)}
         />
       ) : (
         <Avatar variant="rounded" sx={{width: '100%', height: 300}} />
       )}
       {isOwner ? (
-        <Button className="profile-avatar-btn-edit" variant="outlined">
-          Редактировать
-        </Button>
+        <label htmlFor="contained-button-file">
+          <input
+            accept="image/*"
+            id="contained-button-file"
+            multiple
+            type="file"
+            style={{display: 'none'}}
+            onChange={selectFile}
+          />
+          <Button
+            className="profile-avatar-btn-edit"
+            variant="outlined"
+            component="span">
+            Редактировать
+          </Button>
+        </label>
       ) : (
         <Button
           className="profile-avatar-btn-edit"
@@ -54,6 +87,26 @@ const ProfileAvatar = ({img, isOwner, userId}: any) => {
           {isFollow ? 'Отписаться' : 'Подписаться'}
         </Button>
       )}
+      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+        <DialogTitle id="alert-dialog-title">
+          Вы действительно хотите обновить фото профиля?
+        </DialogTitle>
+        <DialogActions>
+          <div className="profile-avatar-modal-actions">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setOpenModal(false);
+                setFile(null);
+              }}>
+              закрить
+            </Button>
+            <Button variant="contained" onClick={changeAvatar}>
+              обновить
+            </Button>
+          </div>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -4,13 +4,15 @@ import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../../hoc/FrameHoc';
 import {notesAPI} from '../../api/notesAPI';
 import {setMessage} from '../../Redux/app/appOperations';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface ICreateNote {
   getNotes: () => void;
   isGroup?: boolean;
   id?: string;
+  avatar?: string | null;
 }
-const CreateNote = ({getNotes, isGroup = false, id}: ICreateNote) => {
+const CreateNote = ({getNotes, isGroup = false, id, avatar}: ICreateNote) => {
   const [text, setText] = useState('');
 
   const createNote = async () => {
@@ -31,7 +33,14 @@ const CreateNote = ({getNotes, isGroup = false, id}: ICreateNote) => {
   };
   return (
     <div className="card-container profile-note-create">
-      <Avatar className="profile-note-create-avatar" />
+      {avatar ? (
+        <Avatar
+          className="profile-note-create-avatar"
+          src={getImgUrl(avatar)}
+        />
+      ) : (
+        <Avatar className="profile-note-create-avatar" />
+      )}
       <TextField
         id="outlined-textarea"
         label="Что у вас нового?"

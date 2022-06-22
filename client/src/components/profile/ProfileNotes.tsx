@@ -16,7 +16,9 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
   const params: {id: string} = useParams();
   return (
     <>
-      {params.id === userId && <CreateNote getNotes={getNotes} />}
+      {params.id === userId && (
+        <CreateNote avatar={profile.avatar} getNotes={getNotes} />
+      )}
       {notes &&
         profile &&
         notes.length > 0 &&

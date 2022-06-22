@@ -3,6 +3,8 @@ const {check, validationResult} = require('express-validator');
 const auth = require('../middleware/auhtMiddleware');
 const User = require('../modules/User');
 const chalk = require('chalk');
+const uuid = require('uuid');
+const path = require('path');
 
 const router = Router();
 
@@ -18,7 +20,7 @@ router.get('/friends', auth, async (req, res) => {
   }
 });
 
-router.post(
+router.put(
   '/update',
   auth,
   [check('profile', 'Некорректная информацыя профиля').notEmpty()],
@@ -36,13 +38,29 @@ router.post(
       const user = await User.findById(id);
       user.profile = {...user.profile, ...req.body.profile};
       await user.save();
-      res.status(200).json({message: 'Профиль обновлен'});
+      res.status(201).json({message: 'Профиль обновлен'});
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
     }
   }
 );
+
+router.put('/avatar', auth, async (req, res) => {
+  try {
+    const id = req.body.id || req.user.userId;
+    const {img} = req.files;
+    const user = await User.findById(id);
+    const fileName = uuid.v4() + '.jpg';
+    img.mv(path.resolve(__dirname, '..', 'static', 'avatars', fileName));
+    user.profile.avatar = fileName;
+    await user.save();
+    res.status(201).json({message: 'Аватар обновлен'});
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
 
 router.get('/:id', auth, async (req, res) => {
   try {

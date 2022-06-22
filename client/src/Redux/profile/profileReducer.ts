@@ -1,6 +1,7 @@
 import {SET_PROFILE} from './profileActions';
 
 export interface IStateProfile {
+  avatar: string | null;
   firstName: string | null;
   lastName: string | null;
   status: string | null;
@@ -35,6 +36,7 @@ export interface IStateProfile {
 }
 
 const init: IStateProfile = {
+  avatar: null,
   firstName: null,
   lastName: null,
   status: null,

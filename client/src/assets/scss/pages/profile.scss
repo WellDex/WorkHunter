@@ -15,12 +15,15 @@
   }
 
   &-avatar {
-    &-img {
-      height: 300px !important;
-    }
     &-btn-edit {
       width: 100%;
       margin-top: 1rem !important;
+    }
+    &-modal-actions {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      gap: 1rem;
     }
   }
   &-status {

@@ -51,15 +51,12 @@ const ProfileContainer = ({
       }
     });
   }, [params.id]);
+  console.log(profile);
 
   return (
     <div className="profile">
       <div className="profile-col">
-        <ProfileAvatar
-          img={''}
-          isOwner={params.id === userId}
-          userId={userId}
-        />
+        <ProfileAvatar avatar={profile.avatar} isOwner={params.id === userId} />
         <ProfileFriends id={params.id} countFriends={profile.friends.length} />
         <ProfileGroups id={params.id} countGroups={profile.groups.length} />
         <ProfilePortfolio

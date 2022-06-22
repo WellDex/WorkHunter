@@ -27,7 +27,6 @@ router.post(
       }
 
       const {text, id, type} = req.body;
-      console.log(req.body);
 
       const note = new Note(
         type
@@ -43,8 +42,6 @@ router.post(
               owner: req.user.userId,
             }
       );
-
-      console.log(note);
 
       await note.save();
 

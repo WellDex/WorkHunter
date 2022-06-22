@@ -13,7 +13,12 @@ export const profileAPI = {
     });
   },
   updateProfile: (data: IStateProfile) => {
-    return instance.post('profile/update', {profile: data}).then((res) => {
+    return instance.put('profile/update', {profile: data}).then((res) => {
+      return res.data;
+    });
+  },
+  updateAvatar: (data: any) => {
+    return instance.put('profile/avatar', data).then((res) => {
       return res.data;
     });
   },

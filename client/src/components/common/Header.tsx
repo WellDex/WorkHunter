@@ -28,6 +28,7 @@ import * as appSelectors from '../../Redux/app/appSelectors';
 import {connect} from 'react-redux';
 import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
 import {logOut} from '../../Redux/app/appOperations';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -71,9 +72,10 @@ interface IHeader {
   firstName: string | null;
   logOut: () => void;
   userId: string;
+  avatar: string | null;
 }
 
-const Header = ({isAuth, firstName, userId, logOut}: IHeader) => {
+const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isActiveSwitch, setIsActiveSwitch] = useState(false);
   const [isFreelancePage, setIsFreelancePage] = useState(false);
@@ -102,6 +104,8 @@ const Header = ({isAuth, firstName, userId, logOut}: IHeader) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  console.log(avatar);
 
   return (
     <AppBar position="static" className="header">
@@ -159,7 +163,7 @@ const Header = ({isAuth, firstName, userId, logOut}: IHeader) => {
               <Box sx={{flexGrow: 1}} />
               <div className="header-avatar">
                 <div className="header-avatar--name">{firstName}</div>
-                <Avatar />
+                {avatar ? <Avatar src={getImgUrl(avatar)} /> : <Avatar />}
                 <IconButton
                   aria-label="ArrowDropDown"
                   size="small"
@@ -234,6 +238,7 @@ const Header = ({isAuth, firstName, userId, logOut}: IHeader) => {
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
   firstName: appSelectors.getFirstName(state),
+  avatar: appSelectors.getAvatar(state),
   userId: appSelectors.getUserId(state),
 });
 

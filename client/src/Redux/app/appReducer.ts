@@ -2,6 +2,7 @@ import {
   CHANGE_IS_AUTH,
   LOGOUT,
   SET_NOTIFICATON,
+  SET_USER_AVATAR,
   SET_USER_FIRSTNAME,
   SET_USER_ID,
 } from './appActions';
@@ -17,6 +18,7 @@ export interface IStateApp {
   notification: INotification;
   userId: string | null;
   firstName: string | null;
+  avatar: string | null;
 }
 
 const init: IStateApp = {
@@ -27,6 +29,7 @@ const init: IStateApp = {
   },
   userId: null,
   firstName: null,
+  avatar: null,
 };
 
 const appReducer = (state = init, {type, payload}: any) => {
@@ -39,6 +42,8 @@ const appReducer = (state = init, {type, payload}: any) => {
       return {...state, userId: payload};
     case SET_USER_FIRSTNAME:
       return {...state, firstName: payload};
+    case SET_USER_AVATAR:
+      return {...state, avatar: payload};
     case LOGOUT:
       return payload;
     default:

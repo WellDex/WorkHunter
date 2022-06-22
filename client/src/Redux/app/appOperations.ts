@@ -6,6 +6,7 @@ import {
   setUserId,
   logout,
   setFirstName,
+  setAvatar,
 } from './appActions';
 
 export const login =
@@ -17,6 +18,7 @@ export const login =
         dispatch(changeIsAuth(true));
         dispatch(setUserId(res.id));
         dispatch(setFirstName(res.firstName));
+        dispatch(setAvatar(res.avatar));
         getProfile(res.id);
         history.push('/news');
       })
@@ -33,6 +35,7 @@ export const auth =
         dispatch(changeIsAuth(true));
         dispatch(setUserId(res.id));
         dispatch(setFirstName(res.firstName));
+        dispatch(setAvatar(res.avatar));
         getProfile(res.id);
         history.push('/news');
       })

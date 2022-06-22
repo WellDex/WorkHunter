@@ -6,6 +6,7 @@ const schema = new Schema({
   password: {type: String, required: true},
   // profile
   profile: {
+    avatar: {type: String, default: null},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     status: {type: String, default: null},
