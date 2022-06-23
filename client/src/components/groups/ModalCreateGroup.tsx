@@ -1,5 +1,5 @@
 import {Button, Dialog, Divider} from '@mui/material';
-import React from 'react';
+import React, {useState} from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {groupsAPI, ICreateGroup} from '../../api/groupsAPI';
@@ -14,6 +14,7 @@ interface IModalCreateGroup {
 }
 
 const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
+  const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
     defaultValues: group || undefined,
     mode: 'onChange',
@@ -21,9 +22,14 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
   });
 
   const onSubmit = (data: ICreateGroup) => {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('description', data.description || '');
+    formData.append('img', file);
+
     if (group) {
       groupsAPI
-        .updateGroup(group._id, data)
+        .updateGroup(group._id, formData)
         .then((res) => {
           handleClose();
         })
@@ -32,7 +38,7 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
       return;
     }
     groupsAPI
-      .createGroup(data)
+      .createGroup(formData)
       .then((res) => {
         handleClose();
       })
@@ -55,6 +61,9 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
               name="preview"
               type="file"
               style={{display: 'none'}}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setFile((e.target.files && e.target.files[0]) || null)
+              }
             />
             <Button fullWidth={true} variant="contained" component="span">
               Загрузить аватар сообщества

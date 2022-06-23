@@ -7,5 +7,6 @@ router.use('/notes', require('./notesRoute'));
 router.use('/portfolio', require('./portfolioRoute'));
 router.use('/users', require('./usersRoute'));
 router.use('/groups', require('./groupsRoute'));
+router.use('/news', require('./newsRouter'));
 
 module.exports = router;

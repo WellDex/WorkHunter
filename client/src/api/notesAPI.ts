@@ -18,6 +18,11 @@ export const notesAPI = {
         return res.data;
       });
   },
+  getNews: () => {
+    return instance.get('news/').then((res) => {
+      return res.data;
+    });
+  },
   deleteNote: (id: string) => {
     return instance.delete(`notes/delete/${id}`).then((res) => {
       return res.data;

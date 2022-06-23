@@ -10,13 +10,13 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {useHistory} from 'react-router-dom';
 import {groupsAPI} from '../../api/groupsAPI';
 import {IGroup} from '../../Redux/groups/groupsReducer';
-import {IStateProfile} from '../../Redux/profile/profileReducer';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IGroupItemProps {
   group: IGroup;
   userId: string;
 }
-//todo
+
 const GroupItem = ({group, userId}: IGroupItemProps) => {
   const history = useHistory();
   const [isFollow, setIsFollow] = useState(group.subscribers.includes(userId));
@@ -40,16 +40,15 @@ const GroupItem = ({group, userId}: IGroupItemProps) => {
       key={group._id}
       className="people-list-item"
       onClick={() => history.push(`group/${group._id}`)}>
-      {/* {user.img ? (
-        <img
-          src={user.img}
-          srcSet={user.img}
-          alt={`${user.firstName} ${user.lastName}`}
-          loading="lazy"
+      {group.avatar ? (
+        <Avatar
+          variant="rounded"
+          sx={{width: 250, height: 250}}
+          src={getImgUrl(group.avatar)}
         />
-      ) : ( */}
-      <Avatar variant="rounded" sx={{width: 250, height: 250}} />
-      {/* )} */}
+      ) : (
+        <Avatar variant="rounded" sx={{width: 250, height: 250}} />
+      )}
       <ImageListItemBar
         className="groups-all-list-bar"
         position="below"

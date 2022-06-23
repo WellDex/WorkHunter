@@ -5,6 +5,8 @@ const Group = require('../modules/Group');
 const Note = require('../modules/Note');
 const User = require('../modules/User');
 const chalk = require('chalk');
+const uuid = require('uuid');
+const path = require('path');
 
 const router = Router();
 
@@ -31,18 +33,32 @@ router.post(
       }
 
       const {title, description} = req.body;
+      const {img} = req.files;
+      let group;
 
-      const group = new Group({
-        title,
-        description,
-        createDate: new Date(),
-        owner: req.user.userId,
-      });
+      if (img) {
+        const fileName = uuid.v4() + '.jpg';
+        img.mv(path.resolve(__dirname, '..', 'static', 'avatars', fileName));
+        group = new Group({
+          title,
+          description,
+          avatar: fileName,
+          createDate: new Date(),
+          owner: req.user.userId,
+        });
+      } else {
+        group = new Group({
+          title,
+          description,
+          createDate: new Date(),
+          owner: req.user.userId,
+        });
+      }
 
       await group.save();
 
       const user = await User.findById(req.user.userId);
-      user.profile.groups.push(group._id);
+      user.profile.groups.push(String(group._id));
       await user.save();
 
       res.status(201).json({message: 'Сообщество создано'});
@@ -76,11 +92,18 @@ router.put(
       }
 
       const {title, description} = req.body;
+      const {img} = req.files;
 
       let group = await Group.findById(req.params.id);
 
       group.title = title;
       group.description = description;
+
+      if (img) {
+        const fileName = uuid.v4() + '.jpg';
+        img.mv(path.resolve(__dirname, '..', 'static', 'avatars', fileName));
+        group.avatar = fileName;
+      }
 
       await group.save();
 

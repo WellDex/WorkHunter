@@ -2,7 +2,8 @@ import {instance} from './instance';
 
 export interface ICreateGroup {
   title: string;
-  description: string | null;
+  description: string;
+  img: any;
 }
 
 export const groupsAPI = {
@@ -17,7 +18,7 @@ export const groupsAPI = {
         return res.data;
       });
   },
-  updateGroup: (id: string, data: ICreateGroup) => {
+  updateGroup: (id: string, data: any) => {
     return instance.put(`groups/update/${id}`, data).then((res) => {
       return res.data;
     });
@@ -43,7 +44,7 @@ export const groupsAPI = {
         return res.data;
       });
   },
-  createGroup: (data: ICreateGroup) => {
+  createGroup: (data: any) => {
     return instance.post('groups/create', data).then((res) => {
       return res.data;
     });

@@ -4,6 +4,7 @@ export interface IGroup {
   _id: any;
   owner: string;
   title: string;
+  avatar: string | null;
   description: string | null;
   subscribers: string[];
   createDate: string;

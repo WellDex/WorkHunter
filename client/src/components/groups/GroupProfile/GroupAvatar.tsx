@@ -1,7 +1,6 @@
 import {
   Avatar,
   Button,
-  CardMedia,
   Dialog,
   DialogActions,
   DialogTitle,
@@ -11,6 +10,7 @@ import {useHistory} from 'react-router-dom';
 import {groupsAPI} from '../../../api/groupsAPI';
 import FrameHoc from '../../../hoc/FrameHoc';
 import {IGroup} from '../../../Redux/groups/groupsReducer';
+import {getImgUrl} from '../../../utils/getImgUrl';
 import ModalCreateGroup from '../ModalCreateGroup';
 
 interface IGroupAvatar {
@@ -29,7 +29,6 @@ const GroupAvatar = ({group, userId, getGroup}: IGroupAvatar) => {
       : false
   );
 
-  //todo
   useEffect(() => {
     setIsFollow(
       group.subscribers && group.subscribers.length > 0
@@ -47,14 +46,15 @@ const GroupAvatar = ({group, userId, getGroup}: IGroupAvatar) => {
 
   return (
     <div className="card-container">
-      {/* <CardMedia
-        className="groupProfile-avatar-img"
-        component="img"
-        height="140"
-        image="https://picsum.photos/200/300"
-        alt="avatar"
-      /> */}
-      <Avatar variant="rounded" sx={{width: '100%', height: 300}} />
+      {group.avatar ? (
+        <Avatar
+          variant="rounded"
+          sx={{width: '100%', height: 300}}
+          src={getImgUrl(group.avatar)}
+        />
+      ) : (
+        <Avatar variant="rounded" sx={{width: '100%', height: 300}} />
+      )}
       {group.owner === userId ? (
         <>
           <Button

@@ -51,7 +51,6 @@ const ProfileContainer = ({
       }
     });
   }, [params.id]);
-  console.log(profile);
 
   return (
     <div className="profile">

@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {IGroup} from '../../Redux/groups/groupsReducer';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IGroupsListProps {
   groups: IGroup[];
@@ -23,7 +24,14 @@ const GroupsList = ({groups}: IGroupsListProps) => {
             <ListItem className="groups-list-item">
               <Link to={`/group/${group._id}`} className="groups-link">
                 <ListItemAvatar className="groups-list-item-avatar">
-                  <Avatar className="groups-avatar" />
+                  {group.avatar ? (
+                    <Avatar
+                      className="groups-avatar"
+                      src={getImgUrl(group.avatar)}
+                    />
+                  ) : (
+                    <Avatar className="groups-avatar" />
+                  )}
                 </ListItemAvatar>
                 <ListItemText
                   primary={group.title}

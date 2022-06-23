@@ -2,6 +2,8 @@ const {Router} = require('express');
 const {check, validationResult} = require('express-validator');
 const auth = require('../middleware/auhtMiddleware');
 const Note = require('../modules/Note');
+const User = require('../modules/User');
+const Group = require('../modules/Group');
 const chalk = require('chalk');
 
 const router = Router();
@@ -27,6 +29,13 @@ router.post(
       }
 
       const {text, id, type} = req.body;
+      let profile;
+      if (type) {
+        profile = await Group.findById(id);
+      } else {
+        const user = await User.findById(req.user.userId);
+        profile = user.profile;
+      }
 
       const note = new Note(
         type
@@ -34,11 +43,19 @@ router.post(
               text,
               createDate: new Date(),
               refOwner: type,
+              user: {
+                name: profile.title,
+                avatar: profile.avatar,
+              },
               owner: id,
             }
           : {
               text,
               createDate: new Date(),
+              user: {
+                name: `${profile.firstName} ${profile.lastName}`,
+                avatar: profile.avatar,
+              },
               owner: req.user.userId,
             }
       );

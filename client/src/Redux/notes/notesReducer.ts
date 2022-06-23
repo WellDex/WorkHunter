@@ -1,10 +1,14 @@
 import {SET_NOTES} from './notesActions';
 
 export interface INote {
-  _id: any;
+  _id: string;
   text: string;
   subscribers: [];
   createDate: string;
+  user: {
+    name: string;
+    avatar: string | null;
+  };
 }
 
 const init: INote[] = [];

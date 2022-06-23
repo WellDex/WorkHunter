@@ -20,13 +20,11 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
         <CreateNote avatar={profile.avatar} getNotes={getNotes} />
       )}
       {notes &&
-        profile &&
         notes.length > 0 &&
         notes.map((note, index) => (
           <Note
             key={index}
             note={note}
-            profile={profile}
             getNotes={getNotes}
             isOwner={params.id === userId}
           />

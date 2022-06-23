@@ -1,11 +1,8 @@
 import React from 'react';
-import {useParams} from 'react-router-dom';
 import {IGroup} from '../../../Redux/groups/groupsReducer';
 import {INote} from '../../../Redux/notes/notesReducer';
 import CreateNote from '../../note/CreateNote';
 import Note from '../../note/Note';
-
-const notes = [1, 2, 3];
 
 interface IGroupNotes {
   notes: INote[];
@@ -18,7 +15,12 @@ const GroupNotes = ({notes, profile, getNotes, userId}: IGroupNotes) => {
   return (
     <>
       {profile.owner === userId && (
-        <CreateNote getNotes={getNotes} id={profile._id} isGroup={true} />
+        <CreateNote
+          avatar={profile.avatar}
+          getNotes={getNotes}
+          id={profile._id}
+          isGroup={true}
+        />
       )}
       {notes &&
         profile &&

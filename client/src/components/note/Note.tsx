@@ -9,26 +9,22 @@ import {NavLink, useParams} from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FrameHoc from '../../hoc/FrameHoc';
 import {INote} from '../../Redux/notes/notesReducer';
-import {IStateProfile} from '../../Redux/profile/profileReducer';
 import moment from 'moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {notesAPI} from '../../api/notesAPI';
-import {IGroup} from '../../Redux/groups/groupsReducer';
 import {getImgUrl} from '../../utils/getImgUrl';
 
 interface INoteProps {
   note: INote;
-  profile: IStateProfile | IGroup | any;
-  getNotes: () => void;
-  isOwner: boolean;
+  getNotes?: () => void;
+  isOwner?: boolean;
   isGroup?: boolean;
 }
 
 const Note = ({
   note,
-  profile,
   getNotes,
-  isOwner,
+  isOwner = false,
   isGroup = false,
 }: INoteProps) => {
   const params: {id: string} = useParams();
@@ -37,7 +33,7 @@ const Note = ({
   const deleteNote = () => {
     notesAPI
       .deleteNote(note._id)
-      .then((res) => getNotes())
+      .then((res) => getNotes && getNotes())
       .catch((e) => console.log(e));
   };
 
@@ -46,20 +42,20 @@ const Note = ({
       <div className="profile-note-head">
         <div className="profile-note-head-container">
           {isGroup ? (
-            profile.avatar ? (
+            note.user.avatar ? (
               <Avatar
                 className="profile-note-head-avatar"
-                src={getImgUrl(profile.avatar)}
+                src={getImgUrl(note.user.avatar)}
               />
             ) : (
               <Avatar className="profile-note-head-avatar" />
             )
           ) : (
             <NavLink to={`/profile/${params.id}`}>
-              {profile.avatar ? (
+              {note.user.avatar ? (
                 <Avatar
                   className="profile-note-head-avatar"
-                  src={getImgUrl(profile.avatar)}
+                  src={getImgUrl(note.user.avatar)}
                 />
               ) : (
                 <Avatar className="profile-note-head-avatar" />
@@ -68,11 +64,9 @@ const Note = ({
           )}
           <div className="profile-note-head-wrapper">
             {isGroup ? (
-              <a type="button">{profile.title}</a>
+              <a type="button">{note.user.name}</a>
             ) : (
-              <NavLink to={`/profile/${params.id}`}>
-                {profile.firstName}
-              </NavLink>
+              <NavLink to={`/profile/${params.id}`}>{note.user.name}</NavLink>
             )}
             <p>
               {moment(note.createDate)
