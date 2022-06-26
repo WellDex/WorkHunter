@@ -5,6 +5,7 @@ const Portfolio = require('../modules/Portfolio');
 const chalk = require('chalk');
 const uuid = require('uuid');
 const path = require('path');
+const fs = require('fs');
 
 const router = Router();
 
@@ -45,6 +46,52 @@ router.post(
       await portfolio.save();
 
       res.status(201).json({message: 'Проект создан'});
+    } catch (error) {
+      console.log(chalk.white.bgRed.bold(error));
+      res.status(500).json({message: `Server error: ${error}`});
+    }
+  }
+);
+
+router.put(
+  '/update/:id',
+  auth,
+  [
+    check('title', 'Максимальное количество символов - 250')
+      .isLength({max: 250})
+      .isString()
+      .notEmpty(),
+    check('link', 'Отсутствует ссылка на проект').notEmpty().isString(),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+          message: 'Некорректные данные при обновлении проекта в портфолио',
+        });
+      }
+
+      const {title, link} = req.body;
+
+      const portfolio = await Portfolio.findById(req.params.id);
+      portfolio.title = title;
+      portfolio.link = link;
+      if (req.files) {
+        const {img} = req.files;
+        const fileName = uuid.v4() + '.jpg';
+        img.mv(path.resolve(__dirname, '..', 'static', 'portfolio', fileName));
+        if (portfolio.avatar) {
+          fs.unlinkSync(`static/portfolio/${portfolio.avatar}`);
+        }
+        portfolio.avatar = fileName;
+      }
+
+      await portfolio.save();
+
+      res.status(201).json({message: 'Проект обновлен'});
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});

@@ -2,44 +2,59 @@ import {Button, Dialog, Divider} from '@mui/material';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {ICreateProject, portfolioAPI} from '../../api/portfolioAPI';
-// import { IPortfolio } from '../../Redux/portfolio/portfolioReducer';
+import {IPortfolio} from '../../Redux/portfolio/portfolioReducer';
 import CustomField from '../common/CustomField';
 
 interface IModalCreateProject {
   open: boolean;
   handleClose: () => void;
   getPortfolio: () => void;
-  // portfolio: IPortfolio
+  portfolio: IPortfolio | undefined;
 }
-//todo
+
 const ModalCreateProject = ({
   open,
   handleClose,
   getPortfolio,
+  portfolio,
 }: IModalCreateProject) => {
   const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
-    // defaultValues: portfolio,
+    defaultValues: portfolio,
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
+
   const onSubmit = (data: ICreateProject) => {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('link', data.link);
     formData.append('img', file);
-    portfolioAPI
-      .createProject(formData)
-      .then((res) => {
-        getPortfolio();
-        handleClose();
-      })
-      .catch((e) => console.log(e));
+    if (portfolio) {
+      portfolioAPI
+        .updateProject(portfolio._id, formData)
+        .then((res) => {
+          getPortfolio();
+          handleClose();
+        })
+        .catch((e) => console.log(e));
+    } else {
+      portfolioAPI
+        .createProject(formData)
+        .then((res) => {
+          getPortfolio();
+          handleClose();
+        })
+        .catch((e) => console.log(e));
+    }
   };
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="projects-form">
-        <h1 className="projects-form-title">Создание проекта</h1>
+        <h1 className="projects-form-title">
+          {portfolio ? 'Обновление' : 'Создание'} проекта
+        </h1>
         <Divider />
         <label htmlFor="contained-button-file">
           <input
@@ -73,14 +88,13 @@ const ModalCreateProject = ({
           placeholder={'Вставте ссылку на проект...'}
           isFullWidth={true}
         />
-        {/*todo: add img upload*/}
         <Divider />
         <div className="projects-form-btns">
           <Button variant="outlined" onClick={handleClose}>
             отменить
           </Button>
           <Button type="submit" variant="contained">
-            создать
+            {portfolio ? 'обновить' : 'создать'}
           </Button>
         </div>
       </form>

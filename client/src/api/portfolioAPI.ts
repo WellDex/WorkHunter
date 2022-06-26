@@ -23,6 +23,11 @@ export const portfolioAPI = {
       return res.data;
     });
   },
+  updateProject: (id: string, data: any) => {
+    return instance.put(`portfolio/update/${id}`, data).then((res) => {
+      return res.data;
+    });
+  },
   deleteProject: (id: string) => {
     return instance.delete(`portfolio/delete/${id}`).then((res) => {
       return res.data;

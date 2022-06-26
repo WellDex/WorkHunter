@@ -7,6 +7,7 @@ const User = require('../modules/User');
 const chalk = require('chalk');
 const uuid = require('uuid');
 const path = require('path');
+const fs = require('fs');
 
 const router = Router();
 
@@ -102,6 +103,9 @@ router.put(
       if (img) {
         const fileName = uuid.v4() + '.jpg';
         img.mv(path.resolve(__dirname, '..', 'static', 'avatars', fileName));
+        if (user.profile.avatar) {
+          fs.unlinkSync(`static/avatars/${group.avatar}`);
+        }
         group.avatar = fileName;
       }
 

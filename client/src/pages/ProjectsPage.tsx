@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   ImageList,
   ImageListItem,
   ImageListItemBar,
@@ -7,6 +8,8 @@ import {
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FrameHoc from '../hoc/FrameHoc';
 import * as portfolioSelectors from '../Redux/portfolio/portfolioSelectors';
 import ModalCreateProject from '../components/projects/ModalCreateProject';
@@ -16,6 +19,7 @@ import {getPortfolio} from '../Redux/portfolio/portfolioOperations';
 import noImage from '../assets/image/noImage.png';
 import {useParams} from 'react-router-dom';
 import {getImgUrl} from '../utils/getImgUrl';
+import {portfolioAPI} from '../api/portfolioAPI';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
@@ -25,9 +29,24 @@ interface IPortfolioProps {
 const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const params: any = useParams();
+  const [editProject, setEditProject] = useState<IPortfolio | undefined>(
+    undefined
+  );
+
   useEffect(() => {
     getPortfolio(params.id);
   }, [params.id]);
+
+  const handleEdit = (portfolio: IPortfolio) => {
+    setEditProject(portfolio);
+    setIsOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    portfolioAPI.deleteProject(id).finally(() => {
+      getPortfolio(params.id);
+    });
+  };
 
   return (
     <div className="card-container">
@@ -60,16 +79,40 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
                   position="below"
                   actionPosition="right"
                   title={item.title}
+                  actionIcon={
+                    <>
+                      <IconButton
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleEdit(item);
+                        }}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleDelete(item._id);
+                        }}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+                  }
                 />
               </a>
             </ImageListItem>
           ))}
       </ImageList>
-      <ModalCreateProject
-        open={isOpen}
-        handleClose={() => setIsOpen(false)}
-        getPortfolio={() => getPortfolio(params.id)}
-      />
+      {isOpen && (
+        <ModalCreateProject
+          open={isOpen}
+          handleClose={() => {
+            setEditProject(undefined);
+            setIsOpen(false);
+          }}
+          getPortfolio={() => getPortfolio(params.id)}
+          portfolio={editProject}
+        />
+      )}
     </div>
   );
 };
