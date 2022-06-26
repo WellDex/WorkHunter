@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import {getPortfolio} from '../Redux/portfolio/portfolioOperations';
 import noImage from '../assets/image/noImage.png';
 import {useParams} from 'react-router-dom';
+import {getImgUrl} from '../utils/getImgUrl';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
@@ -49,8 +50,8 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
             <ImageListItem key={index} className="projects-list-item">
               <a href={item.link} target="_blank" rel="noopener noreferrer">
                 <img
-                  src={item.img || noImage}
-                  srcSet={item.img || noImage}
+                  src={getImgUrl(item.avatar) || noImage}
+                  srcSet={getImgUrl(item.avatar) || noImage}
                   alt={item.title || 'no-image'}
                   loading="lazy"
                 />

@@ -5,7 +5,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   status: string | null;
-  img: string | null;
+  avatar: string | null;
 }
 
 const init: IUser[] = [];

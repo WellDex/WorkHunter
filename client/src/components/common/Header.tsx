@@ -206,7 +206,8 @@ const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
                   anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
                   <MenuItem className="header-menu-item">
                     <Link to={`${PROFILE_PATH}/${userId}`}>
-                      <Avatar /> Profile
+                      {avatar ? <Avatar src={getImgUrl(avatar)} /> : <Avatar />}{' '}
+                      Profile
                     </Link>
                   </MenuItem>
                   <Divider />

@@ -3,6 +3,8 @@ const {check, validationResult} = require('express-validator');
 const auth = require('../middleware/auhtMiddleware');
 const Portfolio = require('../modules/Portfolio');
 const chalk = require('chalk');
+const uuid = require('uuid');
+const path = require('path');
 
 const router = Router();
 
@@ -26,19 +28,23 @@ router.post(
           message: 'Некорректные данные при добавлении проекта в портфолио',
         });
       }
-      //todo
+
       const {title, link} = req.body;
+      const {img} = req.files;
+      const fileName = uuid.v4() + '.jpg';
+      img.mv(path.resolve(__dirname, '..', 'static', 'portfolio', fileName));
 
       const portfolio = new Portfolio({
         title,
         link,
+        avatar: fileName,
         createDate: new Date(),
         owner: req.user.userId,
       });
 
       await portfolio.save();
 
-      res.status(201).json({message: 'Запись создана'});
+      res.status(201).json({message: 'Проект создан'});
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
       res.status(500).json({message: `Server error: ${error}`});
@@ -52,7 +58,9 @@ router.get('/:id', auth, async (req, res) => {
     let projects;
     let count;
     if (Object.keys(req.query).length > 0) {
-      projects = await Portfolio.find({owner: req.params.id}).limit(+top);
+      projects = await Portfolio.find({owner: req.params.id})
+        .sort({createDate: 'desc'})
+        .limit(+top);
     } else {
       projects = await Portfolio.find({owner: req.params.id});
     }

@@ -4,6 +4,7 @@ import {NavLink} from 'react-router-dom';
 import {groupsAPI} from '../../api/groupsAPI';
 import FrameHoc from '../../hoc/FrameHoc';
 import {GROUP_PATH, MY_GROUPS_PATH} from '../../route/const';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 const options = {
   top: 6,
@@ -34,7 +35,14 @@ const ProfileGroups = ({id, countGroups}: IGroupsProps) => {
               key={group._id}
               to={`${GROUP_PATH}/${group._id}`}
               className="profile-groups-list-item">
-              <Avatar className="profile-groups-avatar" />
+              {group.avatar ? (
+                <Avatar
+                  className="profile-groups-avatar"
+                  src={getImgUrl(group.avatar)}
+                />
+              ) : (
+                <Avatar className="profile-groups-avatar" />
+              )}
               <p>{group.title}</p>
             </NavLink>
           ))}

@@ -4,6 +4,7 @@ import {NavLink} from 'react-router-dom';
 import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
 import {FRIENDS_PATH} from '../../route/const';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 const options = {
   top: 6,
@@ -15,8 +16,6 @@ interface IFriendsProps {
   countFriends: number;
 }
 
-//check
-//todo
 const ProfileFriends = ({id, countFriends}: IFriendsProps) => {
   const [friends, setFriends] = useState<any[]>([]);
   useEffect(() => {
@@ -36,7 +35,14 @@ const ProfileFriends = ({id, countFriends}: IFriendsProps) => {
               key={friend.id}
               to={`${friend.id}`}
               className="profile-friends-list-item">
-              <Avatar className="profile-friends-avatar" />
+              {friend.avatar ? (
+                <Avatar
+                  className="profile-friends-avatar"
+                  src={getImgUrl(friend.avatar)}
+                />
+              ) : (
+                <Avatar className="profile-friends-avatar" />
+              )}
               <p>{`${friend.firstName} ${friend.lastName}`}</p>
             </NavLink>
           ))}

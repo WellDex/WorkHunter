@@ -4,7 +4,7 @@ export interface IPortfolio {
   _id: any;
   title: string;
   link: string;
-  img: string | null;
+  avatar: string | null;
   createDate: string;
 }
 

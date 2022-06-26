@@ -16,6 +16,7 @@ router.get('/all', auth, async (req, res) => {
         firstName: u.profile.firstName,
         lastName: u.profile.lastName,
         status: u.profile.status,
+        avatar: u.profile.avatar,
       }));
     res.json(users);
   } catch (error) {
@@ -44,7 +45,7 @@ router.get('/friends/:id', auth, async (req, res) => {
             firstName: f.profile.firstName,
             lastName: f.profile.lastName,
             status: f.profile.status,
-            img: null,
+            avatar: f.profile.avatar,
           }))
         : [];
     res.json(friends);

@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {IUser} from '../../Redux/users/usersReducer';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IFriendsProps {
   users: IUser[];
@@ -23,7 +24,14 @@ const FriendsList = ({users}: IFriendsProps) => {
             <ListItem className="friends-list-item">
               <Link to={`/profile/${user.id}`} className="friends-link">
                 <ListItemAvatar className="friends-list-item-avatar">
-                  <Avatar className="friends-avatar" />
+                  {user.avatar ? (
+                    <Avatar
+                      className="friends-avatar"
+                      src={getImgUrl(user.avatar)}
+                    />
+                  ) : (
+                    <Avatar className="friends-avatar" />
+                  )}
                 </ListItemAvatar>
                 <ListItemText
                   primary={`${user.firstName} ${user.lastName}`}

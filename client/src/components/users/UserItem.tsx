@@ -10,6 +10,7 @@ import {IUser} from '../../Redux/users/usersReducer';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {useHistory} from 'react-router-dom';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IUserProps {
   user: IUser;
@@ -40,12 +41,11 @@ const UserItem = ({user, friends, getProfile}: IUserProps) => {
       key={user.id}
       className="people-list-item"
       onClick={() => history.push(`profile/${user.id}`)}>
-      {user.img ? (
-        <img
-          src={user.img}
-          srcSet={user.img}
-          alt={`${user.firstName} ${user.lastName}`}
-          loading="lazy"
+      {user.avatar ? (
+        <Avatar
+          variant="rounded"
+          sx={{width: 250, height: 250}}
+          src={getImgUrl(user.avatar)}
         />
       ) : (
         <Avatar variant="rounded" sx={{width: 250, height: 250}} />

@@ -2,7 +2,7 @@ import {instance} from './instance';
 
 export interface ICreateProject {
   title: string;
-  img?: null | string;
+  avatar?: null | string | any;
   link: string;
 }
 
@@ -18,7 +18,7 @@ export const portfolioAPI = {
         return res.data;
       });
   },
-  createProject: (data: ICreateProject) => {
+  createProject: (data: any) => {
     return instance.post('portfolio/create', data).then((res) => {
       return res.data;
     });

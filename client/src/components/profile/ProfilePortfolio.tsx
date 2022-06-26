@@ -3,6 +3,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import FrameHoc from '../../hoc/FrameHoc';
 import {PORTFOLIO_PATH} from '../../route/const';
+import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IPortfolioProps {
   id: string;
@@ -24,7 +25,14 @@ const ProfilePortfolio = ({id, projects, countProjects}: IPortfolioProps) => {
               key={project._id}
               to={`${PORTFOLIO_PATH}/${project._id}`}
               className="profile-portfolio-list-item">
-              <Avatar className="profile-portfolio-avatar" />
+              {project.avatar ? (
+                <Avatar
+                  className="profile-portfolio-avatar"
+                  src={getImgUrl(project.avatar)}
+                />
+              ) : (
+                <Avatar className="profile-portfolio-avatar" />
+              )}
               <p>{project.title}</p>
             </NavLink>
           ))}
