@@ -27,4 +27,21 @@
       padding-left: 0.3rem;
     }
   }
+  &-file {
+    &-container {
+      max-width: 400px;
+      border: 1px solid $grey;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 1rem;
+    }
+    &-title {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
 }

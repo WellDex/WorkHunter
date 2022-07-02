@@ -16,6 +16,8 @@ import {useParams} from 'react-router-dom';
 import ProfileGroups from '../components/profile/ProfileGroups';
 import ProfilePortfolio from '../components/profile/ProfilePortfolio';
 import {portfolioAPI} from '../api/portfolioAPI';
+import {galleryAPI} from '../api/galleryAPI';
+import {IGallery} from './GalleryPage';
 
 interface IProfile {
   profile: IStateProfile;
@@ -40,6 +42,8 @@ const ProfileContainer = ({
   const params: {id: string} = useParams();
   const [projects, setProjects] = useState<any[]>([]);
   const [countProjects, setCountProjects] = useState<number>(0);
+  const [gallery, setGallery] = useState<IGallery[]>([]);
+  const [countGallery, setCountGallery] = useState<number>(0);
 
   useEffect(() => {
     getProfile(params.id);
@@ -48,6 +52,12 @@ const ProfileContainer = ({
       if (res.portfolio && res.count) {
         setProjects(res.portfolio);
         setCountProjects(res.count);
+      }
+    });
+    galleryAPI.getGallery(params.id, {top: 4, count: true}).then((res) => {
+      if (res.gallery && res.count) {
+        setGallery(res.gallery);
+        setCountGallery(res.count);
       }
     });
   }, [params.id]);
@@ -66,7 +76,11 @@ const ProfileContainer = ({
       </div>
       <div className="profile-col">
         <ProfileInformation {...profile} countProjects={countProjects} />
-        <ProfileGallery id={params.id} />
+        <ProfileGallery
+          id={params.id}
+          gallery={gallery}
+          countGallery={countGallery}
+        />
         <ProfileNotes
           userId={userId}
           notes={notes}

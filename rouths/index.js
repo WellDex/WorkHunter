@@ -8,5 +8,6 @@ router.use('/portfolio', require('./portfolioRoute'));
 router.use('/users', require('./usersRoute'));
 router.use('/groups', require('./groupsRoute'));
 router.use('/news', require('./newsRouter'));
+router.use('/gallery', require('./galleryRoute'));
 
 module.exports = router;

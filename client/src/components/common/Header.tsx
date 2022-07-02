@@ -105,8 +105,6 @@ const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
     setAnchorEl(null);
   };
 
-  console.log(avatar);
-
   return (
     <AppBar position="static" className="header">
       <Container maxWidth="xl">

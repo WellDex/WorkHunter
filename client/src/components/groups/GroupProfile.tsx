@@ -14,6 +14,8 @@ import {getGroup} from '../../Redux/groups/groupsOperations';
 import {getNotes} from '../../Redux/notes/notesOperations';
 import {INote} from '../../Redux/notes/notesReducer';
 import ModalSubscribers from './GroupProfile/ModalSubscribers';
+import {IGallery} from '../../pages/GalleryPage';
+import {galleryAPI} from '../../api/galleryAPI';
 
 interface IGroupProfileProps {
   group: IGroup;
@@ -32,16 +34,29 @@ const GroupProfileContainer = ({
 }: IGroupProfileProps) => {
   const params: {id: string} = useParams();
   const [openModal, setOpenModal] = useState(false);
+  const [gallery, setGallery] = useState<IGallery[]>([]);
+  const [countGallery, setCountGallery] = useState<number>(0);
+
   useEffect(() => {
     getGroup(params.id);
     getNotes(params.id);
+    galleryAPI.getGallery(params.id, {top: 4, count: true}).then((res) => {
+      if (res.gallery && res.count) {
+        setGallery(res.gallery);
+        setCountGallery(res.count);
+      }
+    });
   }, [params.id]);
 
   return (
     <div className="groupProfile">
       <div className="groupProfile-col">
         <GroupInformation group={group} />
-        <GroupGallery />
+        <GroupGallery
+          id={params.id}
+          gallery={gallery}
+          countGallery={countGallery}
+        />
         <GroupsNotes
           userId={userId}
           notes={notes}

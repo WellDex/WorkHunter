@@ -61,9 +61,10 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
               name="preview"
               type="file"
               style={{display: 'none'}}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFile((e.target.files && e.target.files[0]) || null)
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setFile((e.target.files && e.target.files[0]) || null);
+                e.target.value = '';
+              }}
             />
             <Button fullWidth={true} variant="contained" component="span">
               Загрузить аватар сообщества
