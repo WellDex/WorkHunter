@@ -62,7 +62,7 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
           </Button>
         </Tooltip>
       </div>
-      <ImageList cols={3} gap={16}>
+      <ImageList cols={4} gap={16}>
         {portfolio &&
           portfolio.length > 0 &&
           portfolio.map((item, index) => (

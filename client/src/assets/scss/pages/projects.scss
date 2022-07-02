@@ -13,8 +13,9 @@
   &-list {
     &-item {
       cursor: pointer;
-      width: 300px;
+      width: 280px;
       border-radius: 8px;
+      border: 1px solid $main-bg;
       &:hover {
         background-color: $main-bg;
       }
