@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import GroupsAll from '../components/groups/GroupsAll';
 import GroupsControl from '../components/groups/GroupsControl';
@@ -15,14 +15,22 @@ interface IGroupsProps {
 }
 
 const GroupsContainer = ({groups, getGroups, userId}: IGroupsProps) => {
+  const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
     getGroups();
   }, []);
 
   return (
     <div className="groups">
-      <GroupsControl />
-      <GroupsAll groups={groups} userId={userId} />
+      <GroupsControl groups={groups} setSearchValue={setSearchValue} />
+      <GroupsAll
+        groups={groups.filter((group) =>
+          searchValue === ''
+            ? group
+            : group.title.toLowerCase().includes(searchValue.toLowerCase())
+        )}
+        userId={userId}
+      />
     </div>
   );
 };

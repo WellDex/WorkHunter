@@ -4,6 +4,11 @@
     justify-content: space-between;
     gap: 1rem;
   }
+  &-search {
+    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+      border: none;
+    }
+  }
 }
 .groups {
   &-list {

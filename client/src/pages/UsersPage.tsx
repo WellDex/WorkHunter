@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as usersSelectors from '../Redux/users/usersSelectors';
 import * as profileSelectors from '../Redux/profile/profileSelectors';
 import * as appSelectors from '../Redux/app/appSelectors';
@@ -25,14 +25,21 @@ const UsersContainer = ({
   getProfile,
   userId,
 }: IUsersProps) => {
+  const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
     getUsersAll();
   }, []);
   return (
     <div>
-      <UsersControl />
+      <UsersControl users={users} setSearchValue={setSearchValue} />
       <UsersList
-        users={users}
+        users={users.filter((user) =>
+          searchValue === ''
+            ? user
+            : `${user.firstName} ${user.lastName}`
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+        )}
         friends={friends}
         getProfile={() => getProfile(userId)}
       />

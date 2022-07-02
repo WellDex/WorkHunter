@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as usersSelectors from '../Redux/users/usersSelectors';
 import {connect} from 'react-redux';
 import FriendsList from '../components/users/FriendsList';
@@ -15,14 +15,23 @@ interface IFriendsProps {
 
 const FriendsContainer = ({users, getFriends}: IFriendsProps) => {
   const params: any = useParams();
+  const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
     getFriends(params.id);
   }, [params.id]);
 
   return (
     <div>
-      <UsersControl />
-      <FriendsList users={users} />
+      <UsersControl users={users} setSearchValue={setSearchValue} />
+      <FriendsList
+        users={users.filter((user) =>
+          searchValue === ''
+            ? user
+            : `${user.firstName} ${user.lastName}`
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+        )}
+      />
     </div>
   );
 };

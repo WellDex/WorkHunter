@@ -1,50 +1,25 @@
 import {
+  Autocomplete,
   Divider,
   Fab,
-  InputBase,
-  styled,
   Tab,
   Tabs,
+  TextField,
   Tooltip,
 } from '@mui/material';
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import ModalCreateGroup from './ModalCreateGroup';
 import {GROUPS_PATH, MY_GROUPS_PATH} from '../../route/const';
+import {IGroup} from '../../Redux/groups/groupsReducer';
 
-const Search = styled('div')(({theme}) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  color: '#7a7a7a',
-  width: '100%',
-}));
+interface IGroupControl {
+  groups: IGroup[];
+  setSearchValue: (s: string) => void;
+}
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-const GroupsControl = () => {
+const GroupsControl = ({groups, setSearchValue}: IGroupControl) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(
@@ -69,15 +44,15 @@ const GroupsControl = () => {
         />
       </Tabs>
       <Divider />
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{'aria-label': 'search'}}
-        />
-      </Search>
+      <Autocomplete
+        freeSolo
+        className="users-search"
+        onInputChange={(e, value) => setSearchValue(value)}
+        options={groups.map((group) => group.title)}
+        renderInput={(params) => (
+          <TextField {...params} placeholder="Поиск..." />
+        )}
+      />
       <Divider />
       <Tooltip
         title="Создать сообщество"
