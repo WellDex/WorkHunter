@@ -75,7 +75,11 @@ const ProfileContainer = ({
         />
       </div>
       <div className="profile-col">
-        <ProfileInformation {...profile} countProjects={countProjects} />
+        <ProfileInformation
+          {...profile}
+          countProjects={countProjects}
+          countGallery={countGallery}
+        />
         <ProfileGallery
           id={params.id}
           gallery={gallery}

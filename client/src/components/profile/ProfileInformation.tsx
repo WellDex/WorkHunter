@@ -16,6 +16,7 @@ import moment from 'moment';
 
 interface IProfileInformation extends IStateProfile {
   countProjects: number;
+  countGallery: number;
 }
 
 const ProfileInformation = (props: IProfileInformation) => {
@@ -38,6 +39,7 @@ const ProfileInformation = (props: IProfileInformation) => {
     friends,
     groups,
     countProjects,
+    countGallery,
   } = props;
   return (
     <div className="card-container">
@@ -201,7 +203,8 @@ const ProfileInformation = (props: IProfileInformation) => {
           проектов
         </li>
         <li className="profile-info-list-item">
-          <span className="profile-info-list-count">46</span> фотографий
+          <span className="profile-info-list-count">{countGallery}</span>{' '}
+          фотографий
         </li>
       </ul>
     </div>
