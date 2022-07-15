@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {messengerAPI} from '../../api/messengerAPI';
 import {profileAPI} from '../../api/profileAPI';
 import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
@@ -50,6 +51,10 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
     profileAPI.updateAvatar(formData);
   };
 
+  const createChat = () => {
+    messengerAPI.createChat(params.id);
+  };
+
   return (
     <div className="card-container">
       {avatar ? (
@@ -79,13 +84,22 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
           </Button>
         </label>
       ) : (
-        <Button
-          className="profile-avatar-btn-edit"
-          variant="contained"
-          color={isFollow ? 'error' : 'primary'}
-          onClick={isFollow ? unfollow : follow}>
-          {isFollow ? 'Отписаться' : 'Подписаться'}
-        </Button>
+        <>
+          <Button
+            className="profile-avatar-btn-edit"
+            variant="contained"
+            color={isFollow ? 'error' : 'primary'}
+            onClick={isFollow ? unfollow : follow}>
+            {isFollow ? 'Отписаться' : 'Подписаться'}
+          </Button>
+          <Button
+            className="profile-avatar-btn-edit"
+            variant="contained"
+            color={'primary'}
+            onClick={createChat}>
+            Написать
+          </Button>
+        </>
       )}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
         <DialogTitle id="alert-dialog-title">

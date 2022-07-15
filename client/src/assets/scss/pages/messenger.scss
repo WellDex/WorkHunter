@@ -1,7 +1,7 @@
 .messenger {
   display: flex;
   height: 89.6vh;
-  &-usersList {
+  &-chatsList {
     width: 22rem;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -10,6 +10,11 @@
       width: 60px !important;
       height: 60px !important;
       margin-right: 0.5rem;
+    }
+    &-link {
+      &-active {
+        background-color: $grey-hover;
+      }
     }
   }
   .customScroll::-webkit-scrollbar-track {
@@ -37,6 +42,11 @@
           margin: 0 1rem;
           width: 60px !important;
           height: 60px !important;
+        }
+        &-time {
+          color: $grey;
+          font-size: 12px;
+          font-weight: bold;
         }
       }
     }

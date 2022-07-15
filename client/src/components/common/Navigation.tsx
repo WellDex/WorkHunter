@@ -15,7 +15,7 @@ import {
   FRIENDS_PATH,
   FREELANCE_PATH,
   GALLERY_PATH,
-  MESSEMGER_PATH,
+  MESSENGER_PATH,
   NEWS_PATH,
   PORTFOLIO_PATH,
   PROFILE_PATH,
@@ -29,7 +29,7 @@ const menuIcons = (icon: string) => {
       return <AccountCircleIcon fontSize="small" />;
     case NEWS_PATH:
       return <NewspaperIcon fontSize="small" />;
-    case MESSEMGER_PATH:
+    case MESSENGER_PATH:
       return <ChatIcon fontSize="small" />;
     case FRIENDS_PATH:
       return <GroupIcon fontSize="small" />;

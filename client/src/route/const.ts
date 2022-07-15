@@ -1,6 +1,6 @@
 export const PROFILE_PATH = '/profile';
 export const NEWS_PATH = '/news';
-export const MESSEMGER_PATH = '/messanger';
+export const MESSENGER_PATH = '/messenger';
 export const FRIENDS_PATH = '/friends';
 export const USERS_PATH = '/users';
 export const MY_GROUPS_PATH = '/my_groups';

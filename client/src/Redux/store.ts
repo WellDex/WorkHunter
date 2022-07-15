@@ -6,6 +6,7 @@ import notesReducer, {INote} from './notes/notesReducer';
 import profileReducer, {IStateProfile} from './profile/profileReducer';
 import usersReducer, {IUser} from './users/usersReducer';
 import groupsReducer, {IGroup} from './groups/groupsReducer';
+import messengerReducer, {IStateMessenger} from './messenger/messengerReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   portfolio: portfolioReducer,
   groups: groupsReducer,
   users: usersReducer,
+  messenger: messengerReducer,
 });
 
 const middleware = [thunk];
@@ -27,4 +29,5 @@ export interface IStore {
   portfolio: IPortfolio[];
   groups: IGroup[];
   users: IUser[];
+  messenger: IStateMessenger;
 }

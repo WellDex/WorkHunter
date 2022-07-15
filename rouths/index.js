@@ -9,5 +9,6 @@ router.use('/users', require('./usersRoute'));
 router.use('/groups', require('./groupsRoute'));
 router.use('/news', require('./newsRouter'));
 router.use('/gallery', require('./galleryRoute'));
+router.use('/messenger', require('./messengerRoute'));
 
 module.exports = router;

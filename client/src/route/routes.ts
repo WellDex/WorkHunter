@@ -5,7 +5,7 @@ import {
   GALLERY_PATH,
   GROUPS_PATH,
   LOGIN_PATH,
-  MESSEMGER_PATH,
+  MESSENGER_PATH,
   NEWS_PATH,
   PORTFOLIO_PATH,
   PROFILE_PATH,
@@ -52,7 +52,7 @@ export const routes: IRoute[] = [
     isNeedIdParam: false,
   },
   {
-    path: MESSEMGER_PATH,
+    path: MESSENGER_PATH,
     component: MessengerPage,
     name: 'Мессенджер',
     isNeedIdParam: false,
