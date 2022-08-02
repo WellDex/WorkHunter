@@ -12,3 +12,7 @@ export const FREELANCE_PATH = '/freelance';
 export const LOGIN_PATH = '/login';
 export const REGISTER_PATH = '/register';
 export const SETTING_PATH = '/setting';
+export const FREELANCE_MY_PATH = '/freelance/my';
+export const FREELANCE_ALL_PATH = '/freelance/projects';
+export const FREELANCE_ACCEPT_PATH = '/freelance/accepted';
+export const FREELANCE_PROJECT_PATH = '/freelance/project';

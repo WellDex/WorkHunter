@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -6,10 +7,12 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import moment from 'moment';
 import React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {useHistory} from 'react-router-dom';
 
-const ProjectsList = ({rows}: any) => {
+const ProjectsList = ({rows, isShowActions, onDelete}: any) => {
   const history = useHistory();
 
   return (
@@ -21,29 +24,44 @@ const ProjectsList = ({rows}: any) => {
             <TableCell align="center">Бюджет</TableCell>
             <TableCell align="center">Ставок</TableCell>
             <TableCell align="center">Открыт</TableCell>
+            {isShowActions && <TableCell align="center"></TableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: any, index: number) => (
-            <TableRow
-              key={index}
-              hover={true}
-              onClick={() => history.push('/freelance/project/1')}
-              sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-              <TableCell className="freelance-table-cell-title">
-                {row.title}
-              </TableCell>
-              <TableCell className="freelance-table-cell-budget" align="center">
-                {row.budget + '$'}
-              </TableCell>
-              <TableCell className="freelance-table-cell-rates" align="center">
-                {row.rates}
-              </TableCell>
-              <TableCell className="freelance-table-cell-date" align="center">
-                {row.date}
-              </TableCell>
-            </TableRow>
-          ))}
+          {rows.length > 0 &&
+            rows.map((row: any, index: number) => (
+              <TableRow
+                key={index}
+                hover={true}
+                onClick={() => history.push(`/freelance/project/${row._id}`)}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                <TableCell className="freelance-table-cell-title">
+                  {row.title}
+                </TableCell>
+                <TableCell
+                  className="freelance-table-cell-budget"
+                  align="center">
+                  {row.budjet + '$'}
+                </TableCell>
+                <TableCell
+                  className="freelance-table-cell-rates"
+                  align="center">
+                  {row.rate.length}
+                </TableCell>
+                <TableCell className="freelance-table-cell-date" align="center">
+                  {moment(row.date).format('DD/MM')}
+                </TableCell>
+                {isShowActions && (
+                  <TableCell align="center">
+                    <IconButton
+                      size="large"
+                      onClick={(e) => onDelete(e, row._id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

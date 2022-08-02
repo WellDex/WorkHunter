@@ -66,12 +66,33 @@ router.put('/avatar', auth, async (req, res) => {
   }
 });
 
+router.put('/rating', auth, async (req, res) => {
+  try {
+    const id = req.body.userId;
+    const user = await User.findById(id);
+    user.profile.rating = {
+      count: user.profile.rating.count + 1,
+      number: user.profile.rating.number + req.body.rating,
+    };
+    await user.save();
+    res.status(201).json({message: 'Рейтинг обновлен'});
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
+
 router.get('/:id', auth, async (req, res) => {
   try {
     const id = req.params.id || req.user.userId;
     const user = await User.findById(id);
 
-    res.status(200).json(user.profile);
+    let rating = 0;
+    if (user.profile.rating.count > 0 && user.profile.rating.number > 0) {
+      rating = user.profile.rating.number / user.profile.rating.count;
+    }
+
+    res.status(200).json({...user.profile, rating});
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

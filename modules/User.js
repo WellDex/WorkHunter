@@ -10,7 +10,10 @@ const schema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     status: {type: String, default: null},
-    rating: {type: Number, default: 0},
+    rating: {
+      count: {type: Number, default: 0},
+      number: {type: Number, default: 0},
+    },
     birthDate: {type: Date, required: true},
     description: {type: String, default: null},
     city: {type: String, default: null},
@@ -47,10 +50,6 @@ const schema = new Schema({
   role: {type: String, default: 'USER'},
   isBlocked: {type: Boolean, default: false},
   createDate: {type: Date, default: new Date()},
-  // dep
-  notes: [{type: Types.ObjectId, ref: 'Note'}],
-  ownerGroups: [{type: Types.ObjectId, ref: 'Group'}],
-  portfolio: [{type: Types.ObjectId, ref: 'Portfolio'}],
 });
 
 module.exports = model('User', schema);

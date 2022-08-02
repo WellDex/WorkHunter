@@ -109,55 +109,13 @@ const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
     <AppBar position="static" className="header">
       <Container maxWidth="xl">
         <Toolbar>
-          <Link to={PROFILE_PATH} className="header-logo">
+          <Link to={`${PROFILE_PATH}/${userId}`} className="header-logo">
             <PublicIcon className="header-logo--icon" />
             <span className="header-logo--first">Work</span>
             <span className="header-logo--second">Hunter</span>
           </Link>
           {isAuth && (
             <>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{'aria-label': 'search'}}
-                />
-              </Search>
-              <IconButton size="large" aria-label="show 4 new mails">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton size="large" aria-label="show 17 new notifications">
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              {isFreelancePage && (
-                <>
-                  <Box sx={{flexGrow: 1}} />
-                  <div className="header-freelance-container">
-                    <span
-                      className={
-                        (!isActiveSwitch && 'header-freelance-active') || ''
-                      }>
-                      Emloyee
-                    </span>
-                    <Switch
-                      value={isActiveSwitch}
-                      onChange={(e) => setIsActiveSwitch(e.target.checked)}
-                    />
-                    <span
-                      className={
-                        (isActiveSwitch && 'header-freelance-active') || ''
-                      }>
-                      Employer
-                    </span>
-                  </div>
-                </>
-              )}
               <Box sx={{flexGrow: 1}} />
               <div className="header-avatar">
                 <div className="header-avatar--name">{firstName}</div>

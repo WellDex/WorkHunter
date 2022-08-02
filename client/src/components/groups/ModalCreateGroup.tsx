@@ -30,20 +30,16 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
     if (group) {
       groupsAPI
         .updateGroup(group._id, formData)
-        .then((res) => {
-          handleClose();
-        })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log(e))
+        .finally(handleClose);
+
       handleClose();
-      return;
+    } else {
+      groupsAPI
+        .createGroup(formData)
+        .catch((e) => console.log(e))
+        .finally(handleClose);
     }
-    groupsAPI
-      .createGroup(formData)
-      .then((res) => {
-        handleClose();
-      })
-      .catch((e) => console.log(e));
-    handleClose();
   };
   return (
     <Dialog open={open} onClose={handleClose}>

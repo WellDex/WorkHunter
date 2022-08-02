@@ -25,10 +25,12 @@ module.exports = async function connectionSocket(io) {
 
       socket.on('sendMessage', ({senderId, receiverId, text}) => {
         const user = getUser(receiverId);
-        io.to(user.socketId).emit('getMessage', {
-          senderId,
-          text,
-        });
+        if (user?.socketId) {
+          io.to(user.socketId).emit('getMessage', {
+            senderId,
+            text,
+          });
+        }
       });
 
       socket.on('disconnect', () => {

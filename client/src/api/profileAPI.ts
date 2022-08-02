@@ -22,4 +22,9 @@ export const profileAPI = {
       return res.data;
     });
   },
+  updateRating: (data: {rating: number; userId: string}) => {
+    return instance.put('profile/rating', data).then((res) => {
+      return res.data;
+    });
+  },
 };

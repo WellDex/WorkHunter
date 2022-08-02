@@ -103,11 +103,6 @@ export const routes: IRoute[] = [
     isNeedIdParam: false,
   },
   {
-    path: '/freelance/project/:id',
-    component: ProjectProfile,
-    isNeedIdParam: false,
-  },
-  {
     path: SETTING_PATH,
     component: SettingPage,
     isNeedIdParam: false,

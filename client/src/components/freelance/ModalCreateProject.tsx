@@ -1,127 +1,71 @@
-import {
-  Box,
-  Button,
-  Chip,
-  Dialog,
-  Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Theme,
-  useTheme,
-} from '@mui/material';
+import {Button, Dialog, Divider} from '@mui/material';
 import React from 'react';
+import {useForm} from 'react-hook-form';
+import {ICreateProject, projectAPI} from '../../api/projectAPI';
+import CustomField from '../common/CustomField';
 
 interface IModalCreateProject {
   open: boolean;
   handleClose: () => void;
 }
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const ModalCreateProject = ({open, handleClose}: IModalCreateProject) => {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const {handleSubmit, control} = useForm({
+    defaultValues: undefined,
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: {value},
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
+  const onSubmit = (data: ICreateProject) => {
+    console.log(data);
+    projectAPI
+      .create(data)
+      .catch((e) => console.log(e))
+      .finally(handleClose);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
   return (
     <Dialog open={open} onClose={handleClose}>
-      <form onSubmit={onSubmit} className="projects-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="projects-form">
         <h1 className="projects-form-title">Создание проекта</h1>
         <Divider />
-        <TextField
-          required
-          id="outlined-required"
-          label="Название проекта"
-          placeholder="Введите название проекта..."
+        <CustomField
+          name={'title'}
+          control={control}
+          rules={{required: "Обов'язкове поле"}}
+          label={'Название проекта'}
+          placeholder={'Введите название проекта...'}
+          isFullWidth={true}
         />
-        <TextField
-          required
-          multiline={true}
-          id="outlined-required"
-          label="Описание проекта"
-          placeholder="Введите описание проекта..."
+        <CustomField
+          name={'description'}
+          control={control}
+          rules={{}}
+          label={'Описание проекта'}
+          placeholder={'Введите описание проекта...'}
+          isFullWidth={true}
         />
-        <TextField
-          required
-          id="outlined-required"
-          label="Бюджет"
-          placeholder="Введите бюджет..."
+        <CustomField
+          name={'budjet'}
+          control={control}
+          rules={{required: "Обов'язкове поле"}}
+          label={'Бюджет'}
+          type={'number'}
+          placeholder={'Введите бюджет...'}
+          isFullWidth={true}
         />
-        <FormControl>
-          <InputLabel id="demo-multiple-chip-label">Метки</InputLabel>
-          <Select
-            labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
-            multiple
-            value={personName}
-            onChange={handleChange}
-            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-            renderValue={(selected) => (
-              <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-            MenuProps={MenuProps}>
-            {names.map((name) => (
-              <MenuItem
-                key={name}
-                value={name}
-                style={getStyles(name, personName, theme)}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <CustomField
+          name={'marks'}
+          control={control}
+          // rules={{required: "Обов'язкове поле"}}
+          rules={{}}
+          type={'select'}
+          label={'Метки'}
+          select={true}
+          placeholder={'Введите ...'}
+          options={[] as any}
+          isFullWidth={true}
+        />
         <Divider />
         <div className="projects-form-btns">
           <Button variant="contained" onClick={handleClose}>

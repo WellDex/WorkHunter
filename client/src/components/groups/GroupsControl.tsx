@@ -62,7 +62,9 @@ const GroupsControl = ({groups, setSearchValue}: IGroupControl) => {
           <AddIcon />
         </Fab>
       </Tooltip>
-      <ModalCreateGroup open={isOpen} handleClose={() => setIsOpen(false)} />
+      {isOpen && (
+        <ModalCreateGroup open={isOpen} handleClose={() => setIsOpen(false)} />
+      )}
     </>
   );
 };
