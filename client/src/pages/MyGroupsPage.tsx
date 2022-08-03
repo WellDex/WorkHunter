@@ -22,7 +22,11 @@ const GroupsContainer = ({groups, getMyGroups}: IMyGroupsProps) => {
 
   return (
     <div className="groups">
-      <GroupsControl groups={groups} setSearchValue={setSearchValue} />
+      <GroupsControl
+        groups={groups}
+        setSearchValue={setSearchValue}
+        userId={params.id}
+      />
       <GroupsList
         groups={groups.filter((group) =>
           searchValue === ''

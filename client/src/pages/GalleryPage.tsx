@@ -19,6 +19,8 @@ import moment from 'moment';
 import {galleryAPI} from '../api/galleryAPI';
 import {getImgUrl} from '../utils/getImgUrl';
 import {useParams} from 'react-router-dom';
+import * as appSelectors from '../Redux/app/appSelectors';
+import {connect} from 'react-redux';
 
 export interface IGallery {
   createDate: string;
@@ -26,7 +28,11 @@ export interface IGallery {
   _id: string;
 }
 
-const GalleryPage = () => {
+interface IGalleryPage {
+  userId: string;
+}
+
+const GalleryContainer = ({userId}: IGalleryPage) => {
   const params: {id: string} = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -52,15 +58,17 @@ const GalleryPage = () => {
     <div className="card-container">
       <div className="gallery-head">
         <h1 className="gallery-head-title">Галерея</h1>
-        <Tooltip title="Загрузить фотографию" placement="left">
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            onClick={() => setIsOpenModal(true)}>
-            <AddIcon />
-          </Button>
-        </Tooltip>
+        {userId === params.id && (
+          <Tooltip title="Загрузить фотографию" placement="left">
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => setIsOpenModal(true)}>
+              <AddIcon />
+            </Button>
+          </Tooltip>
+        )}
       </div>
       <ImageList cols={4} gap={16}>
         {gallery.length > 0 &&
@@ -82,13 +90,15 @@ const GalleryPage = () => {
                 actionPosition="right"
                 title={moment(item.createDate).format('DD/MM/YYYY')}
                 actionIcon={
-                  <IconButton
-                    onClick={() => {
-                      setDeleteId(item._id);
-                      setIsOpenConfirmDelete(true);
-                    }}>
-                    <DeleteIcon />
-                  </IconButton>
+                  userId === params.id && (
+                    <IconButton
+                      onClick={() => {
+                        setDeleteId(item._id);
+                        setIsOpenConfirmDelete(true);
+                      }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  )
                 }
               />
             </ImageListItem>
@@ -122,5 +132,11 @@ const GalleryPage = () => {
     </div>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  userId: appSelectors.getUserId(state),
+});
+
+const GalleryPage = connect(mapStateToProps, {})(GalleryContainer);
 
 export default FrameHoc(GalleryPage);

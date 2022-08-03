@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FrameHoc from '../hoc/FrameHoc';
 import * as portfolioSelectors from '../Redux/portfolio/portfolioSelectors';
+import * as appSelectors from '../Redux/app/appSelectors';
 import ModalCreateProject from '../components/projects/ModalCreateProject';
 import {IPortfolio} from '../Redux/portfolio/portfolioReducer';
 import {connect} from 'react-redux';
@@ -24,9 +25,14 @@ import {portfolioAPI} from '../api/portfolioAPI';
 interface IPortfolioProps {
   portfolio: IPortfolio[];
   getPortfolio: (id: string) => void;
+  userId: string;
 }
 
-const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
+const PortfolioContainer = ({
+  portfolio,
+  getPortfolio,
+  userId,
+}: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const params: any = useParams();
   const [editProject, setEditProject] = useState<IPortfolio | undefined>(
@@ -52,15 +58,17 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
     <div className="card-container">
       <div className="projects-head">
         <h1 className="projects-head-title">Портфолио</h1>
-        <Tooltip title="Добавить проект" placement="left">
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            onClick={() => setIsOpen(true)}>
-            <AddIcon />
-          </Button>
-        </Tooltip>
+        {userId === params.id && (
+          <Tooltip title="Добавить проект" placement="left">
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => setIsOpen(true)}>
+              <AddIcon />
+            </Button>
+          </Tooltip>
+        )}
       </div>
       <ImageList cols={4} gap={16}>
         {portfolio &&
@@ -80,22 +88,24 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
                   actionPosition="right"
                   title={item.title}
                   actionIcon={
-                    <>
-                      <IconButton
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleEdit(item);
-                        }}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleDelete(item._id);
-                        }}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </>
+                    userId === params.id && (
+                      <>
+                        <IconButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleEdit(item);
+                          }}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDelete(item._id);
+                          }}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </>
+                    )
                   }
                 />
               </a>
@@ -119,6 +129,7 @@ const PortfolioContainer = ({portfolio, getPortfolio}: IPortfolioProps) => {
 
 const mapStateToProps = (state: any) => ({
   portfolio: portfolioSelectors.getPortfolio(state),
+  userId: appSelectors.getUserId(state),
 });
 
 const mapDispatchToProps = {

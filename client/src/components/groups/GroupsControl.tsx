@@ -16,10 +16,11 @@ import {IGroup} from '../../Redux/groups/groupsReducer';
 
 interface IGroupControl {
   groups: IGroup[];
+  userId: string;
   setSearchValue: (s: string) => void;
 }
 
-const GroupsControl = ({groups, setSearchValue}: IGroupControl) => {
+const GroupsControl = ({groups, setSearchValue, userId}: IGroupControl) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(
@@ -35,7 +36,7 @@ const GroupsControl = ({groups, setSearchValue}: IGroupControl) => {
         <Tab
           className="users-control"
           label="Мои сообщества"
-          onClick={() => history.push(MY_GROUPS_PATH)} //todo
+          onClick={() => history.push(`${MY_GROUPS_PATH}/${userId}`)}
         />
         <Tab
           className="users-control"

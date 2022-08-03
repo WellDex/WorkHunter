@@ -5,6 +5,8 @@ export interface INote {
   text: string;
   subscribers: [];
   createDate: string;
+  owner: string;
+  refOwner: string;
   user: {
     name: string;
     avatar: string | null;

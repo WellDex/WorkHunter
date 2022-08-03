@@ -5,7 +5,7 @@ import {
   IconButton,
 } from '@mui/material';
 import React, {useState} from 'react';
-import {NavLink, useParams} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FrameHoc from '../../hoc/FrameHoc';
 import {INote} from '../../Redux/notes/notesReducer';
@@ -27,7 +27,6 @@ const Note = ({
   isOwner = false,
   isGroup = false,
 }: INoteProps) => {
-  const params: {id: string} = useParams();
   const [value, setValue] = useState('');
 
   const deleteNote = () => {
@@ -41,33 +40,23 @@ const Note = ({
     <div className="card-container">
       <div className="profile-note-head">
         <div className="profile-note-head-container">
-          {isGroup ? (
-            note.user.avatar ? (
+          <NavLink
+            to={isGroup ? `/group/${note.owner}` : `/profile/${note.owner}`}>
+            {note.user.avatar ? (
               <Avatar
                 className="profile-note-head-avatar"
                 src={getImgUrl(note.user.avatar)}
               />
             ) : (
               <Avatar className="profile-note-head-avatar" />
-            )
-          ) : (
-            <NavLink to={`/profile/${params.id}`}>
-              {note.user.avatar ? (
-                <Avatar
-                  className="profile-note-head-avatar"
-                  src={getImgUrl(note.user.avatar)}
-                />
-              ) : (
-                <Avatar className="profile-note-head-avatar" />
-              )}
-            </NavLink>
-          )}
-          <div className="profile-note-head-wrapper">
-            {isGroup ? (
-              <a type="button">{note.user.name}</a>
-            ) : (
-              <NavLink to={`/profile/${params.id}`}>{note.user.name}</NavLink>
             )}
+          </NavLink>
+          <div className="profile-note-head-wrapper">
+            <NavLink
+              to={isGroup ? `/group/${note.owner}` : `/profile/${note.owner}`}>
+              {note.user.name}
+            </NavLink>
+
             <p>
               {moment(note.createDate)
                 .locale('ru')
