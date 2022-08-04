@@ -4,7 +4,7 @@ import {
   ListItemButton,
   ListItemText,
 } from '@mui/material';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {IChat, IChatUser} from '../../Redux/messenger/messengerReducer';
 import {MESSENGER_PATH} from '../../route/const';
@@ -12,17 +12,10 @@ import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IChatItem {
   chat: IChat;
-  userId: string;
-  user: IChatUser;
-  getUser: (id: string) => void;
+  user: IChatUser | null;
 }
 
-const ChatItem = ({chat, userId, user, getUser}: IChatItem) => {
-  useEffect(() => {
-    const friendId = chat.members.find((id) => id !== userId);
-    friendId && getUser(friendId);
-  }, []);
-
+const ChatItem = ({chat, user}: IChatItem) => {
   return (
     <>
       {user && (

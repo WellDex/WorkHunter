@@ -1,4 +1,4 @@
-import {SET_CHATS, SET_USER} from './messengerActions';
+import {SET_CHATS, SET_USERS} from './messengerActions';
 
 export interface IChat {
   _id: string;
@@ -14,20 +14,20 @@ export interface IChatUser {
 
 export interface IStateMessenger {
   chats: IChat[];
-  user: IChatUser | null;
+  users: IChatUser[] | [];
 }
 
 const init: IStateMessenger = {
   chats: [],
-  user: null,
+  users: [],
 };
 
 const messengerReducer = (state = init, {type, payload}: any) => {
   switch (type) {
     case SET_CHATS:
       return {...state, chats: payload};
-    case SET_USER:
-      return {...state, user: payload};
+    case SET_USERS:
+      return {...state, users: payload};
     default:
       return state;
   }

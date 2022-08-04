@@ -7,32 +7,36 @@ import FrameHoc from '../hoc/FrameHoc';
 import * as appSelectors from '../Redux/app/appSelectors';
 import * as messengerSelectors from '../Redux/messenger/messengerSelectors';
 import * as profileSelectors from '../Redux/profile/profileSelectors';
-import {getChats, getUser} from '../Redux/messenger/messengerOperations';
+import {getChats, getUsers} from '../Redux/messenger/messengerOperations';
 import {IChat, IChatUser} from '../Redux/messenger/messengerReducer';
-import {Route, useHistory} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {MESSENGER_PATH} from '../route/const';
 import {IStateProfile} from '../Redux/profile/profileReducer';
+import {getProfile} from '../Redux/profile/profileOperations';
 
 interface IMessengerPage {
   userId: string;
-  getChats: (id: string, history: any) => void;
+  getChats: (id: string) => void;
+  getProfile: (id: string) => void;
   chats: IChat[];
-  getUser: (id: string) => void;
-  user: IChatUser;
+  getUsers: () => void;
+  users: IChatUser[];
   profile: IStateProfile;
 }
 
 const MessengerContainer = ({
   userId,
   getChats,
-  getUser,
+  getUsers,
   chats,
-  user,
+  users,
   profile,
+  getProfile,
 }: IMessengerPage) => {
-  const history = useHistory();
   useEffect(() => {
-    getChats(userId, history);
+    getChats(userId);
+    getUsers();
+    getProfile(userId);
   }, []);
 
   return (
@@ -44,9 +48,9 @@ const MessengerContainer = ({
             <ChatItem
               key={index}
               chat={chat}
-              userId={userId}
-              getUser={getUser}
-              user={user}
+              user={
+                users.find((user) => chat.members.includes(user._id)) || null
+              }
             />
           ))}
       </List>
@@ -57,7 +61,7 @@ const MessengerContainer = ({
           <Messenger
             userId={userId}
             profile={profile}
-            user={user}
+            users={users}
             chats={chats}
           />
         )}
@@ -70,12 +74,13 @@ const mapStateToProps = (state: any) => ({
   userId: appSelectors.getUserId(state),
   profile: profileSelectors.getProfile(state),
   chats: messengerSelectors.getChats(state),
-  user: messengerSelectors.getUser(state),
+  users: messengerSelectors.getUsers(state),
 });
 
 const mapDispatchToProps = {
   getChats,
-  getUser,
+  getUsers,
+  getProfile,
 };
 
 const MessengerPage = connect(

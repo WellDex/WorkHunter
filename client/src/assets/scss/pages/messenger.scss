@@ -2,7 +2,7 @@
   display: flex;
   height: 89.6vh;
   &-chatsList {
-    width: 22rem;
+    min-width: 22rem;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     overflow: auto;

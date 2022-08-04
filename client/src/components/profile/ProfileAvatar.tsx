@@ -6,11 +6,12 @@ import {
   DialogTitle,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {messengerAPI} from '../../api/messengerAPI';
 import {profileAPI} from '../../api/profileAPI';
 import {usersAPI} from '../../api/usersAPI';
 import FrameHoc from '../../hoc/FrameHoc';
+import {MESSENGER_PATH} from '../../route/const';
 import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IProfileAvatar {
@@ -23,6 +24,7 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<any>(null);
   const params: {id: string} = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     if (!isOwner) {
@@ -52,7 +54,9 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
   };
 
   const createChat = () => {
-    messengerAPI.createChat(params.id);
+    messengerAPI
+      .createChat(params.id)
+      .then((res) => history.push(`${MESSENGER_PATH}/${res.id}`));
   };
 
   return (

@@ -26,8 +26,8 @@ export const messengerAPI = {
       return res.data;
     });
   },
-  getUser: (id: string) => {
-    return instance.get(`messenger/chat/user/${id}`).then((res) => {
+  getUsers: () => {
+    return instance.get(`messenger/chat/users`).then((res) => {
       return res.data;
     });
   },

@@ -21,7 +21,7 @@ import io from 'socket.io-client';
 interface IMesseger {
   userId: string;
   profile: IStateProfile;
-  user: IChatUser;
+  users: IChatUser[];
   chats: IChat[];
 }
 
@@ -33,13 +33,14 @@ interface IMessage {
   _id: string;
 }
 
-const Messenger = ({userId, profile, user, chats}: IMesseger) => {
+const Messenger = ({userId, profile, users, chats}: IMesseger) => {
   const params: {id: string} = useParams();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [arrivalMessage, setArrivalMessage] = useState<any>(null);
   const [messageText, setMessagesText] = useState('');
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const currentChat = chats.find((el) => el._id === params.id);
+  const user = users.find((user) => currentChat?.members.includes(user._id));
   const messagesEndRef = useRef<any>(null);
   const socket = useRef<any>(null);
 
