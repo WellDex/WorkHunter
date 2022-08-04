@@ -1,71 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   AppBar,
   Avatar,
-  Badge,
   Box,
   IconButton,
-  InputBase,
   Toolbar,
   Container,
   Menu,
   MenuItem,
   ListItemIcon,
   Divider,
-  Switch,
 } from '@mui/material';
-import {styled} from '@mui/material/styles';
 import PublicIcon from '@mui/icons-material/Public';
-import SearchIcon from '@mui/icons-material/Search';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import * as appSelectors from '../../Redux/app/appSelectors';
 import {connect} from 'react-redux';
 import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
 import {logOut} from '../../Redux/app/appOperations';
 import {getImgUrl} from '../../utils/getImgUrl';
-
-const Search = styled('div')(({theme}) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  color: '#7a7a7a',
-  backgroundColor: '#e9e9e9',
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({theme}) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
 
 interface IHeader {
   isAuth: boolean;
@@ -77,25 +33,6 @@ interface IHeader {
 
 const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isActiveSwitch, setIsActiveSwitch] = useState(false);
-  const [isFreelancePage, setIsFreelancePage] = useState(false);
-  const history = useHistory();
-
-  useEffect(() => {
-    if (isActiveSwitch) {
-      return history.push('/freelance/employer');
-    }
-    if (history.location.pathname.includes('freelance')) {
-      history.push('/freelance/projects');
-    }
-  }, [isActiveSwitch]);
-
-  useEffect(() => {
-    if (history.location.pathname.includes('freelance')) {
-      return setIsFreelancePage(true);
-    }
-    setIsFreelancePage(false);
-  }, [history.location.pathname]);
 
   const isOpen = Boolean(anchorEl);
   const handleClick = (event: any) => {

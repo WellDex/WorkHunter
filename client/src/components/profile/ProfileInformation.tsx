@@ -8,7 +8,6 @@ import {
   TableRow,
 } from '@mui/material';
 import React from 'react';
-import Moment from 'react-moment';
 import 'moment/locale/ru';
 import FrameHoc from '../../hoc/FrameHoc';
 import {IStateProfile} from '../../Redux/profile/profileReducer';
@@ -114,11 +113,7 @@ const ProfileInformation = (props: IProfileInformation) => {
                 День рождения
               </TableCell>
               <TableCell>
-                <Moment
-                  date={birthDate}
-                  format={'DD MMMM YYYY'}
-                  locale="ru"
-                  local></Moment>
+                {moment(birthDate).locale('ru').format('DD MMMM YYYY')}
               </TableCell>
             </TableRow>
           </TableBody>
