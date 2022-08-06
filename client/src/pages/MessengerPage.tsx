@@ -13,6 +13,8 @@ import {Route} from 'react-router-dom';
 import {MESSENGER_PATH} from '../route/const';
 import {IStateProfile} from '../Redux/profile/profileReducer';
 import {getProfile} from '../Redux/profile/profileOperations';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import {FixedSizeList} from 'react-window';
 
 interface IMessengerPage {
   userId: string;
@@ -39,22 +41,40 @@ const MessengerContainer = ({
     getProfile(userId);
   }, []);
 
+  const Row = ({index, style}: any) => {
+    return (
+      <div style={style}>
+        <ChatItem
+          key={index}
+          chat={chats[index]}
+          user={
+            users.find((user) => chats[index].members.includes(user._id)) ||
+            null
+          }
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="messenger">
-      <List className="messenger-chatsList customScroll">
-        {chats &&
-          chats.length > 0 &&
-          chats.map((chat: IChat, index) => (
-            <ChatItem
-              key={index}
-              chat={chat}
-              user={
-                users.find((user) => chat.members.includes(user._id)) || null
-              }
-            />
-          ))}
-      </List>
-      <Divider orientation="vertical" flexItem={true} />
+      <AutoSizer>
+        {({height, width}) => (
+          <FixedSizeList
+            className="customScroll"
+            height={height}
+            width={352}
+            itemSize={76}
+            itemCount={chats.length}>
+            {Row}
+          </FixedSizeList>
+        )}
+      </AutoSizer>
+      <Divider
+        orientation="vertical"
+        flexItem={true}
+        style={{marginLeft: '352px'}}
+      />
       <Route
         path={`${MESSENGER_PATH}/:id`}
         component={() => (

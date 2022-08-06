@@ -15,6 +15,7 @@ import {notesAPI} from '../../api/notesAPI';
 import {getImgUrl} from '../../utils/getImgUrl';
 
 interface INoteProps {
+  rowRef: any;
   note: INote;
   getNotes?: () => void;
   isOwner?: boolean;
@@ -22,6 +23,7 @@ interface INoteProps {
 }
 
 const Note = ({
+  rowRef,
   note,
   getNotes,
   isOwner = false,
@@ -37,7 +39,7 @@ const Note = ({
   };
 
   return (
-    <div className="card-container">
+    <div className="card-container" ref={rowRef}>
       <div className="profile-note-head">
         <div className="profile-note-head-container">
           <NavLink

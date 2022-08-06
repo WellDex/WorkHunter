@@ -2,10 +2,6 @@
   display: flex;
   height: 89.6vh;
   &-chatsList {
-    min-width: 22rem;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    overflow: auto;
     &-avatar {
       width: 60px !important;
       height: 60px !important;
@@ -26,9 +22,6 @@
     flex-direction: column;
     height: 100%;
     &-list {
-      overflow: auto;
-      height: 100%;
-      margin-bottom: 0.3rem !important;
       &-item {
         &-left {
           padding-left: 0 !important;
@@ -51,6 +44,7 @@
       }
     }
     &-field {
+      margin-top: auto !important;
       &-item {
         align-self: flex-end;
         margin-bottom: 0.75rem;

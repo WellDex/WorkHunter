@@ -17,6 +17,8 @@ import {getImgUrl} from '../../utils/getImgUrl';
 import {IChat, IChatUser} from '../../Redux/messenger/messengerReducer';
 import moment from 'moment';
 import io from 'socket.io-client';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import {VariableSizeList} from 'react-window';
 
 interface IMesseger {
   userId: string;
@@ -39,9 +41,10 @@ const Messenger = ({userId, profile, users, chats}: IMesseger) => {
   const [arrivalMessage, setArrivalMessage] = useState<any>(null);
   const [messageText, setMessagesText] = useState('');
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [autoHeight, setAutoHaight] = useState(0);
+  const [totalHeight, setTotalHeight] = useState(0);
   const currentChat = chats.find((el) => el._id === params.id);
   const user = users.find((user) => currentChat?.members.includes(user._id));
-  const messagesEndRef = useRef<any>(null);
   const socket = useRef<any>(null);
 
   useEffect(() => {
@@ -90,8 +93,8 @@ const Messenger = ({userId, profile, users, chats}: IMesseger) => {
   }, [messages]);
 
   const scrollToBottom = (params: object) => {
-    if (messagesEndRef && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView(params);
+    if (listRef && listRef.current) {
+      listRef.current.scrollToItem(messages.length - 1, 'end');
     }
   };
 
@@ -110,66 +113,109 @@ const Messenger = ({userId, profile, users, chats}: IMesseger) => {
       });
   };
 
+  //list
+  const listRef = useRef<any>({});
+  const rowHeights = useRef<any>({});
+  const inputRef = useRef<any>({});
+
+  const getRowHeight = (index: any) => {
+    return rowHeights.current[index] + 8 || 82;
+  };
+
+  const Row = ({index, style}: any) => {
+    const rowRef = useRef<any>({});
+    const message = messages[index];
+
+    useEffect(() => {
+      if (rowRef.current) {
+        setRowHeight(index, rowRef.current.clientHeight);
+      }
+    }, [rowRef]);
+
+    return (
+      <div style={style}>
+        {message?.sender === userId ? (
+          <ListItem ref={rowRef} className={'messenger-chat-list-item-right'}>
+            <ListItemAvatar>
+              {profile.avatar ? (
+                <Avatar
+                  src={getImgUrl(profile.avatar)}
+                  className={'messenger-chat-list-item-avatar'}
+                />
+              ) : (
+                <Avatar className={'messenger-chat-list-item-avatar'} />
+              )}
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <>
+                  {`${profile.firstName} ${profile.lastName}`}{' '}
+                  <span className={'messenger-chat-list-item-time'}>
+                    {moment(message.createDate).format('HH:mm:ss')}
+                  </span>
+                </>
+              }
+              secondary={message.text}
+            />
+          </ListItem>
+        ) : (
+          <ListItem ref={rowRef} className={'messenger-chat-list-item-left'}>
+            <ListItemAvatar>
+              {user?.avatar ? (
+                <Avatar
+                  src={getImgUrl(user?.avatar)}
+                  className={'messenger-chat-list-item-avatar'}
+                />
+              ) : (
+                <Avatar className={'messenger-chat-list-item-avatar'} />
+              )}
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <>
+                  {user?.name}
+                  <span className={'messenger-chat-list-item-time'}>
+                    {moment(message?.createDate).format('HH:mm:ss')}
+                  </span>
+                </>
+              }
+              secondary={message?.text}
+            />
+          </ListItem>
+        )}
+      </div>
+    );
+  };
+
+  const setRowHeight = (index: any, size: any) => {
+    listRef.current.resetAfterIndex(0);
+    rowHeights.current = {...rowHeights.current, [index]: size};
+  };
+
+  useEffect(() => {
+    setTotalHeight(autoHeight - inputRef.current.clientHeight);
+  }, [autoHeight, inputRef.current, messageText]);
+
   return (
     <div className="messenger-chat">
-      <List className="messenger-chat-list customScroll">
-        {messages.length > 0 &&
-          messages.map((message, index) =>
-            message?.sender === userId ? (
-              <ListItem
-                key={index}
-                className={'messenger-chat-list-item-right'}>
-                <ListItemAvatar>
-                  {profile.avatar ? (
-                    <Avatar
-                      src={getImgUrl(profile.avatar)}
-                      className={'messenger-chat-list-item-avatar'}
-                    />
-                  ) : (
-                    <Avatar className={'messenger-chat-list-item-avatar'} />
-                  )}
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <>
-                      {`${profile.firstName} ${profile.lastName}`}{' '}
-                      <span className={'messenger-chat-list-item-time'}>
-                        {moment(message.createDate).format('HH:mm:ss')}
-                      </span>
-                    </>
-                  }
-                  secondary={message.text}
-                />
-              </ListItem>
-            ) : (
-              <ListItem key={index} className={'messenger-chat-list-item-left'}>
-                <ListItemAvatar>
-                  {user?.avatar ? (
-                    <Avatar
-                      src={getImgUrl(user?.avatar)}
-                      className={'messenger-chat-list-item-avatar'}
-                    />
-                  ) : (
-                    <Avatar className={'messenger-chat-list-item-avatar'} />
-                  )}
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <>
-                      {user?.name}{' '}
-                      <span className={'messenger-chat-list-item-time'}>
-                        {moment(message?.createDate).format('HH:mm:ss')}
-                      </span>
-                    </>
-                  }
-                  secondary={message?.text}
-                />
-              </ListItem>
-            )
-          )}
-        <div ref={messagesEndRef} />
-      </List>
+      <AutoSizer>
+        {({height, width}) => {
+          setAutoHaight(height);
+          return (
+            <VariableSizeList
+              className="messenger-chat-list customScroll"
+              height={totalHeight}
+              width={width}
+              itemSize={getRowHeight}
+              ref={listRef}
+              itemCount={messages.length}>
+              {Row}
+            </VariableSizeList>
+          );
+        }}
+      </AutoSizer>
       <TextField
+        ref={inputRef}
         className="messenger-chat-field"
         variant="outlined"
         placeholder="Введите сообщение..."
