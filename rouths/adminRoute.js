@@ -20,6 +20,7 @@ router.get('/users', auth, async (req, res) => {
           id: u.id,
           ...u.profile,
           rating,
+          isBlocked: u.isBlocked,
         };
       });
     res.json(users);
@@ -39,11 +40,24 @@ router.get('/groups', auth, async (req, res) => {
   }
 });
 
-router.put('/block', auth, async (req, res) => {
+router.put('/user/block/:id', auth, async (req, res) => {
   try {
-    let user = await User.findById(req.body.id);
-    user.isBlocked = true;
-    res.json().json({message: `Пользователь заблокирован`});
+    let user = await User.findById(req.params.id);
+    user.isBlocked = req.body.isBlocked;
+    await user.save();
+    res.json({message: `Пользователь заблокирован`});
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
+
+router.put('/group/block/:id', auth, async (req, res) => {
+  try {
+    let group = await Group.findById(req.params.id);
+    group.isBlocked = req.body.isBlocked;
+    await group.save();
+    res.json({message: `Сообщество заблокировано`});
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

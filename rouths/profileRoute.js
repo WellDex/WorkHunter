@@ -92,7 +92,7 @@ router.get('/:id', auth, async (req, res) => {
       rating = user.profile.rating.number / user.profile.rating.count;
     }
 
-    res.status(200).json({...user.profile, rating});
+    res.status(200).json({...user.profile, rating, isBlocked: user.isBlocked});
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
     res.status(500).json({message: `Server error: ${error}`});

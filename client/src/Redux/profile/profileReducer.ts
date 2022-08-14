@@ -34,6 +34,7 @@ export interface IStateProfile {
   groups: [];
   isSearchWork: boolean;
   isOnline: boolean;
+  isBlocked: boolean;
 }
 
 const init: IStateProfile = {
@@ -55,6 +56,7 @@ const init: IStateProfile = {
   skills: [],
   isSearchWork: false,
   isOnline: false,
+  isBlocked: false,
 };
 
 const profileReducer = (state = init, {type, payload}: any) => {

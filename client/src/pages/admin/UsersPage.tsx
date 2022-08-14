@@ -1,6 +1,7 @@
 import {
   Avatar,
   Chip,
+  IconButton,
   Rating,
   Table,
   TableBody,
@@ -16,12 +17,19 @@ import FrameHoc from '../../hoc/FrameHoc';
 import {IStateProfile} from '../../Redux/profile/profileReducer';
 import {PROFILE_PATH} from '../../route/const';
 import {getImgUrl} from '../../utils/getImgUrl';
+import BlockIcon from '@mui/icons-material/Block';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 const UsersPage = () => {
   const [users, setUsers] = useState<IStateProfile[]>([]);
   useEffect(() => {
     adminAPI.getUsers().then(setUsers);
   }, []);
+
+  const blockToogle = async (id: string, isBlocked: boolean) =>
+    await adminAPI
+      .blockUserToogle(id, isBlocked)
+      .then(async () => await adminAPI.getUsers().then(setUsers));
 
   return (
     <Table>
@@ -35,6 +43,7 @@ const UsersPage = () => {
           <TableCell>BirthDate</TableCell>
           <TableCell>City</TableCell>
           <TableCell>Skills</TableCell>
+          <TableCell align="right" />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -72,6 +81,19 @@ const UsersPage = () => {
                 {user.skills.map((item, index) => (
                   <Chip key={index} label={item.name} />
                 ))}
+              </TableCell>
+              <TableCell align="right">
+                {user.isBlocked ? (
+                  <IconButton
+                    onClick={() => user.id && blockToogle(user.id, false)}>
+                    <PersonOffIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => user.id && blockToogle(user.id, true)}>
+                    <BlockIcon />
+                  </IconButton>
+                )}
               </TableCell>
             </TableRow>
           ))}

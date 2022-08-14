@@ -1,7 +1,7 @@
 import {SET_PORTFOLIO} from './portfolioActions';
 
 export interface IPortfolio {
-  _id: any;
+  _id: string;
   title: string;
   link: string;
   avatar: string | null;

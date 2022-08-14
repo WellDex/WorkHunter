@@ -113,22 +113,30 @@ const Header = ({
                   }}
                   transformOrigin={{horizontal: 'right', vertical: 'top'}}
                   anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}>
-                  <MenuItem className="header-menu-item">
-                    <Link to={`${PROFILE_PATH}/${userId}`}>
-                      {avatar ? <Avatar src={getImgUrl(avatar)} /> : <Avatar />}{' '}
-                      Profile
-                    </Link>
-                  </MenuItem>
-                  <Divider />
-                  <MenuItem className="header-menu-item">
-                    <Link to={SETTING_PATH}>
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      Settings
-                    </Link>
-                  </MenuItem>
-                  <Divider />
+                  {!isAdmin && (
+                    <>
+                      <MenuItem className="header-menu-item">
+                        <Link to={`${PROFILE_PATH}/${userId}`}>
+                          {avatar ? (
+                            <Avatar src={getImgUrl(avatar)} />
+                          ) : (
+                            <Avatar />
+                          )}{' '}
+                          Profile
+                        </Link>
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem className="header-menu-item">
+                        <Link to={SETTING_PATH}>
+                          <ListItemIcon>
+                            <Settings fontSize="small" />
+                          </ListItemIcon>
+                          Settings
+                        </Link>
+                      </MenuItem>
+                      <Divider />
+                    </>
+                  )}
                   <MenuItem onClick={logOut}>
                     <ListItemIcon>
                       <Logout fontSize="small" />

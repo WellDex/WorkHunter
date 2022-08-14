@@ -17,12 +17,12 @@ export const usersAPI = {
         return res.data;
       });
   },
-  follow: (id: any) => {
+  follow: (id: string) => {
     return instance.post(`users/follow/${id}`).then((res) => {
       return res.status;
     });
   },
-  unfollow: (id: any) => {
+  unfollow: (id: string) => {
     return instance.post(`users/unfollow/${id}`).then((res) => {
       return res.data;
     });

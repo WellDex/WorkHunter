@@ -1,7 +1,7 @@
 import {SET_USERS} from './usersActions';
 
 export interface IUser {
-  id: any;
+  id: string;
   firstName: string;
   lastName: string;
   status: string | null;

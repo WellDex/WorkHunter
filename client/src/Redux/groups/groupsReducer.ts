@@ -1,13 +1,14 @@
 import {SET_GROUPS} from './groupsActions';
 
 export interface IGroup {
-  _id: any;
+  _id: string;
   owner: string;
   title: string;
   avatar: string | null;
   description: string | null;
   subscribers: string[];
   createDate: string;
+  isBlocked: true;
 }
 
 const init: IGroup[] | IGroup = [];

@@ -11,4 +11,14 @@ export const adminAPI = {
       return res.data;
     });
   },
+  blockUserToogle: (id: string, isBlocked: boolean) => {
+    return instance.put(`admin/user/block/${id}`, {isBlocked}).then((res) => {
+      return res.data;
+    });
+  },
+  blockGroupToogle: (id: string, isBlocked: boolean) => {
+    return instance.put(`admin/group/block/${id}`, {isBlocked}).then((res) => {
+      return res.data;
+    });
+  },
 };

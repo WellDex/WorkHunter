@@ -26,7 +26,7 @@ const UserItem = ({user, friends, getProfile}: IUserProps) => {
     setIsFollow(friends.includes(user.id));
   }, [friends]);
 
-  const handleClick = async (id: any) => {
+  const handleClick = async (id: string) => {
     isFollow
       ? await usersAPI.unfollow(id).then((res) => {
           getProfile();
