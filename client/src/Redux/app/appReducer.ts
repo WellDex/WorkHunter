@@ -1,6 +1,7 @@
 import {
   CHANGE_IS_AUTH,
   LOGOUT,
+  SET_IS_ADMIN,
   SET_NOTIFICATON,
   SET_USER_AVATAR,
   SET_USER_FIRSTNAME,
@@ -15,6 +16,7 @@ export interface INotification {
 
 export interface IStateApp {
   isAuth: boolean;
+  isAdmin: boolean;
   notification: INotification;
   userId: string | null;
   firstName: string | null;
@@ -23,6 +25,7 @@ export interface IStateApp {
 
 const init: IStateApp = {
   isAuth: false,
+  isAdmin: false,
   notification: {
     message: null,
     type: null,
@@ -35,7 +38,7 @@ const init: IStateApp = {
 const appReducer = (state = init, {type, payload}: any) => {
   switch (type) {
     case CHANGE_IS_AUTH:
-      return {...state, isAuth: payload.isAuth};
+      return {...state, isAuth: payload};
     case SET_NOTIFICATON:
       return {...state, notification: payload};
     case SET_USER_ID:
@@ -44,6 +47,8 @@ const appReducer = (state = init, {type, payload}: any) => {
       return {...state, firstName: payload};
     case SET_USER_AVATAR:
       return {...state, avatar: payload};
+    case SET_IS_ADMIN:
+      return {...state, isAdmin: payload};
     case LOGOUT:
       return payload;
     default:

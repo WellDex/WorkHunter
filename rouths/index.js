@@ -11,5 +11,7 @@ router.use('/news', require('./newsRouter'));
 router.use('/gallery', require('./galleryRoute'));
 router.use('/messenger', require('./messengerRoute'));
 router.use('/project', require('./projectRoute'));
+router.use('/categories', require('./categoriesRoute'));
+router.use('/admin', require('./adminRoute'));
 
 module.exports = router;

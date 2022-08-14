@@ -6,12 +6,11 @@ export const SET_USER_ID = 'SET_USER_ID';
 export const LOGOUT = 'LOGOUT';
 export const SET_USER_FIRSTNAME = 'SET_USER_FIRSTNAME';
 export const SET_USER_AVATAR = 'SET_USER_AVATAR';
+export const SET_IS_ADMIN = 'SET_IS_ADMIN';
 
-export const changeIsAuth = (data: boolean) => ({
+export const changeIsAuth = (isAuth: boolean) => ({
   type: CHANGE_IS_AUTH,
-  payload: {
-    isAuth: data,
-  },
+  payload: isAuth,
 });
 
 export const setNotification = (data: INotification) => ({
@@ -32,6 +31,11 @@ export const setFirstName = (firstName: string) => ({
 export const setAvatar = (img: string) => ({
   type: SET_USER_AVATAR,
   payload: img,
+});
+
+export const setIsAdmin = (isAdmin: boolean) => ({
+  type: SET_IS_ADMIN,
+  payload: isAdmin,
 });
 
 export const logout = () => ({

@@ -1,27 +1,58 @@
-import {Button, Dialog, Divider} from '@mui/material';
+import {
+  Button,
+  Dialog,
+  Divider,
+  ListSubheader,
+  MenuItem,
+  IconButton,
+} from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import React from 'react';
-import {useForm} from 'react-hook-form';
+import {useForm, useFieldArray} from 'react-hook-form';
 import {ICreateProject, projectAPI} from '../../api/projectAPI';
+import {ICategory} from '../../Redux/categories/categoriesReducer';
 import CustomField from '../common/CustomField';
 
 interface IModalCreateProject {
   open: boolean;
   handleClose: () => void;
+  categories: ICategory[];
 }
 
-const ModalCreateProject = ({open, handleClose}: IModalCreateProject) => {
+const ModalCreateProject = ({
+  open,
+  handleClose,
+  categories,
+}: IModalCreateProject) => {
   const {handleSubmit, control} = useForm({
-    defaultValues: undefined,
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
 
+  const {fields, append, remove} = useFieldArray({
+    control,
+    name: 'marks',
+  });
+
   const onSubmit = (data: ICreateProject) => {
-    console.log(data);
     projectAPI
       .create(data)
       .catch((e) => console.log(e))
       .finally(handleClose);
+  };
+
+  const renderSelectGroup = (category: ICategory) => {
+    const items =
+      category.children &&
+      category.children.length > 0 &&
+      category.children.map((child, index) => {
+        return (
+          <MenuItem key={index} value={child._id}>
+            {child.title}
+          </MenuItem>
+        );
+      });
+    return [<ListSubheader>{category.title}</ListSubheader>, items];
   };
 
   return (
@@ -55,17 +86,45 @@ const ModalCreateProject = ({open, handleClose}: IModalCreateProject) => {
           isFullWidth={true}
         />
         <CustomField
-          name={'marks'}
+          name={'category'}
           control={control}
-          // rules={{required: "Обов'язкове поле"}}
-          rules={{}}
+          rules={{required: "Обов'язкове поле"}}
+          label={'Категория'}
           type={'select'}
-          label={'Метки'}
           select={true}
-          placeholder={'Введите ...'}
-          options={[] as any}
-          isFullWidth={true}
-        />
+          placeholder={'Виберите категорию...'}
+          isFullWidth={true}>
+          {categories.length > 0 &&
+            categories.map((category) => renderSelectGroup(category))}
+        </CustomField>
+        <>
+          <h2 className="settings-title">Метки</h2>
+          <Divider />
+          {fields.map((item: any, index: number) => (
+            <div key={item.id} className="settings">
+              <div className="settings-col">
+                <CustomField
+                  name={`marks.${index}.name`}
+                  control={control}
+                  rules={{required: "Обов'язкове поле"}}
+                  label={'Метка'}
+                  placeholder={'Введите метку...'}
+                  isFullWidth={true}
+                />
+                <IconButton
+                  className="settings-delete-btn-icon"
+                  aria-label="delete"
+                  size="small"
+                  onClick={() => remove(index)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </div>
+            </div>
+          ))}
+          <Button variant="outlined" onClick={() => append({name: ''})}>
+            + Добавить метку
+          </Button>
+        </>
         <Divider />
         <div className="projects-form-btns">
           <Button variant="contained" onClick={handleClose}>

@@ -5,9 +5,15 @@ const schema = new Schema({
   description: {type: String, default: ''},
   budjet: {type: Number, required: true},
   rate: {type: [], default: []},
-  category: {type: Number, default: 0}, //todo
-  subcategory: {type: Number, default: 0}, //todo
-  marks: {type: Array, default: []}, //todo
+  category: {type: String, required: true},
+  marks: {
+    type: [
+      {
+        name: {type: String, required: true},
+      },
+    ],
+    default: [],
+  },
   performer: {
     type: {id: String, avatar: String, firstName: String, lastName: String},
     default: null,

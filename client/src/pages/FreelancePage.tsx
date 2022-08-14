@@ -17,37 +17,56 @@ import {
 import {connect} from 'react-redux';
 import * as profileSelectors from '../Redux/profile/profileSelectors';
 import * as appSelectors from '../Redux/app/appSelectors';
+import * as categoriesSelectors from '../Redux/categories/categoriesSelectors';
 import {IStateProfile} from '../Redux/profile/profileReducer';
+import {ICategory} from '../Redux/categories/categoriesReducer';
+import {getCategories} from '../Redux/categories/categoriesOperations';
+import Filters from '../components/freelance/Filters';
 
 interface IFreelancePage {
   profile: IStateProfile;
   userId: string;
+  isAdmin: boolean;
+  categories: ICategory[];
+  getCategories: (filters?: any) => void;
 }
 
-const FreelancePageContainer = ({profile, userId}: IFreelancePage) => {
+const FreelancePageContainer = ({
+  profile,
+  userId,
+  isAdmin,
+  categories,
+  getCategories,
+}: IFreelancePage) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [isShowControl, setIsShowControl] = useState(true);
+  const [options, setOptions] = useState<any>(null);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   useEffect(() => {
     setIsShowControl(!location.pathname.includes(`${FREELANCE_PROJECT_PATH}/`));
     setProjects([]);
     if (location.pathname === FREELANCE_ALL_PATH) {
-      projectAPI.getAll().then((res) => {
+      projectAPI.getAll(options).then((res) => {
         setProjects(res);
       });
     }
     if (location.pathname === FREELANCE_ACCEPT_PATH) {
-      projectAPI.getAccepted().then((res) => {
+      projectAPI.getAccepted(options).then((res) => {
         setProjects(res);
       });
     }
     if (location.pathname === FREELANCE_MY_PATH) {
-      projectAPI.getMy().then((res) => {
+      projectAPI.getMy(options).then((res) => {
         setProjects(res);
       });
     }
-  }, [location.pathname]);
+  }, [location.pathname, options]);
 
   const onDelete = async (e: any, id: string) => {
     e.stopPropagation();
@@ -60,7 +79,10 @@ const FreelancePageContainer = ({profile, userId}: IFreelancePage) => {
 
   return (
     <div className="freelance">
-      {isShowControl && <Control />}
+      {isShowControl && !isAdmin && <Control />}
+      {isShowControl && (
+        <Filters categories={categories} setOptions={setOptions} />
+      )}
       <div className="card-container">
         <Switch>
           <Route
@@ -92,17 +114,20 @@ const FreelancePageContainer = ({profile, userId}: IFreelancePage) => {
           <Redirect to={FREELANCE_ALL_PATH} />
         </Switch>
       </div>
-      <Tooltip
-        title="Создать проект"
-        style={{position: 'absolute', bottom: '3rem', right: '3rem'}}
-        placement="top">
-        <Fab color="primary" size="large" onClick={() => setIsOpen(true)}>
-          <AddIcon />
-        </Fab>
-      </Tooltip>
+      {!isAdmin && (
+        <Tooltip
+          title="Создать проект"
+          style={{position: 'absolute', bottom: '3rem', right: '3rem'}}
+          placement="top">
+          <Fab color="primary" size="large" onClick={() => setIsOpen(true)}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      )}
       {isOpen && (
         <ModalCreateProject
           open={isOpen}
+          categories={categories}
           handleClose={() => {
             setIsOpen(false);
             if (location.pathname === FREELANCE_MY_PATH) {
@@ -120,8 +145,17 @@ const FreelancePageContainer = ({profile, userId}: IFreelancePage) => {
 const mapStateToProps = (state: any) => ({
   profile: profileSelectors.getProfile(state),
   userId: appSelectors.getUserId(state),
+  isAdmin: appSelectors.getIsAdmin(state),
+  categories: categoriesSelectors.getCategories(state),
 });
 
-const FreelancePage = connect(mapStateToProps, {})(FreelancePageContainer);
+const mapDispatchToProps = {
+  getCategories,
+};
+
+const FreelancePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FreelancePageContainer);
 
 export default FrameHoc(FreelancePage);

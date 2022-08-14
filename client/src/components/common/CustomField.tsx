@@ -1,4 +1,4 @@
-import {TextField} from '@mui/material';
+import {MenuItem, TextField} from '@mui/material';
 import React from 'react';
 import {Controller} from 'react-hook-form';
 
@@ -17,6 +17,7 @@ interface ICustomField {
     value: any;
     label: any;
   }[];
+  children?: any;
 }
 
 const CustomField = ({
@@ -30,6 +31,7 @@ const CustomField = ({
   type = 'text',
   select = false,
   options,
+  children,
 }: ICustomField) => {
   return (
     <Controller
@@ -53,10 +55,11 @@ const CustomField = ({
             {options &&
               options.length > 0 &&
               options.map((option) => (
-                <option key={option.value} value={option.value}>
+                <MenuItem key={option.key} value={option.value}>
                   {option.label}
-                </option>
+                </MenuItem>
               ))}
+            {children && children}
           </TextField>
         ) : (
           <TextField

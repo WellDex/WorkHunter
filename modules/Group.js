@@ -6,6 +6,7 @@ const schema = new Schema({
   avatar: {type: String, default: null},
   subscribers: {type: Array, default: []},
   createDate: {type: String, default: new Date()},
+  isBlocked: {type: Boolean, default: false},
   owner: {type: Types.ObjectId, ref: 'User'},
 });
 

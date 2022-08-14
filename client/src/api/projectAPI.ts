@@ -4,8 +4,7 @@ export interface ICreateProject {
   title: string;
   description: string | null;
   budjet: number;
-  // category?: {type: Number, default: 0}, //todo
-  // subcategory?: {type: Number, default: 0}, //todo
+  category: string;
   marks: any[];
 }
 
@@ -16,20 +15,38 @@ export interface ICreateProjectRate {
 }
 
 export const projectAPI = {
-  getAll: () => {
-    return instance.get('project/all').then((res) => {
-      return res.data;
-    });
+  getAll: (options?: any) => {
+    let params = {};
+    if (options) {
+      params = new URLSearchParams({...options});
+    }
+    return instance
+      .get(`project/all${options ? `?${params.toString()}` : ''}`)
+      .then((res) => {
+        return res.data;
+      });
   },
-  getAccepted: () => {
-    return instance.get('project/accept').then((res) => {
-      return res.data;
-    });
+  getAccepted: (options?: any) => {
+    let params = {};
+    if (options) {
+      params = new URLSearchParams({...options});
+    }
+    return instance
+      .get(`project/accept${options ? `?${params.toString()}` : ''}`)
+      .then((res) => {
+        return res.data;
+      });
   },
-  getMy: () => {
-    return instance.get('project/my').then((res) => {
-      return res.data;
-    });
+  getMy: (options?: any) => {
+    let params = {};
+    if (options) {
+      params = new URLSearchParams({...options});
+    }
+    return instance
+      .get(`project/my${options ? `?${params.toString()}` : ''}`)
+      .then((res) => {
+        return res.data;
+      });
   },
   getById: (id: string) => {
     return instance.get(`project/${id}`).then((res) => {

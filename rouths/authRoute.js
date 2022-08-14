@@ -116,6 +116,7 @@ router.post(
         id: user.id,
         firstName: user.profile.firstName,
         avatar: user.profile.avatar,
+        isAdmin: user.role === 'ADMIN',
       });
     } catch (error) {
       console.log(chalk.white.bgRed.bold(error));
@@ -169,6 +170,7 @@ router.post('/auth', auth, async (req, res) => {
       id: user.id,
       firstName: user.profile.firstName,
       avatar: user.profile.avatar,
+      isAdmin: user.role === 'ADMIN',
     });
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));

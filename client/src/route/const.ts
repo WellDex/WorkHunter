@@ -16,3 +16,9 @@ export const FREELANCE_MY_PATH = '/freelance/my';
 export const FREELANCE_ALL_PATH = '/freelance/projects';
 export const FREELANCE_ACCEPT_PATH = '/freelance/accepted';
 export const FREELANCE_PROJECT_PATH = '/freelance/project';
+
+//ADMIN
+export const USERS_ADMIN_PATH = '/users';
+export const GROUPS_ADMIN_PATH = '/groups';
+export const FREELANCE_ADMIN_PATH = '/freelance';
+export const CATEGORIES_ADMIN_PATH = '/categories';

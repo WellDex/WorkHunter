@@ -7,6 +7,7 @@ import profileReducer, {IStateProfile} from './profile/profileReducer';
 import usersReducer, {IUser} from './users/usersReducer';
 import groupsReducer, {IGroup} from './groups/groupsReducer';
 import messengerReducer, {IStateMessenger} from './messenger/messengerReducer';
+import categoriesReducer, {ICategory} from './categories/categoriesReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   groups: groupsReducer,
   users: usersReducer,
   messenger: messengerReducer,
+  categories: categoriesReducer,
 });
 
 const middleware = [thunk];
@@ -30,4 +32,5 @@ export interface IStore {
   groups: IGroup[];
   users: IUser[];
   messenger: IStateMessenger;
+  categories: ICategory[];
 }

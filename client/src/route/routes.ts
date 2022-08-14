@@ -13,22 +13,27 @@ import {
   MY_GROUPS_PATH,
   GROUP_PATH,
   SETTING_PATH,
+  USERS_ADMIN_PATH,
+  GROUPS_ADMIN_PATH,
+  FREELANCE_ADMIN_PATH,
+  CATEGORIES_ADMIN_PATH,
 } from './const';
 import LoginPage from '../pages/auth/LoginPage';
 import RegistrationPage from '../pages/auth/RegistrationPage';
-import ProjectProfile from '../components/freelance/ProjectProfile';
 import GroupProfile from '../components/groups/GroupProfile';
 import FreelancePage from '../pages/FreelancePage';
 import GalleryPage from '../pages/GalleryPage';
 import GroupsPage from '../pages/GroupsPage';
+import AdminGroupsPage from '../pages/admin/GroupsPage';
 import MessengerPage from '../pages/MessengerPage';
 import NewsPage from '../pages/NewsPage';
 import ProfilePage from '../pages/ProfilePage';
 import ProjectsPage from '../pages/ProjectsPage';
-import UsersPage from '../pages/UsersPage';
+import UsersPage from '../pages/admin/UsersPage';
 import FriendsPage from '../pages/FriendsPage';
 import MyGroupsPage from '../pages/MyGroupsPage';
 import SettingPage from '../pages/SettingPage';
+import CategoryPage from '../pages/admin/CategoriesPage';
 
 export interface IRoute {
   path: string;
@@ -119,5 +124,72 @@ export const authRoutes: IRoute[] = [
     path: REGISTER_PATH,
     component: RegistrationPage,
     isNeedIdParam: false,
+  },
+];
+
+export const adminRoutes: IRoute[] = [
+  {
+    path: USERS_ADMIN_PATH,
+    component: UsersPage,
+    name: 'Пользователи',
+    isNeedIdParam: false,
+  },
+  {
+    path: GROUPS_ADMIN_PATH,
+    component: AdminGroupsPage,
+    name: 'Группы',
+    isNeedIdParam: false,
+  },
+  {
+    path: FREELANCE_ADMIN_PATH,
+    component: FreelancePage,
+    name: 'Фриланс',
+    isNeedIdParam: false,
+  },
+  {
+    path: CATEGORIES_ADMIN_PATH,
+    component: CategoryPage,
+    name: 'Категории',
+    isNeedIdParam: false,
+  },
+  {
+    path: PROFILE_PATH,
+    component: ProfilePage,
+    isNeedIdParam: true,
+  },
+  {
+    path: FRIENDS_PATH,
+    component: FriendsPage,
+    isNeedIdParam: true,
+  },
+  {
+    path: USERS_PATH,
+    component: UsersPage,
+    isNeedIdParam: false,
+  },
+  {
+    path: MY_GROUPS_PATH,
+    component: MyGroupsPage,
+    isNeedIdParam: true,
+  },
+  {
+    path: GROUPS_PATH,
+    component: GroupsPage,
+    isNeedIdParam: false,
+  },
+  {
+    path: GALLERY_PATH,
+    component: GalleryPage,
+    isNeedIdParam: true,
+  },
+  {
+    path: PORTFOLIO_PATH,
+    component: ProjectsPage,
+    isNeedIdParam: true,
+  },
+  {
+    path: GROUP_PATH,
+    component: GroupProfile,
+    isNeedIdParam: true,
   },
 ];

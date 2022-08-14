@@ -22,13 +22,12 @@ import {getImgUrl} from '../../utils/getImgUrl';
 import SendIcon from '@mui/icons-material/Send';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
 import HistoryToggleOffIcon from '@mui/icons-material/HistoryToggleOff';
-import {IStateProfile} from '../../Redux/profile/profileReducer';
 import {PROFILE_PATH} from '../../route/const';
 import ModalRatingPerformer from './ModalRatingPerformer';
 import {profileAPI} from '../../api/profileAPI';
 
 interface IProjectProfile {
-  profile: IStateProfile;
+  profile: any;
   userId: string;
 }
 
@@ -302,9 +301,9 @@ const ProjectProfile = ({profile, userId}: IProjectProfile) => {
                 primary="Метки"
                 secondary={
                   <div className="freelance-project-chips">
-                    <Chip label="html" variant="outlined" />
-                    <Chip label="css" variant="outlined" />
-                    <Chip label="react" variant="outlined" />
+                    {project.marks.map((mark: any, index: number) => (
+                      <Chip key={index} label={mark.name} variant="outlined" />
+                    ))}
                   </div>
                 }
               />

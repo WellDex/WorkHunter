@@ -6,11 +6,11 @@ import Header from './components/common/Header';
 import {Box, Container} from '@mui/material';
 import * as appSelectors from './Redux/app/appSelectors';
 import {connect} from 'react-redux';
-import {routes, IRoute, authRoutes} from './route/routes';
+import {routes, IRoute, authRoutes, adminRoutes} from './route/routes';
 import {auth} from './Redux/app/appOperations';
 import {getProfile} from './Redux/profile/profileOperations';
 
-const App = ({isAuth, notification, auth, getProfile}: any) => {
+const App = ({isAuth, notification, auth, getProfile, isAdmin}: any) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
@@ -40,21 +40,37 @@ const App = ({isAuth, notification, auth, getProfile}: any) => {
         <div className="content customScroll">
           <Switch>
             {isAuth
-              ? routes.map((route: IRoute, index) =>
-                  route.isNeedIdParam ? (
-                    <Route
-                      key={index}
-                      path={`${route.path}/:id`}
-                      component={route.component}
-                    />
-                  ) : (
-                    <Route
-                      key={index}
-                      path={route.path}
-                      component={route.component}
-                    />
+              ? isAdmin
+                ? adminRoutes.map((route: IRoute, index) =>
+                    route.isNeedIdParam ? (
+                      <Route
+                        key={index}
+                        path={`${route.path}/:id`}
+                        component={route.component}
+                      />
+                    ) : (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        component={route.component}
+                      />
+                    )
                   )
-                )
+                : routes.map((route: IRoute, index) =>
+                    route.isNeedIdParam ? (
+                      <Route
+                        key={index}
+                        path={`${route.path}/:id`}
+                        component={route.component}
+                      />
+                    ) : (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        component={route.component}
+                      />
+                    )
+                  )
               : authRoutes.map((route: IRoute, index) => (
                   <Route
                     key={index}
@@ -77,6 +93,7 @@ const App = ({isAuth, notification, auth, getProfile}: any) => {
 
 const mapStateToProps = (state: any) => ({
   isAuth: appSelectors.getIsAuth(state),
+  isAdmin: appSelectors.getIsAdmin(state),
   notification: appSelectors.getNotification(state),
 });
 

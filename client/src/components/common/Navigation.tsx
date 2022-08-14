@@ -9,8 +9,9 @@ import ForumIcon from '@mui/icons-material/Forum';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import WebIcon from '@mui/icons-material/Web';
 import WorkIcon from '@mui/icons-material/Work';
+import SettingsIcon from '@mui/icons-material/Settings';
 import * as appSelectors from '../../Redux/app/appSelectors';
-import {IRoute, routes} from '../../route/routes';
+import {adminRoutes, IRoute, routes} from '../../route/routes';
 import {
   FRIENDS_PATH,
   FREELANCE_PATH,
@@ -20,6 +21,9 @@ import {
   PORTFOLIO_PATH,
   PROFILE_PATH,
   MY_GROUPS_PATH,
+  USERS_ADMIN_PATH,
+  GROUPS_ADMIN_PATH,
+  CATEGORIES_ADMIN_PATH,
 } from '../../route/const';
 import {connect} from 'react-redux';
 
@@ -31,8 +35,10 @@ const menuIcons = (icon: string) => {
       return <NewspaperIcon fontSize="small" />;
     case MESSENGER_PATH:
       return <ChatIcon fontSize="small" />;
+    case USERS_ADMIN_PATH:
     case FRIENDS_PATH:
       return <GroupIcon fontSize="small" />;
+    case GROUPS_ADMIN_PATH:
     case MY_GROUPS_PATH:
       return <ForumIcon fontSize="small" />;
     case GALLERY_PATH:
@@ -41,31 +47,47 @@ const menuIcons = (icon: string) => {
       return <WebIcon fontSize="small" />;
     case FREELANCE_PATH:
       return <WorkIcon fontSize="small" />;
+    case CATEGORIES_ADMIN_PATH:
+      return <SettingsIcon fontSize="small" />;
   }
 };
 
 interface INavProps {
   userId: string | null;
+  isAdmin: boolean;
 }
 
-const NavigationContainer = ({userId}: INavProps) => {
+const NavigationContainer = ({userId, isAdmin}: INavProps) => {
   const [navList, setNavList] = useState<IRoute[] | any[]>([]);
   useEffect(() => {
     setNavList(
-      routes
-        .map((r: IRoute) => {
-          if (!!r.name) {
-            return {
-              path: r.path,
-              name: r.name,
-              icon: menuIcons(r.path),
-              isNeedIdParam: r.isNeedIdParam,
-            };
-          }
-        })
-        .filter((el) => !!el) || []
+      isAdmin
+        ? adminRoutes
+            .map((r: IRoute) => {
+              if (!!r.name) {
+                return {
+                  path: r.path,
+                  name: r.name,
+                  icon: menuIcons(r.path),
+                  isNeedIdParam: r.isNeedIdParam,
+                };
+              }
+            })
+            .filter((el) => !!el) || []
+        : routes
+            .map((r: IRoute) => {
+              if (!!r.name) {
+                return {
+                  path: r.path,
+                  name: r.name,
+                  icon: menuIcons(r.path),
+                  isNeedIdParam: r.isNeedIdParam,
+                };
+              }
+            })
+            .filter((el) => !!el) || []
     );
-  }, [routes]);
+  }, [routes, adminRoutes, isAdmin]);
 
   return (
     <div className="navigation-container">
@@ -89,6 +111,7 @@ const NavigationContainer = ({userId}: INavProps) => {
 
 const mapStateToProps = (state: any) => ({
   userId: appSelectors.getUserId(state),
+  isAdmin: appSelectors.getIsAdmin(state),
 });
 
 const Navigation = connect(mapStateToProps, {})(NavigationContainer);

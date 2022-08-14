@@ -27,6 +27,7 @@ export const authAPI = {
   },
   logout: () => {
     return instance.post('auth/logout', {}).then((res) => {
+      localStorage.clear();
       return res.data;
     });
   },

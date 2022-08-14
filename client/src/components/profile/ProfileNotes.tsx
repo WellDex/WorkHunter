@@ -56,7 +56,7 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
       const keys = Object.keys(rowHeights.current);
 
       const total = keys.reduceRight((prev, current) => {
-        return prev + +rowHeights.current[current] + 10;
+        return prev + +rowHeights.current[current] + 20;
       }, 0);
       setTotalHeight(total);
     }

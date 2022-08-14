@@ -24,7 +24,7 @@ const ProjectsList = ({rows, isShowActions, onDelete}: any) => {
             <TableCell align="center">Бюджет</TableCell>
             <TableCell align="center">Ставок</TableCell>
             <TableCell align="center">Открыт</TableCell>
-            {isShowActions && <TableCell align="center"></TableCell>}
+            {isShowActions && <TableCell align="center" />}
           </TableRow>
         </TableHead>
         <TableBody>

@@ -7,6 +7,7 @@ import {
   logout,
   setFirstName,
   setAvatar,
+  setIsAdmin,
 } from './appActions';
 
 export const login =
@@ -19,8 +20,9 @@ export const login =
         dispatch(setUserId(res.id));
         dispatch(setFirstName(res.firstName));
         dispatch(setAvatar(res.avatar));
+        dispatch(setIsAdmin(res.isAdmin));
         getProfile(res.id);
-        history.push('/news');
+        history.push(res.isAdmin ? '/users' : '/news');
       })
       .catch((res) => {
         dispatch(setNotification({message: res.message, type: 'error'}));
@@ -36,8 +38,9 @@ export const auth =
         dispatch(setUserId(res.id));
         dispatch(setFirstName(res.firstName));
         dispatch(setAvatar(res.avatar));
+        dispatch(setIsAdmin(res.isAdmin));
         getProfile(res.id);
-        history.push('/news');
+        history.push(res.isAdmin ? '/users' : '/news');
       })
       .catch((res) => {
         dispatch(setNotification({message: res.message, type: 'error'}));

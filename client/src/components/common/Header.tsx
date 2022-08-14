@@ -25,13 +25,21 @@ import {getImgUrl} from '../../utils/getImgUrl';
 
 interface IHeader {
   isAuth: boolean;
+  isAdmin: boolean;
   firstName: string | null;
   logOut: () => void;
   userId: string;
   avatar: string | null;
 }
 
-const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
+const Header = ({
+  isAuth,
+  firstName,
+  userId,
+  logOut,
+  avatar,
+  isAdmin,
+}: IHeader) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const isOpen = Boolean(anchorEl);
@@ -46,7 +54,9 @@ const Header = ({isAuth, firstName, userId, logOut, avatar}: IHeader) => {
     <AppBar position="static" className="header">
       <Container maxWidth="xl">
         <Toolbar>
-          <Link to={`${PROFILE_PATH}/${userId}`} className="header-logo">
+          <Link
+            to={isAdmin ? '/users' : `${PROFILE_PATH}/${userId}`}
+            className="header-logo">
             <PublicIcon className="header-logo--icon" />
             <span className="header-logo--first">Work</span>
             <span className="header-logo--second">Hunter</span>
@@ -134,6 +144,7 @@ const mapStateToProps = (state: any) => ({
   firstName: appSelectors.getFirstName(state),
   avatar: appSelectors.getAvatar(state),
   userId: appSelectors.getUserId(state),
+  isAdmin: appSelectors.getIsAdmin(state),
 });
 
 const mapDispatchToProps = {

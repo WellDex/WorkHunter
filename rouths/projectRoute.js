@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const auth = require('../middleware/auhtMiddleware');
 const User = require('../modules/User');
+const Category = require('../modules/Category');
 const Project = require('../modules/Project');
 const chalk = require('chalk');
 
@@ -8,7 +9,18 @@ const router = Router();
 
 router.get('/all', auth, async (req, res) => {
   try {
-    const projects = await Project.find({performer: null});
+    const {rootValue, subValue} = req.query;
+    let projects = [];
+    if (subValue) {
+      projects = await Project.find({performer: null, category: subValue});
+    } else if (rootValue) {
+      const category = await Category.findById(rootValue);
+      projects = await Project.find({performer: null})
+        .where('category')
+        .in(category.childrens);
+    } else {
+      projects = await Project.find({performer: null});
+    }
     res.json(projects);
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
@@ -17,9 +29,22 @@ router.get('/all', auth, async (req, res) => {
 });
 router.get('/accept', auth, async (req, res) => {
   try {
-    const projects = await Project.find()
-      .where('performer.id')
-      .in(req.user.userId);
+    const {rootValue, subValue} = req.query;
+    let projects = [];
+    if (subValue) {
+      projects = await Project.find({category: subValue})
+        .where('performer.id')
+        .in(req.user.userId);
+    } else if (rootValue) {
+      const category = await Category.findById(rootValue);
+      projects = await Project.find()
+        .where('performer.id')
+        .in(req.user.userId)
+        .where('category')
+        .in(category.childrens);
+    } else {
+      projects = await Project.find().where('performer.id').in(req.user.userId);
+    }
     res.json(projects);
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
@@ -28,7 +53,21 @@ router.get('/accept', auth, async (req, res) => {
 });
 router.get('/my', auth, async (req, res) => {
   try {
-    const projects = await Project.find({owner: req.user.userId});
+    const {rootValue, subValue} = req.query;
+    let projects = [];
+    if (subValue) {
+      projects = await Project.find({
+        owner: req.user.userId,
+        category: subValue,
+      });
+    } else if (rootValue) {
+      const category = await Category.findById(rootValue);
+      projects = await Project.find({owner: req.user.userId})
+        .where('category')
+        .in(category.childrens);
+    } else {
+      projects = await Project.find({owner: req.user.userId});
+    }
     res.json(projects);
   } catch (error) {
     console.log(chalk.white.bgRed.bold(error));
