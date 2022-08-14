@@ -19,7 +19,7 @@ import Logout from '@mui/icons-material/Logout';
 import {Link} from 'react-router-dom';
 import * as appSelectors from '../../Redux/app/appSelectors';
 import {connect} from 'react-redux';
-import {PROFILE_PATH, SETTING_PATH} from '../../route/const';
+import {LOGIN_PATH, PROFILE_PATH, SETTING_PATH} from '../../route/const';
 import {logOut} from '../../Redux/app/appOperations';
 import {getImgUrl} from '../../utils/getImgUrl';
 
@@ -55,7 +55,13 @@ const Header = ({
       <Container maxWidth="xl">
         <Toolbar>
           <Link
-            to={isAdmin ? '/users' : `${PROFILE_PATH}/${userId}`}
+            to={
+              isAuth
+                ? isAdmin
+                  ? '/users'
+                  : `${PROFILE_PATH}/${userId}`
+                : LOGIN_PATH
+            }
             className="header-logo">
             <PublicIcon className="header-logo--icon" />
             <span className="header-logo--first">Work</span>
