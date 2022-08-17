@@ -21,6 +21,7 @@ import noImage from '../assets/image/noImage.png';
 import {useParams} from 'react-router-dom';
 import {getImgUrl} from '../utils/getImgUrl';
 import {portfolioAPI} from '../api/portfolioAPI';
+import NoData from '../components/common/NoData';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
@@ -70,10 +71,9 @@ const PortfolioContainer = ({
           </Tooltip>
         )}
       </div>
-      <ImageList cols={4} gap={16}>
-        {portfolio &&
-          portfolio.length > 0 &&
-          portfolio.map((item, index) => (
+      {portfolio && portfolio.length > 0 ? (
+        <ImageList cols={4} gap={16}>
+          {portfolio.map((item, index) => (
             <ImageListItem key={index} className="projects-list-item">
               <a href={item.link} target="_blank" rel="noopener noreferrer">
                 <img
@@ -111,7 +111,10 @@ const PortfolioContainer = ({
               </a>
             </ImageListItem>
           ))}
-      </ImageList>
+        </ImageList>
+      ) : (
+        <NoData />
+      )}
       {isOpen && (
         <ModalCreateProject
           open={isOpen}

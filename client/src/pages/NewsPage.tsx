@@ -5,6 +5,7 @@ import Note from '../components/note/Note';
 import {INote} from '../Redux/notes/notesReducer';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
+import NoData from '../components/common/NoData';
 
 const NewsPage = () => {
   const [news, setNews] = useState<INote[]>([]);
@@ -46,6 +47,10 @@ const NewsPage = () => {
     listRef.current.resetAfterIndex(0);
     rowHeights.current = {...rowHeights.current, [index]: size};
   };
+
+  if (!news.length) {
+    return <NoData />;
+  }
 
   return (
     <AutoSizer>

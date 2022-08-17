@@ -7,6 +7,7 @@ import * as groupsSelectors from '../Redux/groups/groupsSelectors';
 import {IGroup} from '../Redux/groups/groupsReducer';
 import {getMyGroups} from '../Redux/groups/groupsOperations';
 import {useParams} from 'react-router-dom';
+import NoData from '../components/common/NoData';
 
 interface IMyGroupsProps {
   groups: IGroup[];
@@ -27,13 +28,17 @@ const GroupsContainer = ({groups, getMyGroups}: IMyGroupsProps) => {
         setSearchValue={setSearchValue}
         userId={params.id}
       />
-      <GroupsList
-        groups={groups.filter((group) =>
-          searchValue === ''
-            ? group
-            : group.title.toLowerCase().includes(searchValue.toLowerCase())
-        )}
-      />
+      {groups.length > 0 ? (
+        <GroupsList
+          groups={groups.filter((group) =>
+            searchValue === ''
+              ? group
+              : group.title.toLowerCase().includes(searchValue.toLowerCase())
+          )}
+        />
+      ) : (
+        <NoData />
+      )}
     </div>
   );
 };

@@ -11,6 +11,7 @@ import moment from 'moment';
 import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useHistory} from 'react-router-dom';
+import NoData from '../common/NoData';
 
 const ProjectsList = ({rows, isShowActions, onDelete}: any) => {
   const history = useHistory();
@@ -64,6 +65,7 @@ const ProjectsList = ({rows, isShowActions, onDelete}: any) => {
             ))}
         </TableBody>
       </Table>
+      {!rows.length && <NoData />}
     </TableContainer>
   );
 };

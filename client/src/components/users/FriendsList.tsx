@@ -10,6 +10,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {IUser} from '../../Redux/users/usersReducer';
 import {getImgUrl} from '../../utils/getImgUrl';
+import NoData from '../common/NoData';
 
 interface IFriendsProps {
   users: IUser[];
@@ -18,7 +19,7 @@ interface IFriendsProps {
 const FriendsList = ({users}: IFriendsProps) => {
   return (
     <List className="friends-list">
-      {users.length > 0 &&
+      {users.length > 0 ? (
         users.map((user, index) => (
           <div key={index}>
             <ListItem className="friends-list-item">
@@ -41,7 +42,10 @@ const FriendsList = ({users}: IFriendsProps) => {
             </ListItem>
             <Divider />
           </div>
-        ))}
+        ))
+      ) : (
+        <NoData />
+      )}
     </List>
   );
 };

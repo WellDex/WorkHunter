@@ -19,6 +19,7 @@ import moment from 'moment';
 import io from 'socket.io-client';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
+import NoData from '../common/NoData';
 
 interface IMesseger {
   userId: string;

@@ -21,6 +21,7 @@ import {connect} from 'react-redux';
 import {getCategories} from '../../Redux/categories/categoriesOperations';
 import {ICategory} from '../../Redux/categories/categoriesReducer';
 import {categoriesAPI} from '../../api/categoriesAPI';
+import NoData from '../../components/common/NoData';
 
 interface ICategories {
   categories: ICategory[];
@@ -161,6 +162,7 @@ const CategoriesContainer = ({categories, getCategories}: ICategories) => {
             ))}
         </TableBody>
       </Table>
+      {!categories.length && <NoData />}
       {isOpen && (
         <ModalCategoryForm
           parent={parentId}

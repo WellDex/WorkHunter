@@ -21,6 +21,7 @@ import {getImgUrl} from '../utils/getImgUrl';
 import {useParams} from 'react-router-dom';
 import * as appSelectors from '../Redux/app/appSelectors';
 import {connect} from 'react-redux';
+import NoData from '../components/common/NoData';
 
 export interface IGallery {
   createDate: string;
@@ -70,9 +71,9 @@ const GalleryContainer = ({userId}: IGalleryPage) => {
           </Tooltip>
         )}
       </div>
-      <ImageList cols={4} gap={16}>
-        {gallery.length > 0 &&
-          gallery.map((item, index) => (
+      {gallery.length > 0 ? (
+        <ImageList cols={4} gap={16}>
+          {gallery.map((item, index) => (
             <ImageListItem key={index} className="gallery-list-item">
               <img
                 src={getImgUrl(item.img)}
@@ -103,7 +104,10 @@ const GalleryContainer = ({userId}: IGalleryPage) => {
               />
             </ImageListItem>
           ))}
-      </ImageList>
+        </ImageList>
+      ) : (
+        <NoData />
+      )}
       <Dialog open={isOpenConfirmDelete}>
         <DialogTitle>Вы действительно хотите удалить фотографию?</DialogTitle>
         <DialogActions style={{display: 'flex', justifyContent: 'center'}}>

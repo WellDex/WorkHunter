@@ -15,6 +15,7 @@ import {IStateProfile} from '../Redux/profile/profileReducer';
 import {getProfile} from '../Redux/profile/profileOperations';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {FixedSizeList} from 'react-window';
+import NoData from '../components/common/NoData';
 
 interface IMessengerPage {
   userId: string;
@@ -55,6 +56,10 @@ const MessengerContainer = ({
       </div>
     );
   };
+
+  if (!chats.length) {
+    return <NoData />;
+  }
 
   return (
     <div className="messenger">

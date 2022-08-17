@@ -6,6 +6,7 @@ import CreateNote from '../note/CreateNote';
 import Note from '../note/Note';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
+import NoData from '../common/NoData';
 
 interface IProfileNotes {
   notes: INote[];
@@ -67,18 +68,22 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
       {params.id === userId && (
         <CreateNote avatar={profile.avatar} getNotes={getNotes} />
       )}
-      <AutoSizer>
-        {({height, width}) => (
-          <VariableSizeList
-            height={totalHeight}
-            width={width}
-            itemSize={getRowHeight}
-            ref={listRef}
-            itemCount={notes.length}>
-            {Row}
-          </VariableSizeList>
-        )}
-      </AutoSizer>
+      {notes.length ? (
+        <AutoSizer>
+          {({height, width}) => (
+            <VariableSizeList
+              height={totalHeight}
+              width={width}
+              itemSize={getRowHeight}
+              ref={listRef}
+              itemCount={notes.length}>
+              {Row}
+            </VariableSizeList>
+          )}
+        </AutoSizer>
+      ) : (
+        <NoData />
+      )}
     </>
   );
 };

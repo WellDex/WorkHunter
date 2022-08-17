@@ -1,6 +1,7 @@
 import {ImageList} from '@mui/material';
 import React from 'react';
 import {IUser} from '../../Redux/users/usersReducer';
+import NoData from '../common/NoData';
 import UserItem from './UserItem';
 
 interface IUsersProps {
@@ -12,12 +13,14 @@ interface IUsersProps {
 const UsersList = ({users, friends, getProfile}: IUsersProps) => {
   return (
     <div className="card-container">
-      {users.length > 0 && (
+      {users.length > 0 ? (
         <ImageList cols={4} gap={16}>
           {users.map((user) => (
             <UserItem user={user} friends={friends} getProfile={getProfile} />
           ))}
         </ImageList>
+      ) : (
+        <NoData />
       )}
     </div>
   );

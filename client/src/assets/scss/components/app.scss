@@ -101,3 +101,14 @@
     padding-bottom: 1rem !important;
   }
 }
+.noData {
+  margin: 1rem auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  img {
+    width: 100px !important;
+  }
+}
