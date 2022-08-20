@@ -16,17 +16,30 @@ import {GROUP_PATH} from '../../route/const';
 import {getImgUrl} from '../../utils/getImgUrl';
 import BlockIcon from '@mui/icons-material/Block';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import {connect} from 'react-redux';
+import {setLoading} from '../../Redux/app/appOperations';
 
-const GroupsPage = () => {
+interface IGroupsPage {
+  setLoading: (b: boolean) => void;
+}
+
+const GroupsPage = ({setLoading}: IGroupsPage) => {
   const [groups, setGroups] = useState<IGroup[]>([]);
   useEffect(() => {
-    adminAPI.getGroups().then(setGroups);
+    setLoading(true);
+    adminAPI
+      .getGroups()
+      .then(setGroups)
+      .finally(() => setLoading(false));
   }, []);
 
-  const blockToogle = async (id: string, isBlocked: boolean) =>
+  const blockToogle = async (id: string, isBlocked: boolean) => {
+    setLoading(true);
     await adminAPI
       .blockGroupToogle(id, isBlocked)
-      .then(async () => await adminAPI.getGroups().then(setGroups));
+      .then(async () => await adminAPI.getGroups().then(setGroups))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Table>
@@ -73,4 +86,12 @@ const GroupsPage = () => {
   );
 };
 
-export default FrameHoc(GroupsPage);
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = {
+  setLoading,
+};
+
+export default FrameHoc(
+  connect(mapStateToProps, mapDispatchToProps)(GroupsPage)
+);

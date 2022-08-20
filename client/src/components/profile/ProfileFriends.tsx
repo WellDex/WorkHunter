@@ -14,12 +14,17 @@ const options = {
 interface IFriendsProps {
   id: string;
   countFriends: number;
+  setLoading: (b: boolean) => void;
 }
 
-const ProfileFriends = ({id, countFriends}: IFriendsProps) => {
+const ProfileFriends = ({id, countFriends, setLoading}: IFriendsProps) => {
   const [friends, setFriends] = useState<any[]>([]);
   useEffect(() => {
-    usersAPI.getFriends(id, options).then((res) => setFriends(res));
+    setLoading(true);
+    usersAPI
+      .getFriends(id, options)
+      .then((res) => setFriends(res))
+      .finally(() => setLoading(false));
   }, [id]);
 
   return (

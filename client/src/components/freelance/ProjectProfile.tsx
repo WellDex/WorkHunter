@@ -29,9 +29,10 @@ import {profileAPI} from '../../api/profileAPI';
 interface IProjectProfile {
   profile: any;
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
-const ProjectProfile = ({profile, userId}: IProjectProfile) => {
+const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
   const history = useHistory();
   const params: {id: string} = useParams();
   const [project, setProject] = useState<any>();
@@ -44,10 +45,15 @@ const ProjectProfile = ({profile, userId}: IProjectProfile) => {
   }, [project]);
 
   useEffect(() => {
-    projectAPI.getById(params.id).then(setProject);
+    setLoading(true);
+    projectAPI
+      .getById(params.id)
+      .then(setProject)
+      .finally(() => setLoading(false));
   }, [params.id]);
 
   const sendMessage = async () => {
+    setLoading(true);
     await projectAPI
       .addRate({
         projectId: project._id,
@@ -57,26 +63,41 @@ const ProjectProfile = ({profile, userId}: IProjectProfile) => {
       .then(() => {
         projectAPI.getById(params.id).then(setProject);
         setMessage('');
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const addPerformer = async (userId: string) => {
-    await projectAPI.addPerformer({userId, projectId: project._id}).then(() => {
-      projectAPI.getById(params.id).then(setProject);
-    });
+    setLoading(true);
+    await projectAPI
+      .addPerformer({userId, projectId: project._id})
+      .then(() => {
+        projectAPI.getById(params.id).then(setProject);
+      })
+      .finally(() => setLoading(false));
   };
 
   const forChecking = async (isCheck: boolean) => {
-    await projectAPI.checking({isCheck, projectId: project._id}).then(() => {
-      projectAPI.getById(params.id).then(setProject);
-    });
+    setLoading(true);
+    await projectAPI
+      .checking({isCheck, projectId: project._id})
+      .then(() => {
+        projectAPI.getById(params.id).then(setProject);
+      })
+      .finally(() => setLoading(false));
   };
 
   const closeProject = async (rating?: number | null) => {
+    setLoading(true);
     if (rating) {
-      await profileAPI.updateRating({userId: project?.performer?.id, rating});
+      await profileAPI
+        .updateRating({userId: project?.performer?.id, rating})
+        .finally(() => setLoading(false));
     }
-    await projectAPI.delete(project._id).then(history.goBack);
+    await projectAPI
+      .delete(project._id)
+      .then(history.goBack)
+      .finally(() => setLoading(false));
   };
 
   return (

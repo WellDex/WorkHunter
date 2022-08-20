@@ -19,17 +19,30 @@ import {PROFILE_PATH} from '../../route/const';
 import {getImgUrl} from '../../utils/getImgUrl';
 import BlockIcon from '@mui/icons-material/Block';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import {setLoading} from '../../Redux/app/appOperations';
+import {connect} from 'react-redux';
 
-const UsersPage = () => {
+interface IUsersPage {
+  setLoading: (b: boolean) => void;
+}
+
+const UsersPage = ({setLoading}: IUsersPage) => {
   const [users, setUsers] = useState<IStateProfile[]>([]);
   useEffect(() => {
-    adminAPI.getUsers().then(setUsers);
+    setLoading(true);
+    adminAPI
+      .getUsers()
+      .then(setUsers)
+      .finally(() => setLoading(false));
   }, []);
 
-  const blockToogle = async (id: string, isBlocked: boolean) =>
+  const blockToogle = async (id: string, isBlocked: boolean) => {
+    setLoading(true);
     await adminAPI
       .blockUserToogle(id, isBlocked)
-      .then(async () => await adminAPI.getUsers().then(setUsers));
+      .then(async () => await adminAPI.getUsers().then(setUsers))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <Table>
@@ -102,4 +115,12 @@ const UsersPage = () => {
   );
 };
 
-export default FrameHoc(UsersPage);
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = {
+  setLoading,
+};
+
+export default FrameHoc(
+  connect(mapStateToProps, mapDispatchToProps)(UsersPage)
+);

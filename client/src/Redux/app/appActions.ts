@@ -7,6 +7,7 @@ export const LOGOUT = 'LOGOUT';
 export const SET_USER_FIRSTNAME = 'SET_USER_FIRSTNAME';
 export const SET_USER_AVATAR = 'SET_USER_AVATAR';
 export const SET_IS_ADMIN = 'SET_IS_ADMIN';
+export const SET_IS_LOADING = 'SET_IS_LOADING';
 
 export const changeIsAuth = (isAuth: boolean) => ({
   type: CHANGE_IS_AUTH,
@@ -36,6 +37,11 @@ export const setAvatar = (img: string) => ({
 export const setIsAdmin = (isAdmin: boolean) => ({
   type: SET_IS_ADMIN,
   payload: isAdmin,
+});
+
+export const setIsLoading = (isLoading: boolean) => ({
+  type: SET_IS_LOADING,
+  payload: isLoading,
 });
 
 export const logout = () => ({

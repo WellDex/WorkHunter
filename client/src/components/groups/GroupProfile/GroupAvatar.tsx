@@ -17,9 +17,10 @@ interface IGroupAvatar {
   group: IGroup;
   userId: string;
   getGroup: () => void;
+  setLoading: (b: boolean) => void;
 }
 
-const GroupAvatar = ({group, userId, getGroup}: IGroupAvatar) => {
+const GroupAvatar = ({group, userId, getGroup, setLoading}: IGroupAvatar) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
@@ -37,12 +38,27 @@ const GroupAvatar = ({group, userId, getGroup}: IGroupAvatar) => {
     );
   }, [group.subscribers]);
 
-  const follow = () =>
-    groupsAPI.follow(group._id).then(() => setIsFollow(!isFollow));
-  const unfollow = () =>
-    groupsAPI.unfollow(group._id).then(() => setIsFollow(!isFollow));
-  const deleteGroup = () =>
-    groupsAPI.deleteGroup(group._id).then(() => history.push('/groups'));
+  const follow = () => {
+    setLoading(true);
+    groupsAPI
+      .follow(group._id)
+      .then(() => setIsFollow(!isFollow))
+      .finally(() => setLoading(false));
+  };
+  const unfollow = () => {
+    setLoading(true);
+    groupsAPI
+      .unfollow(group._id)
+      .then(() => setIsFollow(!isFollow))
+      .finally(() => setLoading(false));
+  };
+  const deleteGroup = () => {
+    setLoading(true);
+    groupsAPI
+      .deleteGroup(group._id)
+      .then(() => history.push('/groups'))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div className="card-container">
@@ -82,6 +98,7 @@ const GroupAvatar = ({group, userId, getGroup}: IGroupAvatar) => {
       )}
       {isOpen && (
         <ModalCreateGroup
+          setLoading={setLoading}
           open={isOpen}
           handleClose={() => {
             getGroup();

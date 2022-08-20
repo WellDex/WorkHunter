@@ -8,11 +8,13 @@ import {
   setFirstName,
   setAvatar,
   setIsAdmin,
+  setIsLoading,
 } from './appActions';
 
 export const login =
   (data: ILoginForm, history: any, getProfile: (id: string) => void) =>
   async (dispatch: any) => {
+    dispatch(setIsLoading(true));
     await authAPI
       .login(data)
       .then((res) => {
@@ -26,11 +28,13 @@ export const login =
       })
       .catch((res) => {
         dispatch(setNotification({message: res.message, type: 'error'}));
-      });
+      })
+      .finally(() => dispatch(setIsLoading(false)));
   };
 
 export const auth =
   (history: any, getProfile: (id: string) => void) => async (dispatch: any) => {
+    dispatch(setIsLoading(true));
     await authAPI
       .check()
       .then((res) => {
@@ -44,7 +48,8 @@ export const auth =
       })
       .catch((res) => {
         dispatch(setNotification({message: res.message, type: 'error'}));
-      });
+      })
+      .finally(() => dispatch(setIsLoading(false)));
   };
 
 export const setMessage = (data: INotification) => (dispatch: any) => {
@@ -52,6 +57,7 @@ export const setMessage = (data: INotification) => (dispatch: any) => {
 };
 
 export const logOut = () => async (dispatch: any) => {
+  dispatch(setIsLoading(true));
   await authAPI
     .logout()
     .then((res) => {
@@ -59,5 +65,10 @@ export const logOut = () => async (dispatch: any) => {
     })
     .catch((res) => {
       dispatch(setNotification({message: res.message, type: 'error'}));
-    });
+    })
+    .finally(() => dispatch(setIsLoading(false)));
+};
+
+export const setLoading = (isLoading: boolean) => async (dispatch: any) => {
+  dispatch(setIsLoading(isLoading));
 };

@@ -17,12 +17,14 @@ interface IModalCreateProject {
   open: boolean;
   handleClose: () => void;
   categories: ICategory[];
+  setLoading: (b: boolean) => void;
 }
 
 const ModalCreateProject = ({
   open,
   handleClose,
   categories,
+  setLoading,
 }: IModalCreateProject) => {
   const {handleSubmit, control} = useForm({
     mode: 'onChange',
@@ -34,11 +36,15 @@ const ModalCreateProject = ({
     name: 'marks',
   });
 
-  const onSubmit = (data: ICreateProject) => {
-    projectAPI
+  const onSubmit = async (data: ICreateProject) => {
+    setLoading(true);
+    await projectAPI
       .create(data)
       .catch((e) => console.log(e))
-      .finally(handleClose);
+      .finally(() => {
+        setLoading(false);
+        handleClose();
+      });
   };
 
   const renderSelectGroup = (category: ICategory) => {

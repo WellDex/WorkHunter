@@ -1,8 +1,9 @@
 import {categoriesAPI} from '../../api/categoriesAPI';
-import {setNotification} from '../app/appActions';
+import {setIsLoading, setNotification} from '../app/appActions';
 import {setCategories} from './categoriesActions';
 
 export const getCategories = () => async (dispatch: any) => {
+  dispatch(setIsLoading(true));
   await categoriesAPI
     .get()
     .then((res) => {
@@ -10,5 +11,6 @@ export const getCategories = () => async (dispatch: any) => {
     })
     .catch((res) => {
       dispatch(setNotification({message: res.message, type: 'error'}));
-    });
+    })
+    .finally(() => dispatch(setIsLoading(false)));
 };

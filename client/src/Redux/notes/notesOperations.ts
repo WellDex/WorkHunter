@@ -1,8 +1,9 @@
 import {notesAPI} from '../../api/notesAPI';
-import {setNotification} from '../app/appActions';
+import {setIsLoading, setNotification} from '../app/appActions';
 import {setNotes} from './notesActions';
 
 export const getNotes = (id: string) => async (dispatch: any) => {
+  dispatch(setIsLoading(true));
   await notesAPI
     .getNotes(id)
     .then((res) => {
@@ -10,5 +11,6 @@ export const getNotes = (id: string) => async (dispatch: any) => {
     })
     .catch((res) => {
       dispatch(setNotification({message: res.message, type: 'error'}));
-    });
+    })
+    .finally(() => dispatch(setIsLoading(false)));
 };

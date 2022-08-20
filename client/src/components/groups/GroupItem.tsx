@@ -15,9 +15,10 @@ import {getImgUrl} from '../../utils/getImgUrl';
 interface IGroupItemProps {
   group: IGroup;
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
-const GroupItem = ({group, userId}: IGroupItemProps) => {
+const GroupItem = ({group, userId, setLoading}: IGroupItemProps) => {
   const history = useHistory();
   const [isFollow, setIsFollow] = useState(group.subscribers.includes(userId));
 
@@ -26,13 +27,20 @@ const GroupItem = ({group, userId}: IGroupItemProps) => {
   }, [group.subscribers]);
 
   const handleClick = async (id: string) => {
+    setLoading(true);
     isFollow
-      ? await groupsAPI.unfollow(id).then((res) => {
-          setIsFollow(!isFollow);
-        })
-      : await groupsAPI.follow(id).then((res) => {
-          setIsFollow(!isFollow);
-        });
+      ? await groupsAPI
+          .unfollow(id)
+          .then((res) => {
+            setIsFollow(!isFollow);
+          })
+          .finally(() => setLoading(false))
+      : await groupsAPI
+          .follow(id)
+          .then((res) => {
+            setIsFollow(!isFollow);
+          })
+          .finally(() => setLoading(false));
   };
 
   return (

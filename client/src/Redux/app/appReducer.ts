@@ -2,6 +2,7 @@ import {
   CHANGE_IS_AUTH,
   LOGOUT,
   SET_IS_ADMIN,
+  SET_IS_LOADING,
   SET_NOTIFICATON,
   SET_USER_AVATAR,
   SET_USER_FIRSTNAME,
@@ -21,6 +22,7 @@ export interface IStateApp {
   userId: string | null;
   firstName: string | null;
   avatar: string | null;
+  loading: boolean;
 }
 
 const init: IStateApp = {
@@ -33,6 +35,7 @@ const init: IStateApp = {
   userId: null,
   firstName: null,
   avatar: null,
+  loading: false,
 };
 
 const appReducer = (state = init, {type, payload}: any) => {
@@ -49,8 +52,10 @@ const appReducer = (state = init, {type, payload}: any) => {
       return {...state, avatar: payload};
     case SET_IS_ADMIN:
       return {...state, isAdmin: payload};
+    case SET_IS_LOADING:
+      return {...state, loading: payload};
     case LOGOUT:
-      return payload;
+      return {...state, ...payload};
     default:
       return state;
   }

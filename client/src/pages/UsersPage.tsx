@@ -9,6 +9,7 @@ import UsersList from '../components/users/UsersList';
 import FrameHoc from '../hoc/FrameHoc';
 import {IUser} from '../Redux/users/usersReducer';
 import UsersControl from '../components/users/UsersControl';
+import {setLoading} from '../Redux/app/appOperations';
 
 interface IUsersProps {
   users: IUser[];
@@ -16,6 +17,7 @@ interface IUsersProps {
   getProfile: (id: string) => void;
   friends: string[];
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
 const UsersContainer = ({
@@ -24,6 +26,7 @@ const UsersContainer = ({
   friends,
   getProfile,
   userId,
+  setLoading,
 }: IUsersProps) => {
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
@@ -42,6 +45,7 @@ const UsersContainer = ({
         )}
         friends={friends}
         getProfile={() => getProfile(userId)}
+        setLoading={setLoading}
       />
     </div>
   );
@@ -56,6 +60,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getUsersAll,
   getProfile,
+  setLoading,
 };
 
 const UsersPage = connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

@@ -11,6 +11,7 @@ interface IModalCategoryForm {
   open: boolean;
   handleClose: () => void;
   getCategories: () => void;
+  setLoading: (b: boolean) => void;
 }
 
 const ModalCategoryForm = ({
@@ -19,6 +20,7 @@ const ModalCategoryForm = ({
   open,
   handleClose,
   getCategories,
+  setLoading,
 }: IModalCategoryForm) => {
   const {handleSubmit, control} = useForm({
     defaultValues: category || undefined,
@@ -28,21 +30,25 @@ const ModalCategoryForm = ({
 
   const onSubmit = async (data: any) => {
     if (category) {
+      setLoading(true);
       await categoriesAPI
         .update(data)
         .then(() => {
           getCategories();
           handleClose();
         })
-        .catch();
+        .catch()
+        .finally(() => setLoading(false));
     } else {
+      setLoading(true);
       await categoriesAPI
         .create({...data, parent})
         .then(() => {
           getCategories();
           handleClose();
         })
-        .catch();
+        .catch()
+        .finally(() => setLoading(false));
     }
   };
 

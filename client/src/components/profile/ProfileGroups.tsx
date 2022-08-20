@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import {groupsAPI} from '../../api/groupsAPI';
 import FrameHoc from '../../hoc/FrameHoc';
+import {setLoading} from '../../Redux/app/appOperations';
 import {GROUP_PATH, MY_GROUPS_PATH} from '../../route/const';
 import {getImgUrl} from '../../utils/getImgUrl';
 
@@ -14,12 +15,17 @@ const options = {
 interface IGroupsProps {
   id: string;
   countGroups: number;
+  setLoading: (b: boolean) => void;
 }
 
-const ProfileGroups = ({id, countGroups}: IGroupsProps) => {
+const ProfileGroups = ({id, countGroups, setLoading}: IGroupsProps) => {
   const [groups, setGroups] = useState<any[]>([]);
   useEffect(() => {
-    groupsAPI.getMyGroups(id, options).then((res) => setGroups(res));
+    setLoading(true);
+    groupsAPI
+      .getMyGroups(id, options)
+      .then((res) => setGroups(res))
+      .finally(() => setLoading(false));
   }, [id]);
 
   return (

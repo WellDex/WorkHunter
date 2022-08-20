@@ -29,6 +29,7 @@ interface IFreelancePage {
   isAdmin: boolean;
   categories: ICategory[];
   getCategories: (filters?: any) => void;
+  setLoading: (b: boolean) => void;
 }
 
 const FreelancePageContainer = ({
@@ -37,6 +38,7 @@ const FreelancePageContainer = ({
   isAdmin,
   categories,
   getCategories,
+  setLoading,
 }: IFreelancePage) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -128,6 +130,7 @@ const FreelancePageContainer = ({
         <ModalCreateProject
           open={isOpen}
           categories={categories}
+          setLoading={setLoading}
           handleClose={() => {
             setIsOpen(false);
             if (location.pathname === FREELANCE_MY_PATH) {

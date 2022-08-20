@@ -18,3 +18,6 @@ export const getAvatar = (state: any) => {
 export const getIsAdmin = (state: any) => {
   return getState(state).isAdmin;
 };
+export const getIsLoading = (state: any) => {
+  return getState(state).loading;
+};

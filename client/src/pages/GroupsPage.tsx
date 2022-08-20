@@ -7,14 +7,21 @@ import * as groupsSelectors from '../Redux/groups/groupsSelectors';
 import * as appSelectors from '../Redux/app/appSelectors';
 import {getGroups} from '../Redux/groups/groupsOperations';
 import {IGroup} from '../Redux/groups/groupsReducer';
+import {setLoading} from '../Redux/app/appOperations';
 
 interface IGroupsProps {
   groups: IGroup[];
   getGroups: () => void;
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
-const GroupsContainer = ({groups, getGroups, userId}: IGroupsProps) => {
+const GroupsContainer = ({
+  groups,
+  getGroups,
+  userId,
+  setLoading,
+}: IGroupsProps) => {
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
     getGroups();
@@ -26,6 +33,7 @@ const GroupsContainer = ({groups, getGroups, userId}: IGroupsProps) => {
         groups={groups}
         setSearchValue={setSearchValue}
         userId={userId}
+        setLoading={setLoading}
       />
       <GroupsAll
         groups={groups.filter((group) =>
@@ -34,6 +42,7 @@ const GroupsContainer = ({groups, getGroups, userId}: IGroupsProps) => {
             : group.title.toLowerCase().includes(searchValue.toLowerCase())
         )}
         userId={userId}
+        setLoading={setLoading}
       />
     </div>
   );
@@ -46,6 +55,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getGroups,
+  setLoading,
 };
 
 const GroupsPage = connect(

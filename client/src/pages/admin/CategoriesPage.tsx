@@ -22,10 +22,12 @@ import {getCategories} from '../../Redux/categories/categoriesOperations';
 import {ICategory} from '../../Redux/categories/categoriesReducer';
 import {categoriesAPI} from '../../api/categoriesAPI';
 import NoData from '../../components/common/NoData';
+import {setLoading} from '../../Redux/app/appOperations';
 
 interface ICategories {
   categories: ICategory[];
   getCategories: () => void;
+  setLoading: (b: boolean) => void;
 }
 
 interface ICustomTableRow {
@@ -34,6 +36,7 @@ interface ICustomTableRow {
   setCurrentCategory: (c: ICategory) => void;
   setParentId: (id: string) => void;
   getCategories: () => void;
+  setLoading: (b: boolean) => void;
 }
 
 const CustomTableRow = ({
@@ -42,11 +45,16 @@ const CustomTableRow = ({
   setCurrentCategory,
   setParentId,
   getCategories,
+  setLoading,
 }: ICustomTableRow) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const deleteCategory = async (id: string) => {
-    await categoriesAPI.delete(id).then(() => getCategories());
+    setLoading(true);
+    await categoriesAPI
+      .delete(id)
+      .then(() => getCategories())
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -122,7 +130,11 @@ const CustomTableRow = ({
   );
 };
 
-const CategoriesContainer = ({categories, getCategories}: ICategories) => {
+const CategoriesContainer = ({
+  categories,
+  getCategories,
+  setLoading,
+}: ICategories) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<ICategory | null>(
     null
@@ -153,6 +165,7 @@ const CategoriesContainer = ({categories, getCategories}: ICategories) => {
             categories.map((category, index) => (
               <CustomTableRow
                 key={index}
+                setLoading={setLoading}
                 category={category}
                 setParentId={setParentId}
                 openModal={() => setIsOpen(true)}
@@ -166,6 +179,7 @@ const CategoriesContainer = ({categories, getCategories}: ICategories) => {
       {isOpen && (
         <ModalCategoryForm
           parent={parentId}
+          setLoading={setLoading}
           category={currentCategory}
           handleClose={() => {
             setParentId(null);
@@ -186,6 +200,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getCategories,
+  setLoading,
 };
 
 const CategoriesPage = connect(

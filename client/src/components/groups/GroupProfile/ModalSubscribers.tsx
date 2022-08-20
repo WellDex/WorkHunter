@@ -12,12 +12,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import React, {useEffect, useState} from 'react';
 import {groupsAPI} from '../../../api/groupsAPI';
+import {setLoading} from '../../../Redux/app/appOperations';
 
 interface IModalSubscribers {
   open: boolean;
   handleClose: () => void;
   isOwner: boolean;
   groupId: string;
+  setLoading: (b: boolean) => void;
 }
 
 const ModalSubscribers = ({
@@ -28,7 +30,11 @@ const ModalSubscribers = ({
 }: IModalSubscribers) => {
   const [subscribers, setSubscribers] = useState([]);
   useEffect(() => {
-    groupsAPI.getSubscribers(groupId).then((res) => setSubscribers(res));
+    setLoading(true);
+    groupsAPI
+      .getSubscribers(groupId)
+      .then((res) => setSubscribers(res))
+      .finally(() => setLoading(false));
   }, [groupId]);
 
   return (

@@ -72,9 +72,15 @@ interface ISettings {
   profile: IStateProfile;
   getProfile: (id: string) => void;
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
-const SettingContainer = ({profile, getProfile, userId}: ISettings) => {
+const SettingContainer = ({
+  profile,
+  getProfile,
+  userId,
+  setLoading,
+}: ISettings) => {
   const [currentForm, setCurrentForm] = useState<string>('main');
   const {handleSubmit, control, reset} = useForm({
     defaultValues: profile,
@@ -124,7 +130,10 @@ const SettingContainer = ({profile, getProfile, userId}: ISettings) => {
 
   const onSubmit = async (data: any) => {
     try {
-      const res = await profileAPI.updateProfile(data as any);
+      setLoading(true);
+      const res = await profileAPI
+        .updateProfile(data as any)
+        .finally(() => setLoading(false));
       if (res) {
         setMessage({message: res.message, type: 'success'});
       }

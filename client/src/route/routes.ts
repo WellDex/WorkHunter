@@ -29,11 +29,12 @@ import MessengerPage from '../pages/MessengerPage';
 import NewsPage from '../pages/NewsPage';
 import ProfilePage from '../pages/ProfilePage';
 import ProjectsPage from '../pages/ProjectsPage';
-import UsersPage from '../pages/admin/UsersPage';
+import AdminUsersPage from '../pages/admin/UsersPage';
 import FriendsPage from '../pages/FriendsPage';
 import MyGroupsPage from '../pages/MyGroupsPage';
 import SettingPage from '../pages/SettingPage';
 import CategoryPage from '../pages/admin/CategoriesPage';
+import UsersPage from '../pages/UsersPage';
 
 export interface IRoute {
   path: string;
@@ -130,7 +131,7 @@ export const authRoutes: IRoute[] = [
 export const adminRoutes: IRoute[] = [
   {
     path: USERS_ADMIN_PATH,
-    component: UsersPage,
+    component: AdminUsersPage,
     name: 'Пользователи',
     isNeedIdParam: false,
   },

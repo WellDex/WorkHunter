@@ -1,8 +1,9 @@
 import {setChats, setUsers} from './messengerActions';
 import {messengerAPI} from '../../api/messengerAPI';
-import {setNotification} from '../app/appActions';
+import {setIsLoading, setNotification} from '../app/appActions';
 
 export const getChats = (userId: string) => async (dispatch: any) => {
+  dispatch(setIsLoading(true));
   await messengerAPI
     .getChatById(userId)
     .then((res) => {
@@ -10,10 +11,12 @@ export const getChats = (userId: string) => async (dispatch: any) => {
     })
     .catch((res) => {
       dispatch(setNotification({message: res.message, type: 'error'}));
-    });
+    })
+    .finally(() => dispatch(setIsLoading(false)));
 };
 
 export const getUsers = () => async (dispatch: any) => {
+  dispatch(setIsLoading(true));
   await messengerAPI
     .getUsers()
     .then((res) => {
@@ -21,5 +24,6 @@ export const getUsers = () => async (dispatch: any) => {
     })
     .catch((res) => {
       dispatch(setNotification({message: res.message, type: 'error'}));
-    });
+    })
+    .finally(() => dispatch(setIsLoading(false)));
 };

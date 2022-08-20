@@ -18,12 +18,14 @@ import ProfilePortfolio from '../components/profile/ProfilePortfolio';
 import {portfolioAPI} from '../api/portfolioAPI';
 import {galleryAPI} from '../api/galleryAPI';
 import {IGallery} from './GalleryPage';
+import {setLoading} from '../Redux/app/appOperations';
 
 interface IProfile {
   profile: IStateProfile;
   notes: INote[];
   getProfile: (id: string) => void;
   getNotes: (id: string) => void;
+  setLoading: (b: boolean) => void;
   userId: string;
 }
 
@@ -38,6 +40,7 @@ const ProfileContainer = ({
   notes,
   getNotes,
   userId,
+  setLoading,
 }: IProfile) => {
   const params: {id: string} = useParams();
   const [projects, setProjects] = useState<any[]>([]);
@@ -48,26 +51,42 @@ const ProfileContainer = ({
   useEffect(() => {
     getProfile(params.id);
     getNotes(params.id);
-    portfolioAPI.getPortfolio(params.id, options).then((res) => {
-      if (res.portfolio && res.count) {
-        setProjects(res.portfolio);
-        setCountProjects(res.count);
-      }
-    });
-    galleryAPI.getGallery(params.id, {top: 4, count: true}).then((res) => {
-      if (res.gallery && res.count) {
-        setGallery(res.gallery);
-        setCountGallery(res.count);
-      }
-    });
+    setLoading(true);
+    portfolioAPI
+      .getPortfolio(params.id, options)
+      .then((res) => {
+        if (res.portfolio && res.count) {
+          setProjects(res.portfolio);
+          setCountProjects(res.count);
+        }
+      })
+      .finally(() => setLoading(false));
+    setLoading(true);
+    galleryAPI
+      .getGallery(params.id, {top: 4, count: true})
+      .then((res) => {
+        if (res.gallery && res.count) {
+          setGallery(res.gallery);
+          setCountGallery(res.count);
+        }
+      })
+      .finally(() => setLoading(false));
   }, [params.id]);
 
   return (
     <div className="profile">
       <div className="profile-col">
         <ProfileAvatar avatar={profile.avatar} isOwner={params.id === userId} />
-        <ProfileFriends id={params.id} countFriends={profile.friends.length} />
-        <ProfileGroups id={params.id} countGroups={profile.groups.length} />
+        <ProfileFriends
+          id={params.id}
+          countFriends={profile.friends.length}
+          setLoading={setLoading}
+        />
+        <ProfileGroups
+          id={params.id}
+          countGroups={profile.groups.length}
+          setLoading={setLoading}
+        />
         <ProfilePortfolio
           id={params.id}
           projects={projects}
@@ -105,6 +124,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getProfile,
   getNotes,
+  setLoading,
 };
 
 const ProfilePage = connect(

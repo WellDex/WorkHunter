@@ -22,6 +22,7 @@ import {useParams} from 'react-router-dom';
 import * as appSelectors from '../Redux/app/appSelectors';
 import {connect} from 'react-redux';
 import NoData from '../components/common/NoData';
+import {setLoading} from '../Redux/app/appOperations';
 
 export interface IGallery {
   createDate: string;
@@ -31,9 +32,10 @@ export interface IGallery {
 
 interface IGalleryPage {
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
-const GalleryContainer = ({userId}: IGalleryPage) => {
+const GalleryContainer = ({userId, setLoading}: IGalleryPage) => {
   const params: {id: string} = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -43,13 +45,23 @@ const GalleryContainer = ({userId}: IGalleryPage) => {
   const [gallery, setGallery] = useState<IGallery[]>([]);
 
   const getGallery = async () => {
-    await galleryAPI.getGallery(params.id).then((res) => setGallery(res));
+    setLoading(true);
+    await galleryAPI
+      .getGallery(params.id)
+      .then((res) => setGallery(res))
+      .finally(() => setLoading(false));
   };
-  const deleteGroup = async () =>
-    await galleryAPI.deleteImage(deleteId).then(() => {
-      setIsOpenConfirmDelete(false);
-      getGallery();
-    });
+
+  const deleteGroup = async () => {
+    setLoading(true);
+    await galleryAPI
+      .deleteImage(deleteId)
+      .then(() => {
+        setIsOpenConfirmDelete(false);
+        getGallery();
+      })
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     getGallery();
@@ -131,6 +143,7 @@ const GalleryContainer = ({userId}: IGalleryPage) => {
         id={params.id}
         open={isOpenModal}
         getGallery={getGallery}
+        setLoading={setLoading}
         handleClose={() => setIsOpenModal(false)}
       />
     </div>
@@ -141,6 +154,6 @@ const mapStateToProps = (state: any) => ({
   userId: appSelectors.getUserId(state),
 });
 
-const GalleryPage = connect(mapStateToProps, {})(GalleryContainer);
+const GalleryPage = connect(mapStateToProps, {setLoading})(GalleryContainer);
 
 export default FrameHoc(GalleryPage);

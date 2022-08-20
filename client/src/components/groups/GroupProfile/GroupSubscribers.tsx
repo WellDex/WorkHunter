@@ -8,19 +8,25 @@ interface IGroupSubscribers {
   groupId: string;
   subscribers: {id: string}[];
   setOpenModal: () => void;
+  setLoading: (b: boolean) => void;
 }
 
 const GroupSubscribers = ({
   groupId,
   subscribers,
   setOpenModal,
+  setLoading,
 }: IGroupSubscribers) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     if (groupId) {
-      groupsAPI.getSubscribers(groupId, {top: 6}).then((res) => {
-        setUsers(res);
-      });
+      setLoading(true);
+      groupsAPI
+        .getSubscribers(groupId, {top: 6})
+        .then((res) => {
+          setUsers(res);
+        })
+        .finally(() => setLoading(false));
     }
   }, [groupId]);
 

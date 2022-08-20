@@ -10,6 +10,7 @@ interface IModalCreateProject {
   handleClose: () => void;
   getPortfolio: () => void;
   portfolio: IPortfolio | undefined;
+  setLoading: (b: boolean) => void;
 }
 
 const ModalCreateProject = ({
@@ -17,6 +18,7 @@ const ModalCreateProject = ({
   handleClose,
   getPortfolio,
   portfolio,
+  setLoading,
 }: IModalCreateProject) => {
   const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
@@ -26,6 +28,7 @@ const ModalCreateProject = ({
   });
 
   const onSubmit = (data: ICreateProject) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('link', data.link);
@@ -37,7 +40,8 @@ const ModalCreateProject = ({
           getPortfolio();
           handleClose();
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log(e))
+        .finally(() => setLoading(false));
     } else {
       portfolioAPI
         .createProject(formData)
@@ -45,7 +49,8 @@ const ModalCreateProject = ({
           getPortfolio();
           handleClose();
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log(e))
+        .finally(() => setLoading(false));
     }
   };
 

@@ -11,16 +11,26 @@ interface ICreateNote {
   isGroup?: boolean;
   id?: string;
   avatar?: string | null;
+  setLoading: (b: boolean) => void;
 }
-const CreateNote = ({getNotes, isGroup = false, id, avatar}: ICreateNote) => {
+const CreateNote = ({
+  getNotes,
+  isGroup = false,
+  id,
+  avatar,
+  setLoading,
+}: ICreateNote) => {
   const [text, setText] = useState('');
 
   const createNote = async () => {
     try {
+      setLoading(true);
       const res =
         isGroup && id
-          ? await notesAPI.createGroupNote(text, id)
-          : await notesAPI.createNote(text);
+          ? await notesAPI
+              .createGroupNote(text, id)
+              .finally(() => setLoading(false))
+          : await notesAPI.createNote(text).finally(() => setLoading(false));
       if (res) {
         setMessage({message: res.message, type: 'success'});
         getNotes();

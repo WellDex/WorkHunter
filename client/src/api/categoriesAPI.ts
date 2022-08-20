@@ -6,11 +6,6 @@ export interface ICategoryCreate {
   parent: string | null;
 }
 
-export interface ILoginForm {
-  login: string;
-  password: string;
-}
-
 export const categoriesAPI = {
   get: () => {
     return instance.get('categories/').then((res) => {

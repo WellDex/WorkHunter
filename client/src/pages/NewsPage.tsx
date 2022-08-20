@@ -6,16 +6,26 @@ import {INote} from '../Redux/notes/notesReducer';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
 import NoData from '../components/common/NoData';
+import {setLoading} from '../Redux/app/appOperations';
+import {connect} from 'react-redux';
 
-const NewsPage = () => {
+interface INews {
+  setLoading: (b: boolean) => void;
+}
+
+const NewsPage = ({setLoading}: INews) => {
   const [news, setNews] = useState<INote[]>([]);
   const listRef = useRef<any>({});
   const rowHeights = useRef<any>({});
 
   useEffect(() => {
-    notesAPI.getNews().then((res) => {
-      setNews(res);
-    });
+    setLoading(false);
+    notesAPI
+      .getNews()
+      .then((res) => {
+        setNews(res);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const getRowHeight = (index: any) => {
@@ -68,4 +78,10 @@ const NewsPage = () => {
   );
 };
 
-export default NewsPage;
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = {
+  setLoading,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);

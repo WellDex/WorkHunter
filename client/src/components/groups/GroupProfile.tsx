@@ -16,12 +16,14 @@ import {INote} from '../../Redux/notes/notesReducer';
 import ModalSubscribers from './GroupProfile/ModalSubscribers';
 import {IGallery} from '../../pages/GalleryPage';
 import {galleryAPI} from '../../api/galleryAPI';
+import {setLoading} from '../../Redux/app/appOperations';
 
 interface IGroupProfileProps {
   group: IGroup;
   notes: INote[];
   getGroup: (id: string) => void;
   getNotes: (id: string) => void;
+  setLoading: (b: boolean) => void;
   userId: string;
 }
 
@@ -31,6 +33,7 @@ const GroupProfileContainer = ({
   getNotes,
   userId,
   notes,
+  setLoading,
 }: IGroupProfileProps) => {
   const params: {id: string} = useParams();
   const [openModal, setOpenModal] = useState(false);
@@ -40,12 +43,16 @@ const GroupProfileContainer = ({
   useEffect(() => {
     getGroup(params.id);
     getNotes(params.id);
-    galleryAPI.getGallery(params.id, {top: 4, count: true}).then((res) => {
-      if (res.gallery && res.count) {
-        setGallery(res.gallery);
-        setCountGallery(res.count);
-      }
-    });
+    setLoading(true);
+    galleryAPI
+      .getGallery(params.id, {top: 4, count: true})
+      .then((res) => {
+        if (res.gallery && res.count) {
+          setGallery(res.gallery);
+          setCountGallery(res.count);
+        }
+      })
+      .finally(() => setLoading(false));
   }, [params.id]);
 
   return (
@@ -78,6 +85,7 @@ const GroupProfileContainer = ({
       </div>
       {openModal && (
         <ModalSubscribers
+          setLoading={setLoading}
           open={openModal}
           handleClose={() => setOpenModal(false)}
           isOwner={group.owner === userId}
@@ -97,6 +105,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getGroup,
   getNotes,
+  setLoading,
 };
 
 const GroupProfile = connect(

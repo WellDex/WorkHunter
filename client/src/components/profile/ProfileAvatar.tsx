@@ -17,9 +17,10 @@ import {getImgUrl} from '../../utils/getImgUrl';
 interface IProfileAvatar {
   avatar: string | null;
   isOwner: boolean;
+  setLoading: (b: boolean) => void;
 }
 
-const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
+const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
   const [isFollow, setIsFollow] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<any>(null);
@@ -28,16 +29,30 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
 
   useEffect(() => {
     if (!isOwner) {
-      profileAPI.getFriends().then((res) => {
-        setIsFollow(res.includes(params.id));
-      });
+      setLoading(true);
+      profileAPI
+        .getFriends()
+        .then((res) => {
+          setIsFollow(res.includes(params.id));
+        })
+        .finally(() => setLoading(false));
     }
   }, [params.id]);
 
-  const follow = () =>
-    usersAPI.follow(params.id).then(() => setIsFollow(!isFollow));
-  const unfollow = () =>
-    usersAPI.unfollow(params.id).then(() => setIsFollow(!isFollow));
+  const follow = async () => {
+    setLoading(true);
+    await usersAPI
+      .follow(params.id)
+      .then(() => setIsFollow(!isFollow))
+      .finally(() => setLoading(false));
+  };
+  const unfollow = async () => {
+    setLoading(true);
+    await usersAPI
+      .unfollow(params.id)
+      .then(() => setIsFollow(!isFollow))
+      .finally(() => setLoading(false));
+  };
 
   const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile((e.target.files && e.target.files[0]) || null);
@@ -46,17 +61,20 @@ const ProfileAvatar = ({avatar, isOwner}: IProfileAvatar) => {
     setOpenModal(true);
   };
 
-  const changeAvatar = () => {
+  const changeAvatar = async () => {
+    setLoading(true);
     setOpenModal(false);
     const formData = new FormData();
     formData.append('img', file);
-    profileAPI.updateAvatar(formData);
+    await profileAPI.updateAvatar(formData).finally(() => setLoading(false));
   };
 
-  const createChat = () => {
-    messengerAPI
+  const createChat = async () => {
+    setLoading(true);
+    await messengerAPI
       .createChat(params.id)
-      .then((res) => history.push(`${MESSENGER_PATH}/${res.id}`));
+      .then((res) => history.push(`${MESSENGER_PATH}/${res.id}`))
+      .finally(() => setLoading(false));
   };
 
   return (

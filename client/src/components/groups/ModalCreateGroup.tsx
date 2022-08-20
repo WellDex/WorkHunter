@@ -11,9 +11,15 @@ interface IModalCreateGroup {
   open: boolean;
   handleClose: () => void;
   group?: IGroup;
+  setLoading: (b: boolean) => void;
 }
 
-const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
+const ModalCreateGroup = ({
+  open,
+  handleClose,
+  group,
+  setLoading,
+}: IModalCreateGroup) => {
   const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
     defaultValues: group || undefined,
@@ -22,6 +28,7 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
   });
 
   const onSubmit = (data: ICreateGroup) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('description', data.description || '');
@@ -31,14 +38,20 @@ const ModalCreateGroup = ({open, handleClose, group}: IModalCreateGroup) => {
       groupsAPI
         .updateGroup(group._id, formData)
         .catch((e) => console.log(e))
-        .finally(handleClose);
+        .finally(() => {
+          setLoading(false);
+          handleClose();
+        });
 
       handleClose();
     } else {
       groupsAPI
         .createGroup(formData)
         .catch((e) => console.log(e))
-        .finally(handleClose);
+        .finally(() => {
+          setLoading(false);
+          handleClose();
+        });
     }
   };
   return (

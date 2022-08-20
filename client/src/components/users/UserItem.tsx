@@ -16,9 +16,10 @@ interface IUserProps {
   user: IUser;
   friends: string[];
   getProfile: () => void;
+  setLoading: (b: boolean) => void;
 }
 
-const UserItem = ({user, friends, getProfile}: IUserProps) => {
+const UserItem = ({user, friends, getProfile, setLoading}: IUserProps) => {
   const history = useHistory();
   const [isFollow, setIsFollow] = useState(friends.includes(user.id));
 
@@ -27,13 +28,20 @@ const UserItem = ({user, friends, getProfile}: IUserProps) => {
   }, [friends]);
 
   const handleClick = async (id: string) => {
+    setLoading(true);
     isFollow
-      ? await usersAPI.unfollow(id).then((res) => {
-          getProfile();
-        })
-      : await usersAPI.follow(id).then((res) => {
-          getProfile();
-        });
+      ? await usersAPI
+          .unfollow(id)
+          .then((res) => {
+            getProfile();
+          })
+          .finally(() => setLoading(false))
+      : await usersAPI
+          .follow(id)
+          .then((res) => {
+            getProfile();
+          })
+          .finally(() => setLoading(false));
   };
 
   return (

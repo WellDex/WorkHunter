@@ -22,17 +22,20 @@ import {useParams} from 'react-router-dom';
 import {getImgUrl} from '../utils/getImgUrl';
 import {portfolioAPI} from '../api/portfolioAPI';
 import NoData from '../components/common/NoData';
+import {setLoading} from '../Redux/app/appOperations';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
   getPortfolio: (id: string) => void;
   userId: string;
+  setLoading: (b: boolean) => void;
 }
 
 const PortfolioContainer = ({
   portfolio,
   getPortfolio,
   userId,
+  setLoading,
 }: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const params: any = useParams();
@@ -49,8 +52,9 @@ const PortfolioContainer = ({
     setIsOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    portfolioAPI.deleteProject(id).finally(() => {
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    await portfolioAPI.deleteProject(id).finally(() => {
       getPortfolio(params.id);
     });
   };
@@ -124,6 +128,7 @@ const PortfolioContainer = ({
           }}
           getPortfolio={() => getPortfolio(params.id)}
           portfolio={editProject}
+          setLoading={setLoading}
         />
       )}
     </div>
@@ -137,6 +142,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getPortfolio,
+  setLoading,
 };
 
 const ProjectsPage = connect(

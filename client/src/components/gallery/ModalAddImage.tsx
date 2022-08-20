@@ -8,9 +8,16 @@ interface IModalGallery {
   open: boolean;
   handleClose: () => void;
   getGallery: () => void;
+  setLoading: (b: boolean) => void;
 }
 
-const ModalAddImage = ({id, open, handleClose, getGallery}: IModalGallery) => {
+const ModalAddImage = ({
+  id,
+  open,
+  handleClose,
+  getGallery,
+  setLoading,
+}: IModalGallery) => {
   const [files, setFiles] = useState<any[]>([]);
 
   const handleDelete = (name: string) => {
@@ -22,11 +29,15 @@ const ModalAddImage = ({id, open, handleClose, getGallery}: IModalGallery) => {
     formData.append('id', id);
     files.forEach((file) => formData.append('img', file));
 
-    galleryAPI.addImages(formData).then(() => {
-      setFiles([]);
-      getGallery();
-      handleClose();
-    });
+    setLoading(true);
+    galleryAPI
+      .addImages(formData)
+      .then(() => {
+        setFiles([]);
+        getGallery();
+        handleClose();
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
