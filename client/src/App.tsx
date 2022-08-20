@@ -46,7 +46,7 @@ const App = ({
       <Header />
       <Container maxWidth="xl" className="main-container">
         {isAuth && <Navigation />}
-        <div className="content customScroll">
+        <div className={`${isAuth ? 'content' : 'content-auth'} customScroll`}>
           <Switch>
             {!isAuth &&
               authRoutes.map((route: IRoute, index) => (

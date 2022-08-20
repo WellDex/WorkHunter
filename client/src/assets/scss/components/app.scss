@@ -20,6 +20,12 @@
   margin-bottom: 1rem;
   width: 100%;
   overflow-y: auto;
+  &-auth {
+    padding: 1rem;
+    margin: 0;
+    width: 100%;
+    overflow-y: auto;
+  }
 }
 .divider {
   margin: 1rem 0 !important;
