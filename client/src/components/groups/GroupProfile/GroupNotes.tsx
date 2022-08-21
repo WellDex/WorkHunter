@@ -5,6 +5,7 @@ import CreateNote from '../../note/CreateNote';
 import Note from '../../note/Note';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
+import NoData from '../../common/NoData';
 
 interface IGroupNotes {
   notes: INote[];
@@ -84,6 +85,7 @@ const GroupNotes = ({notes, profile, getNotes, userId}: IGroupNotes) => {
           </VariableSizeList>
         )}
       </AutoSizer>
+      {!notes.length && <NoData />}
     </>
   );
 };

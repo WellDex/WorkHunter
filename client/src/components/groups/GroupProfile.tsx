@@ -81,6 +81,7 @@ const GroupProfileContainer = ({
           setOpenModal={() => setOpenModal(true)}
           groupId={group._id}
           subscribers={group.subscribers}
+          setLoading={setLoading}
         />
       </div>
       {openModal && (

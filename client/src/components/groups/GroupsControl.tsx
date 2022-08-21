@@ -55,7 +55,7 @@ const GroupsControl = ({
         freeSolo
         className="users-search"
         onInputChange={(e, value) => setSearchValue(value)}
-        options={groups.map((group) => group.title)}
+        options={groups.length > 0 ? groups.map((group) => group.title) : []}
         renderInput={(params) => (
           <TextField {...params} placeholder="Поиск..." />
         )}

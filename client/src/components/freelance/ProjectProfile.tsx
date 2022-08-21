@@ -45,11 +45,7 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
   }, [project]);
 
   useEffect(() => {
-    setLoading(true);
-    projectAPI
-      .getById(params.id)
-      .then(setProject)
-      .finally(() => setLoading(false));
+    projectAPI.getById(params.id).then(setProject);
   }, [params.id]);
 
   const sendMessage = async () => {

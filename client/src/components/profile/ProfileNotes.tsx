@@ -57,7 +57,7 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
       const keys = Object.keys(rowHeights.current);
 
       const total = keys.reduceRight((prev, current) => {
-        return prev + +rowHeights.current[current] + 2 * notes.length;
+        return prev + +rowHeights.current[current] + 3 * notes.length;
       }, 0);
       setTotalHeight(total);
     }
@@ -68,22 +68,19 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
       {params.id === userId && (
         <CreateNote avatar={profile.avatar} getNotes={getNotes} />
       )}
-      {notes.length ? (
-        <AutoSizer>
-          {({height, width}) => (
-            <VariableSizeList
-              height={totalHeight}
-              width={width}
-              itemSize={getRowHeight}
-              ref={listRef}
-              itemCount={notes.length}>
-              {Row}
-            </VariableSizeList>
-          )}
-        </AutoSizer>
-      ) : (
-        <NoData />
-      )}
+      <AutoSizer>
+        {({height, width}) => (
+          <VariableSizeList
+            height={totalHeight}
+            width={width}
+            itemSize={getRowHeight}
+            ref={listRef}
+            itemCount={notes.length}>
+            {Row}
+          </VariableSizeList>
+        )}
+      </AutoSizer>
+      {!notes.length && <NoData />}
     </>
   );
 };

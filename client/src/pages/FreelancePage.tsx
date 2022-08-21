@@ -22,6 +22,7 @@ import {IStateProfile} from '../Redux/profile/profileReducer';
 import {ICategory} from '../Redux/categories/categoriesReducer';
 import {getCategories} from '../Redux/categories/categoriesOperations';
 import Filters from '../components/freelance/Filters';
+import {setLoading} from '../Redux/app/appOperations';
 
 interface IFreelancePage {
   profile: IStateProfile;
@@ -110,7 +111,11 @@ const FreelancePageContainer = ({
           <Route
             path={`${FREELANCE_PROJECT_PATH}/:id`}
             component={() => (
-              <ProjectProfile profile={profile} userId={userId} />
+              <ProjectProfile
+                profile={profile}
+                userId={userId}
+                setLoading={setLoading}
+              />
             )}
           />
           <Redirect to={FREELANCE_ALL_PATH} />
@@ -154,6 +159,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getCategories,
+  setLoading,
 };
 
 const FreelancePage = connect(

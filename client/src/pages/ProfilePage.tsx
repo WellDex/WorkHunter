@@ -76,7 +76,11 @@ const ProfileContainer = ({
   return (
     <div className="profile">
       <div className="profile-col">
-        <ProfileAvatar avatar={profile.avatar} isOwner={params.id === userId} />
+        <ProfileAvatar
+          avatar={profile.avatar}
+          isOwner={params.id === userId}
+          setLoading={setLoading}
+        />
         <ProfileFriends
           id={params.id}
           countFriends={profile.friends.length}
