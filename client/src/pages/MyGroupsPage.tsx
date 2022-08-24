@@ -8,15 +8,21 @@ import {IGroup} from '../Redux/groups/groupsReducer';
 import {getMyGroups} from '../Redux/groups/groupsOperations';
 import {useParams} from 'react-router-dom';
 import NoData from '../components/common/NoData';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IMyGroupsProps {
   groups: IGroup[];
   getMyGroups: (id: string) => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupsContainer = ({groups, getMyGroups, setLoading}: IMyGroupsProps) => {
+const GroupsContainer = ({
+  groups,
+  getMyGroups,
+  setLoading,
+  setMessage,
+}: IMyGroupsProps) => {
   const params: any = useParams();
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
@@ -30,6 +36,7 @@ const GroupsContainer = ({groups, getMyGroups, setLoading}: IMyGroupsProps) => {
         setSearchValue={setSearchValue}
         userId={params.id}
         setLoading={setLoading}
+        setMessage={setMessage}
       />
       {groups.length > 0 ? (
         <GroupsList
@@ -53,6 +60,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getMyGroups,
   setLoading,
+  setMessage,
 };
 
 const MyGroupsPage = connect(

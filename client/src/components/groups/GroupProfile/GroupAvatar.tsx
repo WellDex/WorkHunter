@@ -18,9 +18,16 @@ interface IGroupAvatar {
   userId: string;
   getGroup: () => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupAvatar = ({group, userId, getGroup, setLoading}: IGroupAvatar) => {
+const GroupAvatar = ({
+  group,
+  userId,
+  getGroup,
+  setLoading,
+  setMessage,
+}: IGroupAvatar) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
@@ -43,6 +50,9 @@ const GroupAvatar = ({group, userId, getGroup, setLoading}: IGroupAvatar) => {
     groupsAPI
       .follow(group._id)
       .then(() => setIsFollow(!isFollow))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
   const unfollow = () => {
@@ -50,13 +60,22 @@ const GroupAvatar = ({group, userId, getGroup, setLoading}: IGroupAvatar) => {
     groupsAPI
       .unfollow(group._id)
       .then(() => setIsFollow(!isFollow))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
   const deleteGroup = () => {
     setLoading(true);
     groupsAPI
       .deleteGroup(group._id)
-      .then(() => history.push('/groups'))
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+        history.push('/groups');
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 
@@ -98,6 +117,7 @@ const GroupAvatar = ({group, userId, getGroup, setLoading}: IGroupAvatar) => {
       )}
       {isOpen && (
         <ModalCreateGroup
+          setMessage={setMessage}
           setLoading={setLoading}
           open={isOpen}
           handleClose={() => {

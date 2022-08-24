@@ -24,15 +24,19 @@ import {connect} from 'react-redux';
 
 interface IUsersPage {
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const UsersPage = ({setLoading}: IUsersPage) => {
+const UsersPage = ({setLoading, setMessage}: IUsersPage) => {
   const [users, setUsers] = useState<IStateProfile[]>([]);
   useEffect(() => {
     setLoading(true);
     adminAPI
       .getUsers()
       .then(setUsers)
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -40,7 +44,18 @@ const UsersPage = ({setLoading}: IUsersPage) => {
     setLoading(true);
     await adminAPI
       .blockUserToogle(id, isBlocked)
-      .then(async () => await adminAPI.getUsers().then(setUsers))
+      .then(async (res) => {
+        setMessage({message: res.message, type: 'success'});
+        await adminAPI
+          .getUsers()
+          .then(setUsers)
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 

@@ -22,12 +22,13 @@ import {getCategories} from '../../Redux/categories/categoriesOperations';
 import {ICategory} from '../../Redux/categories/categoriesReducer';
 import {categoriesAPI} from '../../api/categoriesAPI';
 import NoData from '../../components/common/NoData';
-import {setLoading} from '../../Redux/app/appOperations';
+import {setLoading, setMessage} from '../../Redux/app/appOperations';
 
 interface ICategories {
   categories: ICategory[];
   getCategories: () => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 interface ICustomTableRow {
@@ -37,6 +38,7 @@ interface ICustomTableRow {
   setParentId: (id: string) => void;
   getCategories: () => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const CustomTableRow = ({
@@ -46,6 +48,7 @@ const CustomTableRow = ({
   setParentId,
   getCategories,
   setLoading,
+  setMessage,
 }: ICustomTableRow) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,7 +56,13 @@ const CustomTableRow = ({
     setLoading(true);
     await categoriesAPI
       .delete(id)
-      .then(() => getCategories())
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+        getCategories();
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 
@@ -134,6 +143,7 @@ const CategoriesContainer = ({
   categories,
   getCategories,
   setLoading,
+  setMessage,
 }: ICategories) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<ICategory | null>(
@@ -164,6 +174,7 @@ const CategoriesContainer = ({
           {categories.length > 0 &&
             categories.map((category, index) => (
               <CustomTableRow
+                setMessage={setMessage}
                 key={index}
                 setLoading={setLoading}
                 category={category}
@@ -178,6 +189,7 @@ const CategoriesContainer = ({
       {!categories.length && <NoData />}
       {isOpen && (
         <ModalCategoryForm
+          setMessage={setMessage}
           parent={parentId}
           setLoading={setLoading}
           category={currentCategory}
@@ -201,6 +213,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getCategories,
   setLoading,
+  setMessage,
 };
 
 const CategoriesPage = connect(

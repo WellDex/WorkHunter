@@ -11,6 +11,7 @@ interface IModalCreateProject {
   getPortfolio: () => void;
   portfolio: IPortfolio | undefined;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const ModalCreateProject = ({
@@ -19,6 +20,7 @@ const ModalCreateProject = ({
   getPortfolio,
   portfolio,
   setLoading,
+  setMessage,
 }: IModalCreateProject) => {
   const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
@@ -37,19 +39,27 @@ const ModalCreateProject = ({
       portfolioAPI
         .updateProject(portfolio._id, formData)
         .then((res) => {
+          setMessage({message: res.message, type: 'success'});
+
           getPortfolio();
           handleClose();
         })
-        .catch((e) => console.log(e))
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => setLoading(false));
     } else {
       portfolioAPI
         .createProject(formData)
         .then((res) => {
+          setMessage({message: res.message, type: 'success'});
+
           getPortfolio();
           handleClose();
         })
-        .catch((e) => console.log(e))
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => setLoading(false));
     }
   };

@@ -20,6 +20,7 @@ interface IModalSubscribers {
   isOwner: boolean;
   groupId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const ModalSubscribers = ({
@@ -27,6 +28,7 @@ const ModalSubscribers = ({
   handleClose,
   isOwner,
   groupId,
+  setMessage,
 }: IModalSubscribers) => {
   const [subscribers, setSubscribers] = useState([]);
   useEffect(() => {
@@ -34,6 +36,9 @@ const ModalSubscribers = ({
     groupsAPI
       .getSubscribers(groupId)
       .then((res) => setSubscribers(res))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   }, [groupId]);
 

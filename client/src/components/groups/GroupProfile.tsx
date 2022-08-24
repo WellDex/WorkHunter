@@ -16,7 +16,7 @@ import {INote} from '../../Redux/notes/notesReducer';
 import ModalSubscribers from './GroupProfile/ModalSubscribers';
 import {IGallery} from '../../pages/GalleryPage';
 import {galleryAPI} from '../../api/galleryAPI';
-import {setLoading} from '../../Redux/app/appOperations';
+import {setLoading, setMessage} from '../../Redux/app/appOperations';
 
 interface IGroupProfileProps {
   group: IGroup;
@@ -24,6 +24,7 @@ interface IGroupProfileProps {
   getGroup: (id: string) => void;
   getNotes: (id: string) => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
   userId: string;
 }
 
@@ -34,6 +35,7 @@ const GroupProfileContainer = ({
   userId,
   notes,
   setLoading,
+  setMessage,
 }: IGroupProfileProps) => {
   const params: {id: string} = useParams();
   const [openModal, setOpenModal] = useState(false);
@@ -51,6 +53,9 @@ const GroupProfileContainer = ({
           setGallery(res.gallery);
           setCountGallery(res.count);
         }
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   }, [params.id]);
@@ -86,6 +91,7 @@ const GroupProfileContainer = ({
       </div>
       {openModal && (
         <ModalSubscribers
+          setMessage={setMessage}
           setLoading={setLoading}
           open={openModal}
           handleClose={() => setOpenModal(false)}
@@ -107,6 +113,7 @@ const mapDispatchToProps = {
   getGroup,
   getNotes,
   setLoading,
+  setMessage,
 };
 
 const GroupProfile = connect(

@@ -18,6 +18,7 @@ interface IModalCreateProject {
   handleClose: () => void;
   categories: ICategory[];
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const ModalCreateProject = ({
@@ -25,6 +26,7 @@ const ModalCreateProject = ({
   handleClose,
   categories,
   setLoading,
+  setMessage,
 }: IModalCreateProject) => {
   const {handleSubmit, control} = useForm({
     mode: 'onChange',
@@ -40,7 +42,12 @@ const ModalCreateProject = ({
     setLoading(true);
     await projectAPI
       .create(data)
-      .catch((e) => console.log(e))
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => {
         setLoading(false);
         handleClose();

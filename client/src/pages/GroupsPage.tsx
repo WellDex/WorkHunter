@@ -7,13 +7,14 @@ import * as groupsSelectors from '../Redux/groups/groupsSelectors';
 import * as appSelectors from '../Redux/app/appSelectors';
 import {getGroups} from '../Redux/groups/groupsOperations';
 import {IGroup} from '../Redux/groups/groupsReducer';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IGroupsProps {
   groups: IGroup[];
   getGroups: () => void;
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const GroupsContainer = ({
@@ -21,6 +22,7 @@ const GroupsContainer = ({
   getGroups,
   userId,
   setLoading,
+  setMessage,
 }: IGroupsProps) => {
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
@@ -30,12 +32,14 @@ const GroupsContainer = ({
   return (
     <div className="groups">
       <GroupsControl
+        setMessage={setMessage}
         groups={groups}
         setSearchValue={setSearchValue}
         userId={userId}
         setLoading={setLoading}
       />
       <GroupsAll
+        setMessage={setMessage}
         groups={groups.filter((group) =>
           searchValue === ''
             ? group
@@ -56,6 +60,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getGroups,
   setLoading,
+  setMessage,
 };
 
 const GroupsPage = connect(

@@ -18,9 +18,15 @@ interface IProfileAvatar {
   avatar: string | null;
   isOwner: boolean;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
+const ProfileAvatar = ({
+  avatar,
+  isOwner,
+  setLoading,
+  setMessage,
+}: IProfileAvatar) => {
   const [isFollow, setIsFollow] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<any>(null);
@@ -35,6 +41,9 @@ const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
         .then((res) => {
           setIsFollow(res.includes(params.id));
         })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => setLoading(false));
     }
   }, [params.id]);
@@ -44,6 +53,9 @@ const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
     await usersAPI
       .follow(params.id)
       .then(() => setIsFollow(!isFollow))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
   const unfollow = async () => {
@@ -51,6 +63,9 @@ const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
     await usersAPI
       .unfollow(params.id)
       .then(() => setIsFollow(!isFollow))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 
@@ -66,14 +81,28 @@ const ProfileAvatar = ({avatar, isOwner, setLoading}: IProfileAvatar) => {
     setOpenModal(false);
     const formData = new FormData();
     formData.append('img', file);
-    await profileAPI.updateAvatar(formData).finally(() => setLoading(false));
+    await profileAPI
+      .updateAvatar(formData)
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
+      .finally(() => setLoading(false));
   };
 
   const createChat = async () => {
     setLoading(true);
     await messengerAPI
       .createChat(params.id)
-      .then((res) => history.push(`${MESSENGER_PATH}/${res.id}`))
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+        history.push(`${MESSENGER_PATH}/${res.id}`);
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 

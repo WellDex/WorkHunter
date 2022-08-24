@@ -22,7 +22,7 @@ import {IStateProfile} from '../Redux/profile/profileReducer';
 import {ICategory} from '../Redux/categories/categoriesReducer';
 import {getCategories} from '../Redux/categories/categoriesOperations';
 import Filters from '../components/freelance/Filters';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IFreelancePage {
   profile: IStateProfile;
@@ -31,6 +31,7 @@ interface IFreelancePage {
   categories: ICategory[];
   getCategories: (filters?: any) => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const FreelancePageContainer = ({
@@ -40,6 +41,7 @@ const FreelancePageContainer = ({
   categories,
   getCategories,
   setLoading,
+  setMessage,
 }: IFreelancePage) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -55,29 +57,55 @@ const FreelancePageContainer = ({
     setIsShowControl(!location.pathname.includes(`${FREELANCE_PROJECT_PATH}/`));
     setProjects([]);
     if (location.pathname === FREELANCE_ALL_PATH) {
-      projectAPI.getAll(options).then((res) => {
-        setProjects(res);
-      });
+      projectAPI
+        .getAll(options)
+        .then((res) => {
+          setProjects(res);
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        });
     }
     if (location.pathname === FREELANCE_ACCEPT_PATH) {
-      projectAPI.getAccepted(options).then((res) => {
-        setProjects(res);
-      });
+      projectAPI
+        .getAccepted(options)
+        .then((res) => {
+          setProjects(res);
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        });
     }
     if (location.pathname === FREELANCE_MY_PATH) {
-      projectAPI.getMy(options).then((res) => {
-        setProjects(res);
-      });
+      projectAPI
+        .getMy(options)
+        .then((res) => {
+          setProjects(res);
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        });
     }
   }, [location.pathname, options]);
 
   const onDelete = async (e: any, id: string) => {
     e.stopPropagation();
-    await projectAPI.delete(id).then(async () => {
-      await projectAPI.getMy().then((res) => {
-        setProjects(res);
+    await projectAPI
+      .delete(id)
+      .then(async (res) => {
+        setMessage({message: res.message, type: 'success'});
+        await projectAPI
+          .getMy()
+          .then((res) => {
+            setProjects(res);
+          })
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       });
-    });
   };
 
   return (
@@ -133,15 +161,21 @@ const FreelancePageContainer = ({
       )}
       {isOpen && (
         <ModalCreateProject
+          setMessage={setMessage}
           open={isOpen}
           categories={categories}
           setLoading={setLoading}
           handleClose={() => {
             setIsOpen(false);
             if (location.pathname === FREELANCE_MY_PATH) {
-              projectAPI.getMy().then((res) => {
-                setProjects(res);
-              });
+              projectAPI
+                .getMy()
+                .then((res) => {
+                  setProjects(res);
+                })
+                .catch((e: any) => {
+                  setMessage({message: e.response.data.message, type: 'error'});
+                });
             }
           }}
         />
@@ -160,6 +194,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getCategories,
   setLoading,
+  setMessage,
 };
 
 const FreelancePage = connect(

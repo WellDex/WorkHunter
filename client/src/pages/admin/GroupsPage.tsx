@@ -17,19 +17,23 @@ import {getImgUrl} from '../../utils/getImgUrl';
 import BlockIcon from '@mui/icons-material/Block';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import {connect} from 'react-redux';
-import {setLoading} from '../../Redux/app/appOperations';
+import {setLoading, setMessage} from '../../Redux/app/appOperations';
 
 interface IGroupsPage {
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupsPage = ({setLoading}: IGroupsPage) => {
+const GroupsPage = ({setLoading, setMessage}: IGroupsPage) => {
   const [groups, setGroups] = useState<IGroup[]>([]);
   useEffect(() => {
     setLoading(true);
     adminAPI
       .getGroups()
       .then(setGroups)
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -37,7 +41,18 @@ const GroupsPage = ({setLoading}: IGroupsPage) => {
     setLoading(true);
     await adminAPI
       .blockGroupToogle(id, isBlocked)
-      .then(async () => await adminAPI.getGroups().then(setGroups))
+      .then(async (res) => {
+        setMessage({message: res.message, type: 'success'});
+        await adminAPI
+          .getGroups()
+          .then(setGroups)
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 
@@ -90,6 +105,7 @@ const mapStateToProps = (state: any) => ({});
 
 const mapDispatchToProps = {
   setLoading,
+  setMessage,
 };
 
 export default FrameHoc(

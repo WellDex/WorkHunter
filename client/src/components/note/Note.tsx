@@ -21,6 +21,7 @@ interface INoteProps {
   isOwner?: boolean;
   isGroup?: boolean;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const Note = ({
@@ -30,6 +31,7 @@ const Note = ({
   isOwner = false,
   isGroup = false,
   setLoading,
+  setMessage,
 }: INoteProps) => {
   const [value, setValue] = useState('');
 
@@ -37,8 +39,13 @@ const Note = ({
     setLoading(true);
     await notesAPI
       .deleteNote(note._id)
-      .then((res) => getNotes && getNotes())
-      .catch((e) => console.log(e))
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+        getNotes && getNotes();
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 

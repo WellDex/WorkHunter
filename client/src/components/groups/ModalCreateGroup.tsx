@@ -12,6 +12,7 @@ interface IModalCreateGroup {
   handleClose: () => void;
   group?: IGroup;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const ModalCreateGroup = ({
@@ -19,6 +20,7 @@ const ModalCreateGroup = ({
   handleClose,
   group,
   setLoading,
+  setMessage,
 }: IModalCreateGroup) => {
   const [file, setFile] = useState<any>(null);
   const {handleSubmit, control} = useForm({
@@ -37,7 +39,12 @@ const ModalCreateGroup = ({
     if (group) {
       groupsAPI
         .updateGroup(group._id, formData)
-        .catch((e) => console.log(e))
+        .then((res) => {
+          setMessage({message: res.message, type: 'success'});
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => {
           setLoading(false);
           handleClose();
@@ -47,7 +54,12 @@ const ModalCreateGroup = ({
     } else {
       groupsAPI
         .createGroup(formData)
-        .catch((e) => console.log(e))
+        .then((res) => {
+          setMessage({message: res.message, type: 'success'});
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => {
           setLoading(false);
           handleClose();

@@ -9,6 +9,7 @@ interface IModalGallery {
   handleClose: () => void;
   getGallery: () => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const ModalAddImage = ({
@@ -17,6 +18,7 @@ const ModalAddImage = ({
   handleClose,
   getGallery,
   setLoading,
+  setMessage,
 }: IModalGallery) => {
   const [files, setFiles] = useState<any[]>([]);
 
@@ -32,10 +34,15 @@ const ModalAddImage = ({
     setLoading(true);
     galleryAPI
       .addImages(formData)
-      .then(() => {
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+
         setFiles([]);
         getGallery();
         handleClose();
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   };

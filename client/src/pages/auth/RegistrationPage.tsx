@@ -20,16 +20,17 @@ const RegistrationForm = ({setMessage, setLoading}: any) => {
   });
 
   const onSubmit = async (data: IRegisterForm) => {
-    try {
-      setLoading(true);
-      const res = await authAPI.register(data).finally(() => setLoading(false));
-      if (res) {
+    setLoading(true);
+    await authAPI
+      .register(data)
+      .then((res: any) => {
         setMessage({message: res.message, type: 'success'});
         history.goBack();
-      }
-    } catch (error) {
-      setMessage({message: error, type: 'error'});
-    }
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -65,7 +66,7 @@ const RegistrationForm = ({setMessage, setLoading}: any) => {
               label="Дата народженя"
               value={value}
               onChange={onChange}
-              onError={(params) => (
+              onError={(params: any) => (
                 <TextField
                   error={true}
                   helperText={error ? error.message : null}

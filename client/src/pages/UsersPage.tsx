@@ -9,7 +9,7 @@ import UsersList from '../components/users/UsersList';
 import FrameHoc from '../hoc/FrameHoc';
 import {IUser} from '../Redux/users/usersReducer';
 import UsersControl from '../components/users/UsersControl';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IUsersProps {
   users: IUser[];
@@ -18,6 +18,7 @@ interface IUsersProps {
   friends: string[];
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const UsersContainer = ({
@@ -27,6 +28,7 @@ const UsersContainer = ({
   getProfile,
   userId,
   setLoading,
+  setMessage,
 }: IUsersProps) => {
   const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
@@ -36,6 +38,7 @@ const UsersContainer = ({
     <div>
       <UsersControl users={users} setSearchValue={setSearchValue} />
       <UsersList
+        setMessage={setMessage}
         users={users.filter((user) =>
           searchValue === ''
             ? user
@@ -61,6 +64,7 @@ const mapDispatchToProps = {
   getUsersAll,
   getProfile,
   setLoading,
+  setMessage,
 };
 
 const UsersPage = connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

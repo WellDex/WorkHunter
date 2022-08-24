@@ -30,13 +30,19 @@ interface IProjectProfile {
   profile: any;
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
+const ProjectProfile = ({
+  profile,
+  userId,
+  setLoading,
+  setMessage,
+}: IProjectProfile) => {
   const history = useHistory();
   const params: {id: string} = useParams();
   const [project, setProject] = useState<any>();
-  const [message, setMessage] = useState('');
+  const [message, setMessageText] = useState('');
   const [isOwner, setIsOwner] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,7 +51,12 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
   }, [project]);
 
   useEffect(() => {
-    projectAPI.getById(params.id).then(setProject);
+    projectAPI
+      .getById(params.id)
+      .then(setProject)
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      });
   }, [params.id]);
 
   const sendMessage = async () => {
@@ -57,7 +68,12 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
         message,
       })
       .then(() => {
-        projectAPI.getById(params.id).then(setProject);
+        projectAPI
+          .getById(params.id)
+          .then(setProject)
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
         setMessage('');
       })
       .finally(() => setLoading(false));
@@ -67,8 +83,17 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
     setLoading(true);
     await projectAPI
       .addPerformer({userId, projectId: project._id})
-      .then(() => {
-        projectAPI.getById(params.id).then(setProject);
+      .then((res) => {
+        projectAPI
+          .getById(params.id)
+          .then(setProject)
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
+        setMessage({message: res.message, type: 'success'});
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   };
@@ -77,8 +102,17 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
     setLoading(true);
     await projectAPI
       .checking({isCheck, projectId: project._id})
-      .then(() => {
-        projectAPI.getById(params.id).then(setProject);
+      .then((res) => {
+        projectAPI
+          .getById(params.id)
+          .then(setProject)
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          });
+        setMessage({message: res.message, type: 'success'});
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   };
@@ -88,11 +122,23 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
     if (rating) {
       await profileAPI
         .updateRating({userId: project?.performer?.id, rating})
+        .then((res) => {
+          setMessage({message: res.message, type: 'success'});
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
+        })
         .finally(() => setLoading(false));
     }
     await projectAPI
       .delete(project._id)
-      .then(history.goBack)
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+        history.goBack();
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   };
 
@@ -263,7 +309,7 @@ const ProjectProfile = ({profile, userId, setLoading}: IProjectProfile) => {
                           fullWidth={true}
                           multiline={true}
                           value={message}
-                          onChange={(e: any) => setMessage(e.target.value)}
+                          onChange={(e: any) => setMessageText(e.target.value)}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment

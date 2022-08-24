@@ -1,19 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {notesAPI} from '../api/notesAPI';
-import CreateNote from '../components/note/CreateNote';
 import Note from '../components/note/Note';
 import {INote} from '../Redux/notes/notesReducer';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
 import NoData from '../components/common/NoData';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 import {connect} from 'react-redux';
 
 interface INews {
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const NewsPage = ({setLoading}: INews) => {
+const NewsPage = ({setLoading, setMessage}: INews) => {
   const [news, setNews] = useState<INote[]>([]);
   const listRef = useRef<any>({});
   const rowHeights = useRef<any>({});
@@ -24,6 +24,9 @@ const NewsPage = ({setLoading}: INews) => {
       .getNews()
       .then((res) => {
         setNews(res);
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   }, []);
@@ -82,6 +85,7 @@ const mapStateToProps = (state: any) => ({});
 
 const mapDispatchToProps = {
   setLoading,
+  setMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);

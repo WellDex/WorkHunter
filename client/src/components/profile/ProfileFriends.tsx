@@ -15,15 +15,24 @@ interface IFriendsProps {
   id: string;
   countFriends: number;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const ProfileFriends = ({id, countFriends, setLoading}: IFriendsProps) => {
+const ProfileFriends = ({
+  id,
+  countFriends,
+  setLoading,
+  setMessage,
+}: IFriendsProps) => {
   const [friends, setFriends] = useState<any[]>([]);
   useEffect(() => {
     setLoading(true);
     usersAPI
       .getFriends(id, options)
       .then((res) => setFriends(res))
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
   }, [id]);
 

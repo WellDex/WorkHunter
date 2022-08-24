@@ -22,13 +22,14 @@ import {useParams} from 'react-router-dom';
 import {getImgUrl} from '../utils/getImgUrl';
 import {portfolioAPI} from '../api/portfolioAPI';
 import NoData from '../components/common/NoData';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IPortfolioProps {
   portfolio: IPortfolio[];
   getPortfolio: (id: string) => void;
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const PortfolioContainer = ({
@@ -36,6 +37,7 @@ const PortfolioContainer = ({
   getPortfolio,
   userId,
   setLoading,
+  setMessage,
 }: IPortfolioProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const params: any = useParams();
@@ -54,9 +56,17 @@ const PortfolioContainer = ({
 
   const handleDelete = async (id: string) => {
     setLoading(true);
-    await portfolioAPI.deleteProject(id).finally(() => {
-      getPortfolio(params.id);
-    });
+    await portfolioAPI
+      .deleteProject(id)
+      .then((res) => {
+        setMessage({message: res.message, type: 'success'});
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
+      .finally(() => {
+        getPortfolio(params.id);
+      });
   };
 
   return (
@@ -122,6 +132,7 @@ const PortfolioContainer = ({
       {isOpen && (
         <ModalCreateProject
           open={isOpen}
+          setMessage={setMessage}
           handleClose={() => {
             setEditProject(undefined);
             setIsOpen(false);
@@ -143,6 +154,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   getPortfolio,
   setLoading,
+  setMessage,
 };
 
 const ProjectsPage = connect(

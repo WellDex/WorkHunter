@@ -16,9 +16,15 @@ interface IGroupItemProps {
   group: IGroup;
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupItem = ({group, userId, setLoading}: IGroupItemProps) => {
+const GroupItem = ({
+  group,
+  userId,
+  setLoading,
+  setMessage,
+}: IGroupItemProps) => {
   const history = useHistory();
   const [isFollow, setIsFollow] = useState(group.subscribers.includes(userId));
 
@@ -31,14 +37,20 @@ const GroupItem = ({group, userId, setLoading}: IGroupItemProps) => {
     isFollow
       ? await groupsAPI
           .unfollow(id)
-          .then((res) => {
+          .then(() => {
             setIsFollow(!isFollow);
+          })
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
           })
           .finally(() => setLoading(false))
       : await groupsAPI
           .follow(id)
-          .then((res) => {
+          .then(() => {
             setIsFollow(!isFollow);
+          })
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
           })
           .finally(() => setLoading(false));
   };

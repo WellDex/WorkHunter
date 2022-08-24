@@ -26,8 +26,10 @@ export const login =
         getProfile(res.id);
         history.push(res.isAdmin ? '/users' : '/news');
       })
-      .catch((res) => {
-        dispatch(setNotification({message: res.message, type: 'error'}));
+      .catch((e: any) => {
+        dispatch(
+          setNotification({message: e.response.data.message, type: 'error'})
+        );
       })
       .finally(() => dispatch(setIsLoading(false)));
   };
@@ -46,8 +48,10 @@ export const auth =
         getProfile(res.id);
         history.push(res.isAdmin ? '/users' : '/news');
       })
-      .catch((res) => {
-        dispatch(setNotification({message: res.message, type: 'error'}));
+      .catch((e: any) => {
+        dispatch(
+          setNotification({message: e.response.data.message, type: 'error'})
+        );
       })
       .finally(() => dispatch(setIsLoading(false)));
   };

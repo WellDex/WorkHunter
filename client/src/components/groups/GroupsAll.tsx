@@ -8,15 +8,17 @@ interface IGroupsAll {
   groups: IGroup[];
   userId: string;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupsAll = ({groups, userId, setLoading}: IGroupsAll) => {
+const GroupsAll = ({groups, userId, setLoading, setMessage}: IGroupsAll) => {
   return (
     <div className="card-container">
       <ImageList cols={4} gap={16}>
         {groups.length > 0 &&
           groups.map((group, index) => (
             <GroupItem
+              setMessage={setMessage}
               key={index}
               group={group}
               userId={userId}

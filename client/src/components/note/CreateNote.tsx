@@ -23,23 +23,30 @@ const CreateNote = ({
   const [text, setText] = useState('');
 
   const createNote = async () => {
-    try {
-      setLoading(true);
-      const res =
-        isGroup && id
-          ? await notesAPI
-              .createGroupNote(text, id)
-              .finally(() => setLoading(false))
-          : await notesAPI.createNote(text).finally(() => setLoading(false));
-      if (res) {
-        setMessage({message: res.message, type: 'success'});
-        getNotes();
-        setText('');
-      }
-    } catch (error) {
-      //@ts-ignore
-      setMessage({message: error, type: 'error'});
-    }
+    setLoading(true);
+    isGroup && id
+      ? await notesAPI
+          .createGroupNote(text, id)
+          .then((res) => {
+            setMessage({message: res.message, type: 'success'});
+            getNotes();
+            setText('');
+          })
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          })
+          .finally(() => setLoading(false))
+      : await notesAPI
+          .createNote(text)
+          .then((res) => {
+            setMessage({message: res.message, type: 'success'});
+            getNotes();
+            setText('');
+          })
+          .catch((e: any) => {
+            setMessage({message: e.response.data.message, type: 'error'});
+          })
+          .finally(() => setLoading(false));
   };
   return (
     <div className="card-container profile-note-create">

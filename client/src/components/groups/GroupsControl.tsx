@@ -19,6 +19,7 @@ interface IGroupControl {
   userId: string;
   setSearchValue: (s: string) => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const GroupsControl = ({
@@ -26,6 +27,7 @@ const GroupsControl = ({
   setSearchValue,
   userId,
   setLoading,
+  setMessage,
 }: IGroupControl) => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -71,6 +73,7 @@ const GroupsControl = ({
       </Tooltip>
       {isOpen && (
         <ModalCreateGroup
+          setMessage={setMessage}
           open={isOpen}
           handleClose={() => setIsOpen(false)}
           setLoading={setLoading}

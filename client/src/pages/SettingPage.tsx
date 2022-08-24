@@ -129,18 +129,16 @@ const SettingContainer = ({
   }, [profile]);
 
   const onSubmit = async (data: any) => {
-    try {
-      setLoading(true);
-      const res = await profileAPI
-        .updateProfile(data as any)
-        .finally(() => setLoading(false));
-      if (res) {
+    setLoading(true);
+    await profileAPI
+      .updateProfile(data as any)
+      .then((res) => {
         setMessage({message: res.message, type: 'success'});
-      }
-    } catch (error) {
-      //@ts-ignore
-      setMessage({message: error, type: 'error'});
-    }
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
+      .finally(() => setLoading(false));
   };
 
   const checkCurrentPage = () => {
@@ -209,6 +207,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getProfile,
+  setMessage,
 };
 
 const SettingPage = connect(

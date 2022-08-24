@@ -9,6 +9,7 @@ interface IGroupSubscribers {
   subscribers: {id: string}[];
   setOpenModal: () => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
 const GroupSubscribers = ({
@@ -16,6 +17,7 @@ const GroupSubscribers = ({
   subscribers,
   setOpenModal,
   setLoading,
+  setMessage,
 }: IGroupSubscribers) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -25,6 +27,9 @@ const GroupSubscribers = ({
         .getSubscribers(groupId, {top: 6})
         .then((res) => {
           setUsers(res);
+        })
+        .catch((e: any) => {
+          setMessage({message: e.response.data.message, type: 'error'});
         })
         .finally(() => setLoading(false));
     }

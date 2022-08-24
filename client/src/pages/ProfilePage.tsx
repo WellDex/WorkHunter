@@ -18,7 +18,7 @@ import ProfilePortfolio from '../components/profile/ProfilePortfolio';
 import {portfolioAPI} from '../api/portfolioAPI';
 import {galleryAPI} from '../api/galleryAPI';
 import {IGallery} from './GalleryPage';
-import {setLoading} from '../Redux/app/appOperations';
+import {setLoading, setMessage} from '../Redux/app/appOperations';
 
 interface IProfile {
   profile: IStateProfile;
@@ -26,6 +26,7 @@ interface IProfile {
   getProfile: (id: string) => void;
   getNotes: (id: string) => void;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
   userId: string;
 }
 
@@ -41,6 +42,7 @@ const ProfileContainer = ({
   getNotes,
   userId,
   setLoading,
+  setMessage,
 }: IProfile) => {
   const params: {id: string} = useParams();
   const [projects, setProjects] = useState<any[]>([]);
@@ -60,6 +62,9 @@ const ProfileContainer = ({
           setCountProjects(res.count);
         }
       })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      })
       .finally(() => setLoading(false));
     setLoading(true);
     galleryAPI
@@ -69,6 +74,9 @@ const ProfileContainer = ({
           setGallery(res.gallery);
           setCountGallery(res.count);
         }
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
   }, [params.id]);
@@ -129,6 +137,7 @@ const mapDispatchToProps = {
   getProfile,
   getNotes,
   setLoading,
+  setMessage,
 };
 
 const ProfilePage = connect(

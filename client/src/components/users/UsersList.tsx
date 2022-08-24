@@ -9,15 +9,23 @@ interface IUsersProps {
   getProfile: () => void;
   friends: string[];
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const UsersList = ({users, friends, getProfile, setLoading}: IUsersProps) => {
+const UsersList = ({
+  users,
+  friends,
+  getProfile,
+  setLoading,
+  setMessage,
+}: IUsersProps) => {
   return (
     <div className="card-container">
       {users.length > 0 ? (
         <ImageList cols={4} gap={16}>
           {users.map((user) => (
             <UserItem
+              setMessage={setMessage}
               user={user}
               friends={friends}
               getProfile={getProfile}
