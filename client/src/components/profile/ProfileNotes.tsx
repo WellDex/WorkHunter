@@ -42,6 +42,7 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
           note={notes[index]}
           getNotes={getNotes}
           isOwner={params.id === userId}
+          userId={userId}
         />
       </div>
     );

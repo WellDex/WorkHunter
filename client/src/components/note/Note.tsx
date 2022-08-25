@@ -22,6 +22,7 @@ interface INoteProps {
   isGroup?: boolean;
   setLoading: (b: boolean) => void;
   setMessage: (a: any) => void;
+  userId: string;
 }
 
 const Note = ({
@@ -32,8 +33,9 @@ const Note = ({
   isGroup = false,
   setLoading,
   setMessage,
+  userId,
 }: INoteProps) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(note.subscribers.includes(userId) ? 0 : 1);
 
   const deleteNote = async () => {
     setLoading(true);
@@ -47,6 +49,18 @@ const Note = ({
         setMessage({message: e.response.data.message, type: 'error'});
       })
       .finally(() => setLoading(false));
+  };
+
+  const likeNote = async () => {
+    setValue(!!value ? 0 : 1);
+    await notesAPI
+      .like(note._id)
+      .then(() => {
+        getNotes && getNotes();
+      })
+      .catch((e: any) => {
+        setMessage({message: e.response.data.message, type: 'error'});
+      });
   };
 
   return (
@@ -86,9 +100,9 @@ const Note = ({
       <div className="profile-note-content">{note.text}</div>
       <BottomNavigation
         value={value}
-        onChange={(event, newValue) => setValue(newValue)}
         style={{justifyContent: 'flex-start', height: 'fit-content'}}>
         <BottomNavigationAction
+          onClick={likeNote}
           style={{maxWidth: 'fit-content', minWidth: 'fit-content', padding: 0}}
           icon={<FavoriteIcon />}
         />

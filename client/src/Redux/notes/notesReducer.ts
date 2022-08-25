@@ -3,7 +3,7 @@ import {SET_NOTES} from './notesActions';
 export interface INote {
   _id: string;
   text: string;
-  subscribers: [];
+  subscribers: string[];
   createDate: string;
   owner: string;
   refOwner: string;

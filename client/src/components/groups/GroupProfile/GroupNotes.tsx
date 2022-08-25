@@ -42,6 +42,7 @@ const GroupNotes = ({notes, profile, getNotes, userId}: IGroupNotes) => {
           getNotes={getNotes}
           isOwner={profile.owner === userId}
           isGroup={true}
+          userId={userId}
         />
       </div>
     );

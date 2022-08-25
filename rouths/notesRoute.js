@@ -88,6 +88,27 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
+router.put('/like/:id', auth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const note = await Note.findById(id);
+    if (note.subscribers.includes(req.user.userId)) {
+      note.subscribers = note.subscribers.filter(
+        (id) => id !== req.user.userId
+      );
+    } else {
+      note.subscribers.push(req.user.userId);
+    }
+
+    await note.save();
+
+    res.json();
+  } catch (error) {
+    console.log(chalk.white.bgRed.bold(error));
+    res.status(500).json({message: `Server error: ${error}`});
+  }
+});
+
 router.delete(
   '/delete/:id',
   [check('id', 'Отсутствует id записи').notEmpty()],

@@ -23,6 +23,11 @@ export const notesAPI = {
       return res.data;
     });
   },
+  like: (id: string) => {
+    return instance.put(`notes/like/${id}`, {}).then((res) => {
+      return res.data;
+    });
+  },
   deleteNote: (id: string) => {
     return instance.delete(`notes/delete/${id}`).then((res) => {
       return res.data;

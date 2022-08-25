@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {notesAPI} from '../api/notesAPI';
 import Note from '../components/note/Note';
 import {INote} from '../Redux/notes/notesReducer';
+import * as appSelectors from '../Redux/app/appSelectors';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList} from 'react-window';
 import NoData from '../components/common/NoData';
@@ -11,9 +12,10 @@ import {connect} from 'react-redux';
 interface INews {
   setLoading: (b: boolean) => void;
   setMessage: (a: any) => void;
+  userId: string;
 }
 
-const NewsPage = ({setLoading, setMessage}: INews) => {
+const NewsPage = ({setLoading, setMessage, userId}: INews) => {
   const [news, setNews] = useState<INote[]>([]);
   const listRef = useRef<any>({});
   const rowHeights = useRef<any>({});
@@ -51,6 +53,7 @@ const NewsPage = ({setLoading, setMessage}: INews) => {
           key={index}
           note={news[index]}
           isGroup={news[index].refOwner === 'Group'}
+          userId={userId}
         />
       </div>
     );
@@ -81,7 +84,9 @@ const NewsPage = ({setLoading, setMessage}: INews) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({});
+const mapStateToProps = (state: any) => ({
+  userId: appSelectors.getUserId(state),
+});
 
 const mapDispatchToProps = {
   setLoading,
