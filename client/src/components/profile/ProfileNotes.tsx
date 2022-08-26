@@ -13,9 +13,18 @@ interface IProfileNotes {
   profile: IStateProfile;
   getNotes: () => void;
   userId: string;
+  setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
+const ProfileNotes = ({
+  notes,
+  profile,
+  getNotes,
+  userId,
+  setLoading,
+  setMessage,
+}: IProfileNotes) => {
   const params: {id: string} = useParams();
   const listRef = useRef<any>({});
   const rowHeights = useRef<any>({});
@@ -67,7 +76,12 @@ const ProfileNotes = ({notes, profile, getNotes, userId}: IProfileNotes) => {
   return (
     <>
       {params.id === userId && (
-        <CreateNote avatar={profile.avatar} getNotes={getNotes} />
+        <CreateNote
+          avatar={profile.avatar}
+          getNotes={getNotes}
+          setLoading={setLoading}
+          setMessage={setMessage}
+        />
       )}
       <AutoSizer>
         {({height, width}) => (

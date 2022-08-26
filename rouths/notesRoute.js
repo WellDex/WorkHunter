@@ -32,6 +32,9 @@ router.post(
       let profile;
       if (type) {
         profile = await Group.findById(id);
+        if (profile.isBlocked) {
+          return res.status(300).json({message: 'Сообщество заблокированно!'});
+        }
       } else {
         const user = await User.findById(req.user.userId);
         profile = user.profile;

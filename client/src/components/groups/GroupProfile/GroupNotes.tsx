@@ -12,9 +12,18 @@ interface IGroupNotes {
   profile: IGroup;
   getNotes: () => void;
   userId: string;
+  setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 
-const GroupNotes = ({notes, profile, getNotes, userId}: IGroupNotes) => {
+const GroupNotes = ({
+  notes,
+  profile,
+  getNotes,
+  userId,
+  setLoading,
+  setMessage,
+}: IGroupNotes) => {
   const listRef = useRef<any>({});
   const rowHeights = useRef<any>({});
   const [totalHeight, setTotalHeight] = useState(0);
@@ -72,6 +81,8 @@ const GroupNotes = ({notes, profile, getNotes, userId}: IGroupNotes) => {
           getNotes={getNotes}
           id={profile._id}
           isGroup={true}
+          setLoading={setLoading}
+          setMessage={setMessage}
         />
       )}
       <AutoSizer>

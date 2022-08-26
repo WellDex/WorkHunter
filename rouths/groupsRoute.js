@@ -97,6 +97,10 @@ router.put(
 
       let group = await Group.findById(req.params.id);
 
+      if (group.isBlocked) {
+        return res.status(300).json({message: 'Сообщество заблокированно!'});
+      }
+
       group.title = title;
       group.description = description;
 

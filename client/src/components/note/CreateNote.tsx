@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import FrameHoc from '../../hoc/FrameHoc';
 import {notesAPI} from '../../api/notesAPI';
-import {setMessage} from '../../Redux/app/appOperations';
 import {getImgUrl} from '../../utils/getImgUrl';
 
 interface ICreateNote {
@@ -12,6 +11,7 @@ interface ICreateNote {
   id?: string;
   avatar?: string | null;
   setLoading: (b: boolean) => void;
+  setMessage: (a: any) => void;
 }
 const CreateNote = ({
   getNotes,
@@ -19,6 +19,7 @@ const CreateNote = ({
   id,
   avatar,
   setLoading,
+  setMessage,
 }: ICreateNote) => {
   const [text, setText] = useState('');
 

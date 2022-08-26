@@ -74,6 +74,8 @@ const GroupProfileContainer = ({
           notes={notes}
           profile={group}
           getNotes={() => getNotes(params.id)}
+          setLoading={setLoading}
+          setMessage={setMessage}
         />
       </div>
       <div className="groupProfile-col">

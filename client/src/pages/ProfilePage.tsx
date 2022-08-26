@@ -88,6 +88,7 @@ const ProfileContainer = ({
           avatar={profile.avatar}
           isOwner={params.id === userId}
           setLoading={setLoading}
+          setMessage={setMessage}
         />
         <ProfileFriends
           id={params.id}
@@ -121,6 +122,8 @@ const ProfileContainer = ({
           notes={notes}
           profile={profile}
           getNotes={() => getNotes(params.id)}
+          setLoading={setLoading}
+          setMessage={setMessage}
         />
       </div>
     </div>

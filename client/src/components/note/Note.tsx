@@ -13,6 +13,7 @@ import moment from 'moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {notesAPI} from '../../api/notesAPI';
 import {getImgUrl} from '../../utils/getImgUrl';
+import {listenerCount} from 'process';
 
 interface INoteProps {
   rowRef: any;
@@ -36,7 +37,7 @@ const Note = ({
   userId,
 }: INoteProps) => {
   const [value, setValue] = useState(note.subscribers.includes(userId) ? 0 : 1);
-
+  const [likeCount, setLikeCount] = useState(note.subscribers.length);
   const deleteNote = async () => {
     setLoading(true);
     await notesAPI
@@ -53,6 +54,7 @@ const Note = ({
 
   const likeNote = async () => {
     setValue(!!value ? 0 : 1);
+    setLikeCount(!!value ? likeCount + 1 : likeCount - 1);
     await notesAPI
       .like(note._id)
       .then(() => {
@@ -103,7 +105,15 @@ const Note = ({
         style={{justifyContent: 'flex-start', height: 'fit-content'}}>
         <BottomNavigationAction
           onClick={likeNote}
-          style={{maxWidth: 'fit-content', minWidth: 'fit-content', padding: 0}}
+          showLabel={true}
+          label={likeCount}
+          style={{
+            maxWidth: 'fit-content',
+            minWidth: 'fit-content',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'row',
+          }}
           icon={<FavoriteIcon />}
         />
       </BottomNavigation>
