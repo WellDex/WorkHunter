@@ -23,7 +23,7 @@ const ModalRatingPerformer = ({
           gap: '1rem',
           margin: '1rem',
         }}>
-        <h1 className="projects-form-title">Оцените исполнителя</h1>
+        <h1 className="projects-form-title">Оцініть виконавця</h1>
         <Divider />
         <Rating
           style={{margin: '0 auto'}}
@@ -36,10 +36,10 @@ const ModalRatingPerformer = ({
         <Divider />
         <div className="projects-form-btns">
           <Button variant="contained" onClick={handleClose}>
-            отменить
+            скасувати
           </Button>
           <Button variant="contained" onClick={() => closeProject(rating)}>
-            оценить
+            оцінити
           </Button>
         </div>
       </div>

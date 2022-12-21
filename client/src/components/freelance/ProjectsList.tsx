@@ -21,10 +21,10 @@ const ProjectsList = ({rows, isShowActions, onDelete}: any) => {
       <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Фриланс-проект</TableCell>
+            <TableCell>Фріланс-проект</TableCell>
             <TableCell align="center">Бюджет</TableCell>
             <TableCell align="center">Ставок</TableCell>
-            <TableCell align="center">Открыт</TableCell>
+            <TableCell align="center">Відкритий</TableCell>
             {isShowActions && <TableCell align="center" />}
           </TableRow>
         </TableHead>

@@ -96,14 +96,14 @@ const GroupAvatar = ({
             className="groupProfile-avatar-btn-edit"
             variant="outlined"
             onClick={() => setIsOpen(true)}>
-            Редактировать
+            Редагувати
           </Button>
           <Button
             className="groupProfile-avatar-btn-delete"
             color="error"
             variant="contained"
             onClick={() => setIsOpenConfirmDelete(true)}>
-            Удалить
+            Вилучити
           </Button>
         </>
       ) : (
@@ -128,15 +128,15 @@ const GroupAvatar = ({
         />
       )}
       <Dialog open={isOpenConfirmDelete}>
-        <DialogTitle>Вы действительно хотите удалить сообщество?</DialogTitle>
+        <DialogTitle>Ви дійсно бажаєте видалити спільноту?</DialogTitle>
         <DialogActions style={{display: 'flex', justifyContent: 'center'}}>
           <Button
             onClick={() => setIsOpenConfirmDelete(false)}
             variant="contained">
-            Закрить
+            Закрити
           </Button>
           <Button onClick={deleteGroup} color="error" variant="contained">
-            Удалить
+            Вилучити
           </Button>
         </DialogActions>
       </Dialog>

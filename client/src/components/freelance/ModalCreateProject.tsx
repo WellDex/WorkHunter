@@ -71,7 +71,7 @@ const ModalCreateProject = ({
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="projects-form">
-        <h1 className="projects-form-title">Создание проекта</h1>
+        <h1 className="projects-form-title">Створення проекту</h1>
         <Divider />
         <CustomField
           name={'title'}
@@ -111,7 +111,7 @@ const ModalCreateProject = ({
             categories.map((category) => renderSelectGroup(category))}
         </CustomField>
         <>
-          <h2 className="settings-title">Метки</h2>
+          <h2 className="settings-title">Мітки</h2>
           <Divider />
           {fields.map((item: any, index: number) => (
             <div key={item.id} className="settings">
@@ -135,16 +135,16 @@ const ModalCreateProject = ({
             </div>
           ))}
           <Button variant="outlined" onClick={() => append({name: ''})}>
-            + Добавить метку
+            + Додати мітку
           </Button>
         </>
         <Divider />
         <div className="projects-form-btns">
           <Button variant="contained" onClick={handleClose}>
-            отменить
+            скасувати
           </Button>
           <Button type="submit" variant="contained">
-            создать
+            створити
           </Button>
         </div>
       </form>

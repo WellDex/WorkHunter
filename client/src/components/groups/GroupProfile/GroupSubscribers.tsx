@@ -38,7 +38,7 @@ const GroupSubscribers = ({
   return (
     <div className="card-container">
       <a type="button" onClick={setOpenModal}>
-        Подписчики
+        Підписники
         <span className="groupProfile-gallery-title-count">
           {(subscribers && subscribers.length) ?? 0}
         </span>

@@ -131,7 +131,7 @@ const ProfileAvatar = ({
             className="profile-avatar-btn-edit"
             variant="outlined"
             component="span">
-            Редактировать
+            Редагувати
           </Button>
         </label>
       ) : (

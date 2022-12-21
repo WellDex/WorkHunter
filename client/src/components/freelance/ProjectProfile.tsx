@@ -163,7 +163,7 @@ const ProjectProfile = ({
           <div className="freelance-project-rates">
             {project && project?.performer ? (
               <>
-                <h3>Исполнитель</h3>
+                <h3>Виконавець</h3>
                 <div style={{display: 'flex', gap: '1rem'}}>
                   <Link
                     to={`${PROFILE_PATH}/${project?.performer?.id}`}
@@ -192,7 +192,7 @@ const ProjectProfile = ({
                         variant="contained"
                         color="success"
                         onClick={() => forChecking(true)}>
-                        Сдать
+                        Здати
                       </Button>
                     ))}
                   {project?.owner === userId &&
@@ -202,13 +202,13 @@ const ProjectProfile = ({
                           variant="contained"
                           color="success"
                           onClick={() => setIsOpen(true)}>
-                          Принять
+                          Прийняти
                         </Button>
                         <Button
                           variant="contained"
                           color="error"
                           onClick={() => forChecking(false)}>
-                          Отказать
+                          Відмовити
                         </Button>
                       </>
                     ) : (

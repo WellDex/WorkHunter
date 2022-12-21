@@ -38,7 +38,7 @@ const Filters = ({categories, setOptions}: IFilter) => {
         value={rootValue}
         style={{width: 200, margin: '0.5rem'}}
         onChange={(e) => setRootValue(e.target.value)}>
-        <MenuItem value={''}>Все категории</MenuItem>
+        <MenuItem value={''}>Всі категорії</MenuItem>
         {categories &&
           categories.length > 0 &&
           categories.map((category, index) => (
@@ -55,7 +55,7 @@ const Filters = ({categories, setOptions}: IFilter) => {
         value={subValue}
         style={{width: 200, marginTop: '0.5rem', marginBottom: '0.5rem'}}
         onChange={(e) => setSubValue(e.target.value)}>
-        <MenuItem value={''}>Все подкатегории</MenuItem>
+        <MenuItem value={''}>Всі категорії</MenuItem>
         {subCategories.length > 0 &&
           subCategories.map((category, index) => (
             <MenuItem key={index} value={category._id}>

@@ -45,7 +45,7 @@ const ModalSubscribers = ({
   return (
     <Dialog open={open} onClose={handleClose}>
       <div className="groupProfile-subscribers-modal">
-        <h1 className="groupProfile-subscribers-title">Подписчики</h1>
+        <h1 className="groupProfile-subscribers-title">Підписники</h1>
         <IconButton
           className="groupProfile-subscribers-modal-btn-close"
           aria-label="close"

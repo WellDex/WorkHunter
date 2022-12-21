@@ -67,7 +67,7 @@ const ModalAddImage = ({
             }}
           />
           <Button fullWidth={true} variant="contained" component="span">
-            Загрузить фотографию
+            Завантажити фотографію
           </Button>
         </label>
         {files.length > 0 &&
@@ -86,10 +86,10 @@ const ModalAddImage = ({
         <Divider style={{margin: '1rem 0'}} />
         <div className="groups-form-btns">
           <Button variant="outlined" onClick={handleClose}>
-            закрить
+            закрити
           </Button>
           <Button onClick={onSubmit} variant="contained">
-            загрузить
+            завантажити
           </Button>
         </div>
       </div>

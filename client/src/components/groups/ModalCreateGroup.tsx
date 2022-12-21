@@ -88,7 +88,7 @@ const ModalCreateGroup = ({
               }}
             />
             <Button fullWidth={true} variant="contained" component="span">
-              Загрузить аватар сообщества
+              Завантажити аватар спільноти
             </Button>
           </label>
           <CustomField
@@ -110,7 +110,7 @@ const ModalCreateGroup = ({
           <Divider />
           <div className="groups-form-btns">
             <Button variant="outlined" onClick={handleClose}>
-              закрить
+              закрити
             </Button>
             <Button type="submit" variant="contained">
               {group ? 'обновить' : 'создать'}

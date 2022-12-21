@@ -63,7 +63,7 @@ const ModalCategoryForm = ({
   return (
     <Dialog open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="groups-form">
-        <h1 className="groups-form-title">Категория</h1>
+        <h1 className="groups-form-title">Категорія</h1>
         <Divider />
         <CustomField
           name={'title'}
@@ -76,7 +76,7 @@ const ModalCategoryForm = ({
         <Divider />
         <div className="groups-form-btns">
           <Button variant="outlined" onClick={handleClose}>
-            закрить
+            закрити
           </Button>
           <Button type="submit" variant="contained">
             {category ? 'обновить' : 'создать'}
